@@ -1,14 +1,14 @@
 import { ConnectingView } from '@/js/classes/views/index';
-import { Game } from '@/js/classes/models/index';
+import $ from 'jquery';
 
 class ScreenController {
 	view(connectingState) {
 		switch (connectingState) {
 			case 'connecting':
-				Game.createScreen(ConnectingView.getTemplate());
+				$('.screen').append(ConnectingView.getTemplate());
 				break;
 			default:
-				Game.createScreen(ConnectingView.getTemplate());
+				$('.screen').append(ConnectingView.getTemplate());
 		}
 	}
 }
