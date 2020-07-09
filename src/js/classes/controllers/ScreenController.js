@@ -1,13 +1,14 @@
 import { ConnectingView } from '@/js/classes/views/index';
+import { Game } from '@/js/classes/models/index';
 
 class ScreenController {
 	view(connectingState) {
 		switch (connectingState) {
 			case 'connecting':
-				ConnectingView.show();
+				Game.createScreen(ConnectingView.getTemplate());
 				break;
 			default:
-				ConnectingView.show();
+				Game.createScreen(ConnectingView.getTemplate());
 		}
 	}
 }

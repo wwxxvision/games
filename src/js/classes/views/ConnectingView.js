@@ -1,7 +1,9 @@
 class ConnectingView {
-	show() {
+	getTemplate() {
 		return `
-
+      <section class="screen__block screen__block-connection">
+          ...Loading
+      </section>
     `;
 	}
 }

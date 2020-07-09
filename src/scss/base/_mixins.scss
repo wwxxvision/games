@@ -1,0 +1,19 @@
+@mixin flex_centered($direct) {
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   flex-direction: $direct;
+}
+
+@mixin screen {
+  .screen {
+    height: inherit;
+    width: inherit;
+
+    .screen__block {
+      height: inherit;
+      width: inherit;
+      @content;
+    }
+  }
+}
