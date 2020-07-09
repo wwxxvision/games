@@ -16,11 +16,11 @@ const optimization = () => {
 	}
 };
 require('babel-polyfill');
-const buildName = process.argv[2] ? process.argv[2] : 'game_one';
+const buildName = process.argv[3] ? process.argv[3] : 'game_one';
 
 module.exports = {
 	watch: true,
-	mode: process.env.NODE_ENV,
+	mode: 'development',
 	entry: {
 		[buildName]: `./src/${buildName}/js/index.js`,
 	},
@@ -29,7 +29,7 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 	},
 	devServer: {
-		contentBase: path.join(__dirname, `src/${buildName}`),
+		contentBase: path.join(__dirname, `dist/${buildName}`),
 		compress: true,
 		port: 3000,
 		overlay: true,
