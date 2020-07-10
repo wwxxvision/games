@@ -1,15 +1,14 @@
 export default class Game {
 	constructor() {
 		this.timeInMs = 0;
-		this.ticks = 0;
 		this.timeInS = this.timeInMs / 1000;
+		this.ticks = this.timeInS;
 		this.interval = null;
 		this.timer = null;
 		this.timerInstance = null;
 	}
 
 	setTimer(TimerInstance) {
-		console.log(TimerInstance);
 		this.timerInstance = new TimerInstance();
 	}
 
@@ -27,7 +26,7 @@ export default class Game {
 
 	run() {
 		this.interval = setInterval(interval => {
-			this.ticks += 1;
+			this.ticks -= 1;
 
 			this.timerInstance.showTime(this.ticks);
 			return interval;

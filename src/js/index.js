@@ -1,11 +1,16 @@
 // import Socket from '@/js/classes/core/Socket';
 import Translator from './classes/core/Translator';
-import { ScreenController } from '@/js/classes/controllers/index';
+import App from '@/js/App.vue';
+import Vue from 'vue';
 
-class App {
+class Core {
 	async render() {
-		ScreenController.view('connecting');
+		// ScreenController.view('connecting');
 		// await Socket.connect();
+		new Vue({
+			el: '#root',
+			render: h => h(App),
+		});
 		const translate = await Translator.initTranslations().catch(err =>
 			console.log(err)
 		);
@@ -16,4 +21,4 @@ class App {
 	}
 }
 
-export default new App();
+export default new Core();

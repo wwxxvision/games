@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const isDEV = process.env.NODE_ENV === 'development' ? true : false;
 const optimization = () => {
 	const config = {
@@ -49,9 +50,14 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: `${buildName}/index.css`,
 		}),
+		new VueLoaderPlugin(),
 	],
 	module: {
 		rules: [
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader',
+			},
 			{
 				test: /\.s[ac]ss$/i,
 				use: [
