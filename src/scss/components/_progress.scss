@@ -1,0 +1,113 @@
+$r: 50%;
+$width_bar: 164px;
+$height_bar: 164px;
+
+@keyframes notify {
+  from {
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.2);
+    opacity: .5;
+  }
+}
+
+@keyframes hideBar {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+
+.progress {
+  width: $width_bar;
+  height: $height_bar;
+  background-color: map-get($colors, 'pink');
+  border-radius: $r;
+  position: relative;
+
+  .progress__bg {
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    border-radius: $r;
+    background-color: map-get($colors, 'white');
+    @include absolute_centered_hack;
+    z-index: 2;
+  }
+
+  .progress__text {
+    position: absolute;
+    @include absolute_centered_hack;
+    z-index: 2;
+    font-family: map-get($fonts, 'Baloo');
+    font-size: 36px;
+    color: map-get($colors, 'red');
+  }
+
+  .progress__indicator {
+    width: $width_bar - 1;
+    height: $height_bar - 1;
+    background-color: map-get($colors, 'red');
+    border-radius: $r;
+    clip: rect(auto, auto, auto, $width_bar / 2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: transform .1s;
+    transition-timing-function: ease-out;
+  }
+
+  .progress__overlay {
+    width: $width_bar;
+    height: $height_bar;
+    background-color: map-get($colors, 'pink');
+    border-radius: $r;
+    clip: rect(auto,  $width_bar / 2, auto, auto);
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .progress__cursor-wrapper {
+    height: 100%;
+    width: 100%;
+    .progress__cursor {
+      position: absolute;
+      top: $height_bar - 17px;
+      left: $width_bar / 2 - 17px / 2;
+      z-index: 3;
+      .circle {
+        height: 17px;
+        width: 17px;
+        box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.12);
+        background-color: map-get($colors, 'white');
+        border-radius: $r;
+        position: relative;
+
+        .circle-red {
+          height: 9px;
+          width: 9px;
+          background-color: map-get($colors, 'red');
+          border-radius: $r;
+          position: absolute;
+          @include absolute_centered_hack;
+        }
+      }
+    }
+  }
+
+  &.progress_time-is-running {
+    animation: notify 1s infinite  ease-in;
+    .progress__text {
+      font-size: 65px;
+    }
+  }
+
+  &.progress_time-is-finished {
+    animation: hideBar 0.5s ease-out;
+  }
+}

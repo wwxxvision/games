@@ -3,7 +3,6 @@
   "main": "index.js",
   "scripts": {
     "start": " webpack-dev-server",
-    "watch": "webpack --watch",
     "build": "webpack"
   },
   "keywords": [],
@@ -46,8 +45,11 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
+    "@svgdotjs/svg.js": "^3.0.16",
     "i18next": "^19.5.5",
     "jquery": "^3.5.1",
-    "socket.io-client": "^2.3.0"
+    "jquery-circle-progress": "^1.2.2",
+    "socket.io-client": "^2.3.0",
+    "vue2-circle-progress": "^1.2.3"
   }
 }
