@@ -4,7 +4,7 @@ import Core from '@/js/index';
 import { GameController } from '@/js/classes/controllers';
 import { gameConfig } from './gameConfig';
 
-Core.render().then(render => {
+Core.render('game-one').then(render => {
 	console.log(render);
 	GameController.run(gameConfig);
 });

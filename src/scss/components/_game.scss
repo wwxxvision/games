@@ -1,0 +1,8 @@
+.game {
+  @include full_screen;
+  display: flex;
+
+  .game__block {
+    margin: 10px 0;
+  }
+}

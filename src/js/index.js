@@ -4,7 +4,7 @@ import App from '@/js/App.vue';
 import Vue from 'vue';
 
 class Core {
-	async render() {
+	async render(game) {
 		// ScreenController.view('connecting');
 		// await Socket.connect();
 		// const translate = await Translator.initTranslations().catch(err =>
@@ -12,6 +12,11 @@ class Core {
 		// );
 		new Vue({
 			el: '#root',
+			data() {
+				return {
+					game,
+				};
+			},
 			render: h => h(App),
 		});
 

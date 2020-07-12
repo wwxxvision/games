@@ -4,32 +4,23 @@ $height_bar: 164px;
 
 @keyframes notify {
   from {
-    opacity: 1;
   }
   to {
-    transform: scale(1.2);
-    opacity: .5;
-  }
-}
-
-@keyframes hideBar {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: scale(1.2);
-    transform: translateY(-100%);
+    background-color: map-get($colors, 'red');
   }
 }
 
 
 .progress {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
   width: $width_bar;
   height: $height_bar;
   background-color: map-get($colors, 'pink');
   border-radius: $r;
-  position: relative;
-
+  z-index: 1000;
   .progress__bg {
     width: 130px;
     height: 130px;
@@ -102,15 +93,15 @@ $height_bar: 164px;
   }
 
   &.progress_time-is-running {
-    animation: notify 1s infinite  ease-in;
     .progress__text {
       font-size: 65px;
+    }
+    .progress__overlay {
+      animation: notify 1s infinite  ease-in;
     }
   }
 
   &.progress_time-is-finished {
-    animation: hideBar 0.5s ease-out;
-
      .progress__text {
       font-size: 65px;
     }

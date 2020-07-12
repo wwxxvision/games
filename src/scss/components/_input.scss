@@ -1,0 +1,31 @@
+.input {
+  width: 170px;
+  height: 54px;
+  font-family: map-get($fonts, 'Roboto');
+  .input__element {
+    width: 100%;
+    height: 100%;
+    padding: 0 16px;
+    border-radius: 2px;
+    font-size: 16px;
+    &.input__element_theme-biege {
+      background-color: map-get($colors, 'beige');
+      box-shadow: -1px -1px 2px rgba(214, 214, 214, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3), inset 5px 5px 13px rgba(214, 214, 214, 0.1), inset -5px -5px 10px rgba(255, 255, 255, 0.9), inset 5px -5px 10px rgba(214, 214, 214, 0.2), inset -5px 5px 10px rgba(214, 214, 214, 0.2);
+      border: transparent;
+    }
+
+    &::placeholder {
+      opacity: .5;
+    }
+
+    &.input__element_state-novalide {
+      border: 2px solid map-get($colors, 'red');
+    }
+  }
+
+  .input__error-message {
+    display: inline-block;
+    color: map-get($colors, 'red');
+    margin: 10px 0;
+  }
+}
