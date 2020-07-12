@@ -17,6 +17,7 @@ $height_bar: 164px;
     transform: translateY(0);
   }
   to {
+    transform: scale(1.2);
     transform: translateY(-100%);
   }
 }
@@ -109,5 +110,9 @@ $height_bar: 164px;
 
   &.progress_time-is-finished {
     animation: hideBar 0.5s ease-out;
+
+     .progress__text {
+      font-size: 65px;
+    }
   }
 }

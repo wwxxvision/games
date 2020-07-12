@@ -5,6 +5,11 @@
    flex-direction: $direct;
 }
 
+@mixin full_screen {
+  height: 100%;
+  width: 100%;
+}
+
 @mixin screen {
   .screen {
     height: inherit;

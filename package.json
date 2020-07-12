@@ -50,6 +50,7 @@
     "jquery": "^3.5.1",
     "jquery-circle-progress": "^1.2.2",
     "socket.io-client": "^2.3.0",
+    "swiper": "^6.0.2",
     "vue2-circle-progress": "^1.2.3"
   }
 }

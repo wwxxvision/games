@@ -26,11 +26,12 @@ module.exports = {
 		[buildName]: `./src/${buildName}/js/index.js`,
 	},
 	output: {
-		filename: '[name]/index.js',
+		publicPath: '/',
+		filename: 'index.js',
 		path: path.resolve(__dirname, 'dist'),
 	},
 	devServer: {
-		contentBase: path.join(__dirname, `dist/${buildName}`),
+		contentBase: path.join(__dirname, `src`),
 		compress: true,
 		port: 3000,
 		overlay: true,
@@ -44,11 +45,11 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: `./src/${buildName}/index.html`,
-			filename: `${buildName}/index.html`,
+			filename: `index.html`,
 		}),
 		new CleanWebpackPlugin(),
 		new MiniCssExtractPlugin({
-			filename: `${buildName}/index.css`,
+			filename: `styles/index.css`,
 		}),
 		new VueLoaderPlugin(),
 	],
@@ -80,21 +81,11 @@ module.exports = {
 				use: [MiniCssExtractPlugin.loader, 'css-loader'],
 			},
 			{
-				test: /\.(woff|woff2|ttf)$/,
-				use: {
-					loader: 'url-loader',
+				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
+				loader: 'file-loader',
+				options: {
+					name: `./assets/[folder]/[name].[ext]`,
 				},
-			},
-			{
-				test: /\.(png|jpe?g|gif)$/i,
-				use: [
-					{
-						loader: 'file-loader',
-						options: {
-							name: '[path][name].[ext]',
-						},
-					},
-				],
 			},
 			{
 				test: /\.m?js$/,
