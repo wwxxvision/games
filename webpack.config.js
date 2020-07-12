@@ -31,7 +31,7 @@ module.exports = {
 		path: path.resolve(__dirname, 'dist'),
 	},
 	devServer: {
-		contentBase: path.join(__dirname, `src`),
+		contentBase: path.join(__dirname, `dist`),
 		compress: true,
 		port: 3000,
 		overlay: true,
@@ -84,7 +84,10 @@ module.exports = {
 				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
 				loader: 'file-loader',
 				options: {
-					name: `./assets/[folder]/[name].[ext]`,
+					name: file => {
+						let dirNameInsideAssets = path.relative(path.join(__dirname, 'src', 'assets'), path.dirname(file));
+						return `${dirNameInsideAssets}/[name].[ext]`;
+					}
 				},
 			},
 			{

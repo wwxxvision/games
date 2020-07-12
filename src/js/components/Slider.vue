@@ -12,7 +12,12 @@
 				:key="index"
 				:class="{'slider__slide': true, 'slider__slide_state-visibility': index === step}"
 			>
-				<div class="slider__value slider__value_box-grey" v-for="(value, index) of slide" :key="index">
+				<div
+					v-for="(value, index) of slide"
+					:key="index"
+					:class="{'slider__value': true, 'slider__value_box-grey': true, 'slider__value_active':  selectedItem === value}"
+					@click="select(value)"
+				>
 					<span>{{value}}</span>
 				</div>
 			</div>
@@ -34,6 +39,7 @@ export default {
 		return {
 			slider: null,
 			step: 0,
+			selectedItem: null,
 		};
 	},
 	methods: {
@@ -48,6 +54,9 @@ export default {
 					if (stepIsPossitive) this.step -= 1;
 					break;
 			}
+		},
+		select(value) {
+			this.selectedItem = value;
 		},
 	},
 	props: {
