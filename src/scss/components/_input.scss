@@ -8,6 +8,12 @@
     padding: 0 16px;
     border-radius: 2px;
     font-size: 16px;
+    &.input__element_text-pos-center {
+      text-align: center;
+      font-size: 22px;
+      color: map-get($colors, 'black');
+      font-family: map-get($fonts, 'Baloo');
+    }
     &.input__element_theme-biege {
       background-color: map-get($colors, 'beige');
       box-shadow: -1px -1px 2px rgba(214, 214, 214, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3), inset 5px 5px 13px rgba(214, 214, 214, 0.1), inset -5px -5px 10px rgba(255, 255, 255, 0.9), inset 5px -5px 10px rgba(214, 214, 214, 0.2), inset -5px 5px 10px rgba(214, 214, 214, 0.2);
@@ -27,5 +33,19 @@
     display: inline-block;
     color: map-get($colors, 'red');
     margin: 10px 0;
+  }
+}
+
+
+@media (max-width: map-get($break_points, 'tablet_width')) {
+  .input {
+    width: 100%;
+  }
+}
+
+@media (max-width: map-get($break_points, 'phone_width')) {
+  .input {
+    height: 35px;
+    width: 133px;
   }
 }

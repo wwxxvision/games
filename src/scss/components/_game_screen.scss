@@ -12,15 +12,37 @@ $padding_left_right: 16px;
     padding: $padding_top_bottom $padding_left_right;
     width: 100%;
     display: flex;
-    align-items: center;
     flex-direction: column;
   }
 
   &.game-screen_pos-left {
-    border-right: 1px solid map-get($colors, 'red');
+    border-right: 1px solid map-get($colors, 'light_pink');
   }
 
   &.game-screen_pos-right {
-    border-left: 1px solid map-get($colors, 'red');
+    border-left: 2px solid map-get($colors, 'light_pink');
+  }
+}
+
+
+@media (max-width: map-get($break_points, 'phone_width')) {
+  .game-screen  {
+    $width_screen: 100%;
+    width: $width_screen;
+
+    .game-screen__wrapper {
+      $padding_top_bottom: 20px;
+      padding: $padding_top_bottom $padding_left_right;
+    }
+
+    &.game-screen.game-screen_pos-left {
+      border-right: none;
+      border-bottom: 1px solid map-get($colors, 'light_pink');
+    }
+
+    &.game-screen_pos-right {
+      border-left: none;
+      border-top: 2px solid map-get($colors, 'light_pink');
+    }
   }
 }

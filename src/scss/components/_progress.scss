@@ -6,7 +6,7 @@ $height_bar: 164px;
   from {
   }
   to {
-    background-color: map-get($colors, 'red');
+    // background-color: map-get($colors, 'red');
   }
 }
 
@@ -105,5 +105,53 @@ $height_bar: 164px;
      .progress__text {
       font-size: 65px;
     }
+  }
+}
+
+@media (max-width: map-get($break_points, 'phone_width')) {
+  $width_bar: 90px;
+  $height_bar: 90px;
+  .progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: $width_bar;
+    height: $height_bar;
+
+    .progress__bg {
+      width: 65px;
+      height: 65px;
+    }
+
+    .progress__indicator {
+      width: $width_bar - 1;
+      height: $height_bar - 1;
+      clip: rect(auto, auto, auto, $width_bar / 2);
+    }
+
+    .progress__overlay {
+      width: $width_bar;
+      height: $height_bar;
+      clip: rect(auto,  $width_bar / 2, auto, auto);
+    }
+
+    .progress__cursor-wrapper {
+      .progress__cursor {
+        position: absolute;
+        top: $height_bar - 17px;
+        left: $width_bar / 2 - 17px / 2;
+      }
+    }
+
+    .progress__text {
+      font-size: 22px;
+    }
+
+    &.progress_time-is-finished {
+      .progress__text {
+       font-size: 29px;
+     }
+   }
   }
 }

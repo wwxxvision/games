@@ -1,0 +1,48 @@
+@keyframes vibrate_move {
+  from {
+    transform: translateX(5px);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@mixin box {
+  box-shadow: -1px -1px 2px rgba(214, 214, 214, 0.5), 1px 1px 2px rgba(255, 255, 255, 0.3), inset 5px 5px 13px rgba(214, 214, 214, 0.1), inset -5px -5px 10px rgba(255, 255, 255, 0.7), inset 5px -5px 10px rgba(214, 214, 214, 0.2), inset -5px 5px 10px rgba(214, 214, 214, 0.2);
+  border-radius: 2px;
+  background-color: map-get($colors, 'beige');
+  height: 54px;
+  width: 54px;
+  user-select: none;
+  &:hover {
+    cursor: pointer;
+    opacity: .5;
+  }
+}
+$box_margin: 10px;
+
+.range {
+  width: 100%;
+  .range__item {
+    width: 100%;
+    -webkit-appearance: none;
+    background-color: map-get($colors, 'red');
+    height: 3px;
+    border-radius: 2px;
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      background-color: map-get($colors, 'red');
+      border-radius: 50%;
+      position: relative;
+      height: 15px;
+      width: 15px;
+    }
+    &::-moz-range-thumb {
+      background-color: map-get($colors, 'red');
+      border-radius: 50%;
+      position: relative;
+      height: 15px;
+      width: 15px;
+    }
+  }
+}

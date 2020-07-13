@@ -7,10 +7,16 @@ $colors: (
   'grey': #666666,
   'beige': #F6F6F6,
   'light_green': #57E040,
-  'white': #FFFFFF
+  'white': #FFFFFF,
+  'light_pink': #FFB9B9
 );
 
 $fonts: (
   'Baloo': 'Baloo',
   'Roboto': 'Roboto'
-)
+);
+
+$break_points: (
+  'tablet_width': 768px,
+  'phone_width': 500px
+);
