@@ -1,5 +1,5 @@
 // import Socket from '@/js/classes/core/Socket';
-// import Translator from './classes/core/Translator';
+import Translator from './classes/core/Translator';
 import App from '@/js/App.vue';
 import Vue from 'vue';
 
@@ -7,9 +7,11 @@ class Core {
 	async render(game) {
 		// ScreenController.view('connecting');
 		// await Socket.connect();
-		// const translate = await Translator.initTranslations().catch(err =>
-		// 	console.log(err)
-		// );
+
+		Vue.prototype.$translate = await Translator.initTranslations().catch(err =>
+			console.log(err)
+		);
+
 		new Vue({
 			el: '#root',
 			data() {

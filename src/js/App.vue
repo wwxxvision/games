@@ -16,7 +16,7 @@ export default {
 	components: { Connection, Progress, Slider, Input, GameOne },
 	data() {
 		return {
-			currentGame: null
+			currentGame: null,
 		}
 	},
 	beforeCreate() {
