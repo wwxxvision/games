@@ -18,10 +18,9 @@ $height_bar: 164px;
   transform: translateX(-50%);
   width: $width_bar;
   height: $height_bar;
-  background-color: map-get($colors, 'pink');
   border-radius: $r;
   z-index: 500;
-  overflow: hidden;
+  @include flex_centered(row);
   .progress__bg {
     width: 130px;
     height: 130px;
@@ -45,6 +44,7 @@ $height_bar: 164px;
     width: $width_bar - 1;
     height: $height_bar - 1;
     background-color: map-get($colors, 'red');
+
     position: absolute;
     top: 0;
     left: 0;
@@ -100,6 +100,7 @@ $height_bar: 164px;
   }
 
   &.progress_time-is-finished {
+    opacity: 0;
      .progress__text {
       font-size: 65px;
     }

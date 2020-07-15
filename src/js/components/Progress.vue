@@ -2,24 +2,14 @@
 	<div
 		:class="{progress: true, 'progress_time-is-running': timeIsRunnigOut && !timeIsFinished, 'progress_time-is-finished': timeIsFinished}"
 	>
-		<div class="progress__bg"></div>
-		<div class="progress__text">{{formatedTime}}</div>
-		<div class="progress__indicator"></div>
-		<div class="progress__overlay"></div>
-		<!-- <div class="progress__cursor-wrapper">
-			<div class="progress__cursor">
-				<div class="circle">
-					<div class="circle-red"></div>
-				</div>
-			</div>
-		</div> -->
+	<div class="progress__text">{{ formatedTime }}</div>
 	</div>
 </template>
 
 <script>
 import $ from 'jquery';
 import Helpers from '@/js/classes/core/Helpers';
-
+import circleProgress from 'jquery-circle-progress';
 export default {
 	props: {
 		needReset: {
@@ -29,8 +19,8 @@ export default {
 	data() {
 		return {
 			indicator: 15,
-			step: -360 / 15 ,
-			currentDegress: 0,
+			step: 1 / 15 ,
+			currentDegress: 1,
 			timeIsRunnigOut: false,
 			timeRunOut: 3,
 			timeIsFinished: false,
@@ -53,8 +43,26 @@ export default {
 	},
 	mounted() {
 		this.runTimer();
+		this.drawProgress();
+		let self = this;
+		window.addEventListener('resize', () => {
+			self.drawProgress();
+		});
+		$('.progress canvas').css({'background-color': "#FFFFFF", 'border-radius': '50%'});
 	},
 	methods: {
+		drawProgress() {
+				$('.progress').circleProgress({
+					value: this.currentDegress,
+					size: 120,
+					fill: {
+						color: '#EF4141'
+					},
+					animation: false,
+					emptyFill: '#FFE5D2',
+					startAngle: - Math.PI / 2
+			});
+		},
 		rotate(el) {
 			$(el).css({
 				transform: 'rotate(' + this.currentDegress + 'deg)',
@@ -68,9 +76,10 @@ export default {
 			runTimer() {
 			this.interval = setInterval(interval => {
 			this.indicator--;
+			this.reverseIndicator++;
 			if (this.indicator >= 0) {
-				this.currentDegress += this.step;
-				this.moveTop('.progress__indicator');
+				this.currentDegress -= this.step;
+				this.drawProgress();
 				return interval;
 			}
 			}	, 1000);
@@ -85,13 +94,14 @@ export default {
 		},
 		needReset() {
 			this.indicator = 15;
-			this.step =-360 / 15;
-			this.currentDegress = 0;
+			this.step = 1  / 15;
+			this.currentDegress = 1;
 			this.timeIsRunnigOut = false;
 			this.timeRunOut = 3;
 			this.timeIsFinished = false;
 			this.moveTop('.progress__indicator', 'init');
 			this.runTimer();
+			this.drawProgress();
 		}
 	},
 };
