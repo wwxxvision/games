@@ -85,6 +85,7 @@ export default {
     reset() {
       this.players.forEach(player => player.reset());
       this.needReset = !this.needReset;
+      this.serverValue = Helpers.randomInteger(1, 1000);
       this.players.forEach(player => {
         if (player.type === 'enemy') {
           player.value = Helpers.randomInteger(1, 1000);

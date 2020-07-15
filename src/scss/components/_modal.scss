@@ -30,3 +30,11 @@
     margin-top: 50px;
   }
 }
+
+@media (max-height: 340px) {
+  .vm--modal {
+    .modal__footer {
+      margin-top: 10px;
+    }
+  }
+}
