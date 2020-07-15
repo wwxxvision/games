@@ -18,7 +18,7 @@
         <div class="game__block">
           <Range
               @updateValues="updateValues"
-              :disabled="player.getType() === 'enemy'"
+              :disabled="player.getType() === 'enemy' || gameState === 'finished'"
               :initValue="player.value"
               :playerType="player.getType()"
             />
