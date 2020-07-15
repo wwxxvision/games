@@ -38,6 +38,14 @@ $padding_left_right: 16px;
     &.game-screen.game-screen_pos-left {
       border-right: none;
       border-bottom: 1px solid map-get($colors, 'light_pink');
+
+      .game-screen__wrapper {
+          .game__block {
+            &:not(:first-child) {
+              order: -1;
+            }
+          }
+      }
     }
 
     &.game-screen_pos-right {

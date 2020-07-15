@@ -20,7 +20,8 @@ $height_bar: 164px;
   height: $height_bar;
   background-color: map-get($colors, 'pink');
   border-radius: $r;
-  z-index: 1000;
+  z-index: 500;
+  overflow: hidden;
   .progress__bg {
     width: 130px;
     height: 130px;
@@ -44,8 +45,6 @@ $height_bar: 164px;
     width: $width_bar - 1;
     height: $height_bar - 1;
     background-color: map-get($colors, 'red');
-    border-radius: $r;
-    clip: rect(auto, auto, auto, $width_bar / 2);
     position: absolute;
     top: 0;
     left: 0;
@@ -56,9 +55,8 @@ $height_bar: 164px;
   .progress__overlay {
     width: $width_bar;
     height: $height_bar;
-    background-color: map-get($colors, 'pink');
     border-radius: $r;
-    clip: rect(auto,  $width_bar / 2, auto, auto);
+    // clip: rect(auto,  $width_bar / 2 , auto, auto);
     position: absolute;
     top: 0;
     left: 0;
@@ -69,7 +67,7 @@ $height_bar: 164px;
     width: 100%;
     .progress__cursor {
       position: absolute;
-      top: $height_bar - 17px;
+      top: 0;
       left: $width_bar / 2 - 17px / 2;
       z-index: 3;
       .circle {
@@ -127,19 +125,18 @@ $height_bar: 164px;
     .progress__indicator {
       width: $width_bar - 1;
       height: $height_bar - 1;
-      clip: rect(auto, auto, auto, $width_bar / 2);
     }
 
     .progress__overlay {
       width: $width_bar;
       height: $height_bar;
-      clip: rect(auto,  $width_bar / 2, auto, auto);
+      clip: rect(auto,  $width_bar / 2 , auto, auto);
     }
 
     .progress__cursor-wrapper {
       .progress__cursor {
         position: absolute;
-        top: $height_bar - 17px;
+        top: -2px;
         left: $width_bar / 2 - 17px / 2;
       }
     }

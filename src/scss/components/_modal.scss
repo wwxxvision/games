@@ -1,0 +1,32 @@
+.vm--modal {
+  box-shadow: none!important;
+  border-radius: 0!important;
+  background: transparent!important;
+  font-family: map-get($fonts, 'Baloo');
+  .modal__header {
+    padding: 15px 0;
+    text-align: center;
+    border-radius: 20px 20px 0px 0px;
+    background-color: map-get($colors, 'white');
+    font-size: 35px;
+    &.modal__header_theme-blue {
+      color: map-get($colors, 'blue');
+    }
+    &.modal__header_theme-red {
+      color: map-get($colors, 'red');
+    }
+  }
+
+  .modal__body {
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0px 0px 20px 20px;
+    background-color: map-get($colors, 'white');
+    padding: 18px 25px;
+  }
+
+  .modal__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+}

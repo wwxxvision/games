@@ -2,6 +2,7 @@
 import Translator from './classes/core/Translator';
 import App from '@/js/App.vue';
 import Vue from 'vue';
+import './plugins';
 
 class Core {
 	async render(game) {
@@ -21,10 +22,6 @@ class Core {
 			},
 			render: h => h(App),
 		});
-
-		// return {
-		// 	translate,
-		// };
 	}
 }
 

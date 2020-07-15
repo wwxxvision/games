@@ -11,7 +11,6 @@
         'input__element_state-novalide': errorMessage,
         'input__element_text-pos-center': textCentered
        }" />
-      <span v-if="errorMessage" class="input__error-message">{{ errorMessage }}</span>
   </div>
 </template>;
 
@@ -44,7 +43,10 @@ export default {
       default: false
     },
     initValue: {
-      type: Number
+      required: true
+    },
+    playerType: {
+      type: String
     }
   },
   created() {
@@ -55,22 +57,33 @@ export default {
     change(ev) {
       const { value } = ev.target;
       const valueIsNotEmpty = value;
-      console.log(value)
       let condition = false;
-      this.errorMessage = '';
       switch(this.handlerType) {
         case 'int':
           condition = valueIsNotEmpty && Number.isInteger(Number(value));
 
           if (!condition)
             this.errorMessage = this.$translate.t('errors.badType')
+            this.value = null;
           break;
         default:
           condition = valueIsNotEmpty && Number.isInteger(Number(value));
           if (!condition)
-            this.errorMessage = this.$translate.t('errors.badType')
+            this.value = null;
+
+      }
+
+      if (condition) {
+        this.$emit('updateValues', this.playerType, value);
       }
     }
   },
+  watch: {
+    initValue(value) {
+      if (this.readonly) {
+        this.value = value;
+      }
+    }
+  }
 }
 </script>

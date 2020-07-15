@@ -1,0 +1,31 @@
+.winner {
+  width: 100%;
+  .winner__player {
+    font-size: 50px;
+    font-family: map-get($fonts, 'Baloo');
+    .winner__score {
+      align-items: baseline;
+      .winner__value {
+        color: map-get($colors, 'black');
+        opacity: .3;
+        &.winner__value_type-winner {
+          opacity: 1;
+          color: map-get($colors, 'blue');
+        }
+      }
+      .winner_cup {
+        width: 51px;
+        height: 64px;
+        background-image: url('../assets/img/winner_cup.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    }
+    .winner__name {
+      font-size: 20px;
+      color: map-get($colors, 'black');
+      opacity: .6;
+      text-align: center;
+    }
+  }
+}

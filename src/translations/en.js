@@ -1,12 +1,11 @@
 const en = {
 	connecting: 'connectig',
-	errors: {
-		badType: 'Type is invalid',
+	button: {
+		playAgain: 'PLAY AGAIN',
 	},
-	input: {
-		placeholders: {
-			enterNumber: 'Enter number',
-		},
+	names: {
+		mainPlayer: 'You',
+		enemy: 'Partner',
 	},
 };
 

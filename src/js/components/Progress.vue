@@ -4,15 +4,15 @@
 	>
 		<div class="progress__bg"></div>
 		<div class="progress__text">{{formatedTime}}</div>
-		<div data-progress="50" class="progress__indicator"></div>
+		<div class="progress__indicator"></div>
 		<div class="progress__overlay"></div>
-		<div class="progress__cursor-wrapper">
+		<!-- <div class="progress__cursor-wrapper">
 			<div class="progress__cursor">
 				<div class="circle">
 					<div class="circle-red"></div>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 
@@ -21,10 +21,15 @@ import $ from 'jquery';
 import Helpers from '@/js/classes/core/Helpers';
 
 export default {
+	props: {
+		needReset: {
+			type: Boolean
+		}
+	},
 	data() {
 		return {
-			indicator: 20,
-			step: -180 / 20,
+			indicator: 15,
+			step: -360 / 15 ,
 			currentDegress: 0,
 			timeIsRunnigOut: false,
 			timeRunOut: 3,
@@ -47,16 +52,7 @@ export default {
 		},
 	},
 	mounted() {
-		this.interval = setInterval(interval => {
-			this.indicator--;
-			if (this.indicator >= 0) {
-				this.currentDegress += this.step;
-				this.rotate('.progress__overlay');
-				this.rotate('.progress__cursor-wrapper');
-
-				return interval;
-			}
-		}, 1000);
+		this.runTimer();
 	},
 	methods: {
 		rotate(el) {
@@ -64,13 +60,39 @@ export default {
 				transform: 'rotate(' + this.currentDegress + 'deg)',
 			});
 		},
+		moveTop(el, isInit) {
+			$(el).css({
+				'top': !isInit ? `${(100  / this.indicator)}%` : '0%',
+			});
+		},
+			runTimer() {
+			this.interval = setInterval(interval => {
+			this.indicator--;
+			if (this.indicator >= 0) {
+				this.currentDegress += this.step;
+				this.moveTop('.progress__indicator');
+				return interval;
+			}
+			}	, 1000);
+		}
 	},
 	watch: {
 		indicator(value) {
 			if (value === 0) {
 				clearInterval(this.interval);
+				this.$emit('getTimerTime', 0);
 			}
 		},
+		needReset() {
+			this.indicator = 15;
+			this.step =-360 / 15;
+			this.currentDegress = 0;
+			this.timeIsRunnigOut = false;
+			this.timeRunOut = 3;
+			this.timeIsFinished = false;
+			this.moveTop('.progress__indicator', 'init');
+			this.runTimer();
+		}
 	},
 };
 </script>

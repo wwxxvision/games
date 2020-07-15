@@ -13,6 +13,11 @@ class Helpers {
 
 		return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2);
 	}
+
+	randomInteger(min, max) {
+		let rand = min + Math.random() * (max + 1 - min);
+		return Math.floor(rand);
+	}
 }
 
 export default new Helpers();
