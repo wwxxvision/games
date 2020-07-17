@@ -1,4 +1,5 @@
 import Player from './Player';
+import { AudioCore } from '@/js/classes/core';
 
 export default class Game {
 	constructor(initGameValue) {
@@ -33,10 +34,24 @@ export default class Game {
 		this.gameTime = time;
 		this.players.forEach(player => player.reset(this.initGameValue));
 		this.updateGameState('play');
+		AudioCore.play('bg', true);
+	}
+
+	checkIsWinnerMainPlayer() {
+		const mainPlayer = this.players.find(player => player.type === 'player');
+		return mainPlayer.state === 'winner';
 	}
 
 	finish(setWinner) {
+		AudioCore.stop();
 		this.updateGameState('finished');
 		setWinner(this.players);
+		const mainPlayerIsWinner = this.checkIsWinnerMainPlayer();
+
+		if (mainPlayerIsWinner) {
+			AudioCore.play('win');
+		} else {
+			AudioCore.play('lose');
+		}
 	}
 }

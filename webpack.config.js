@@ -81,13 +81,16 @@ module.exports = {
 				use: [MiniCssExtractPlugin.loader, 'css-loader'],
 			},
 			{
-				test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/,
+				test: /\.(png|jpg|svg|ttf|eot|woff|woff2|mp3)$/,
 				loader: 'file-loader',
 				options: {
 					name: file => {
-						let dirNameInsideAssets = path.relative(path.join(__dirname, 'src', 'assets'), path.dirname(file));
+						let dirNameInsideAssets = path.relative(
+							path.join(__dirname, 'src', 'assets'),
+							path.dirname(file)
+						);
 						return `${dirNameInsideAssets}/[name].[ext]`;
-					}
+					},
 				},
 			},
 			{
