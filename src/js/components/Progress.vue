@@ -64,8 +64,6 @@ export default {
 			this.timeRunOut = 3;
 			this.timeIsFinished = false;
 			this.moveTop('.progress__indicator', 'init');
-			this.runTimer();
-			this.drawProgress();
 		},
 		drawProgress() {
 				$('.progress').circleProgress({
@@ -110,7 +108,7 @@ export default {
 					this.start();
 					break;
 			}
-		}
+		},
 	},
 };
 </script>
