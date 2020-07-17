@@ -1,32 +1,38 @@
 <template>
 	<div class="game">
     <Modal v-if="gameState === 'finished'" :title="serverValue" :titleTheme="'blue'">
-      <Winner :players="players" />
+      <Winner :players="game.players" />
       <template v-slot:footer>
-        <Button @clicked="playAgain" :title="$translate.t('button.playAgain')" />
+        <Button @clicked="game.play(gameTime)" :title="$translate.t('button.playAgain')" />
       </template>
     </Modal>
-    <Progress :needReset="needReset" @getTimerTime="getTimerTime"  />
-    <GameScreen v-for="(player, index) in players" :key="index" :dir="getScreenDir(player.getType())">
+    <Progress :gameState="game.getGameState" :timeInSec="15" @getTimerTime="getTimerTime"  />
+    <GameScreen v-for="(player, index) in game.players" :key="index" :dir="getScreenDir(player.type)">
       <div class="game__block game__block_size-full_screen">
-        <div :class="`game__decor game__decor_type-${player.getType()}`"></div>
+        <div :class="`game__decor game__decor_type-${player.type}`"></div>
       </div>
       <div class="game__block  flex flex_space-between">
-        <InputCustom type="text" :readonly="true" :text-centered="true" :initValue="player.value"  />
-        <InputCustom type="text" :readonly="true" :text-centered="true" :initValue="getPlayerNameByType(player.type)"  />
+        <InputCustom type="text"
+          :readonly="true"
+          :text-centered="true"
+          :initValue="player.value"
+        />
+        <InputCustom type="text"
+        :readonly="true"
+        :text-centered="true"
+        :initValue="player.name"  />
       </div>
         <div class="game__block">
           <Range
-              @updateValues="updateValues"
-              :disabled="player.getType() === 'enemy' || gameState === 'finished'"
-              :initValue="player.value"
-              :playerType="player.getType()"
-            />
+            @updateValues="updateValues"
+            :disabled="player.type === 'enemy' || gameState === 'finished'"
+            :initValue="player.value"
+            :playerType="player.type"
+          />
           </div>
     </GameScreen>
   </div>
 </template>;
-
 
 <script>
 import GameScreen from '@/js/components/GameScreen.vue';
@@ -38,64 +44,24 @@ import Modal from '@/js/components/Modal.vue';
 import Helpers from '@/js/classes/core/Helpers';
 import Winner from './Winner.vue';
 import Button from '@/js/components/Button.vue';
+import { Game } from '@/js/classes/models/';
+import { gameMixin } from '@/js/mixins/index';
 
 export default {
   name: 'game-one',
+  mixins: [gameMixin],
   components: {GameScreen, Progress, Range, InputCustom, Modal, Winner, Button},
   data() {
     return {
       players: [],
       value: 1,
       serverValue: Helpers.randomInteger(1, 1000),
-      gameState: 'play',
-      needReset: false,
+      game: null,
+      gameInitValue: 1,
+      gameTime: 15 // in seconds
     }
   },
-  created() {
-    this.players = [new Player('player'), new Player('enemy')];
-    this.players.forEach(player => player.setValue(this.value))
-  },
-  mounted() {
-    this.players.forEach(player => {
-      if (player.type === 'enemy') {
-        player.value = Helpers.randomInteger(1, 1000);
-      }
-    })
-  },
   methods: {
-    getPlayerNameByType(playerType) {
-      switch(playerType) {
-        case 'player':
-          return this.$translate.t('names.mainPlayer');
-        case 'enemy':
-          return this.$translate.t('names.enemy');
-      }
-    },
-    getScreenDir(playerType) {
-      switch(playerType) {
-        case 'player':
-          return 'left';
-        case 'enemy':
-          return 'right';
-
-        default:
-          return 'left';
-      }
-    },
-    reset() {
-      this.players.forEach(player => player.reset());
-      this.needReset = !this.needReset;
-      this.serverValue = Helpers.randomInteger(1, 1000);
-      this.players.forEach(player => {
-        if (player.type === 'enemy') {
-          player.value = Helpers.randomInteger(1, 1000);
-        }
-      })
-    },
-    playAgain() {
-      this.gameState = 'play';
-      this.reset();
-    },
     __validateValue(value) {
       if (value > 1000) {
         value = 1000;
@@ -112,19 +78,14 @@ export default {
       return value;
     },
     updateValues(playerType, value) {
-      this.players.forEach(player => {
+      this.game.players.forEach(player => {
         if (player.type === playerType) {
           player.setValue(Number(this.__validateValue(value)));
         }
-      })
+      });
     },
-    getTimerTime(value) {
-      if (value === 0) {
-        this.gameState = 'finished';
-      }
-    },
-    getWinner() {
-      let playersScores = this.players.map(player => {
+    getWinner(players) {
+      let playersScores = players.map(player => {
         let delta = this.serverValue - player.value;
 
         if (delta < 0) {
@@ -140,7 +101,7 @@ export default {
       let onlyScores = playersScores.map(player => player.score);
       const lessValue = Math.min.apply(null, onlyScores);
 
-      this.players.find(player => {
+      players.find(player => {
         let delta = this.serverValue - player.value;
         if (delta < 0) {
           delta = -delta;
@@ -149,16 +110,14 @@ export default {
         if (delta === lessValue) {
           player.state = 'winner';
         }
+
+        const deadHeat = players.every(player => player.state === 'winner');
+
+        if (deadHeat) {
+          players[Helpers.randomInteger(0, 1)].state = 'default';
+        }
       });
     }
   },
-  watch: {
-    gameState(state) {
-      switch(state) {
-        case 'finished':
-          this.getWinner();
-      }
-    }
-  }
 }
 </script>

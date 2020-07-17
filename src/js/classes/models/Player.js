@@ -1,17 +1,14 @@
 export default class Player {
-	constructor(type) {
+	constructor(type, name) {
 		this.type = type;
 		this.value = null;
 		this.state = 'default';
+		this.name = name;
 	}
 
-	reset() {
-		this.value = 1;
+	reset(initValue) {
+		this.value = initValue;
 		this.state = 'default';
-	}
-
-	getType() {
-		return this.type;
 	}
 
 	setValue(newValue) {

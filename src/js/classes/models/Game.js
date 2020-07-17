@@ -1,41 +1,42 @@
+import Player from './Player';
+
 export default class Game {
-	constructor() {
-		this.timeInMs = 0;
-		this.timeInS = this.timeInMs / 1000;
-		this.ticks = this.timeInS;
-		this.interval = null;
-		this.timer = null;
-		this.timerInstance = null;
+	constructor(initGameValue) {
+		this.players = [];
+		this.initGameValue = initGameValue;
+		this.gameState = 'pause';
+		this.gameTime = 0;
 	}
 
-	setTimer(TimerInstance) {
-		this.timerInstance = new TimerInstance();
+	factoryPlayers(type, name) {
+		this.players.push(new Player(type, name));
+		this.players.forEach(player => player.setValue(this.initGameValue));
 	}
 
-	setGameTimeInMs(timeInMs) {
-		this.timeInMs = timeInMs;
+	get getGameTime() {
+		return this.gameTime;
 	}
 
-	reset() {}
-
-	finish() {
-		this.interval = clearInterval(this.interval);
-		this.timer = clearTimeout(this.timer);
-		this.ticks = 0;
+	get getGameState() {
+		return this.gameState;
 	}
 
-	run() {
-		this.interval = setInterval(interval => {
-			this.ticks -= 1;
+	updateGameTime(time) {
+		this.gameTime = time;
+	}
 
-			this.timerInstance.showTime(this.ticks);
-			return interval;
-		}, 1000);
+	updateGameState(state) {
+		this.gameState = state;
+	}
 
-		this.timer = setTimeout(timer => {
-			this.finish();
+	play(time) {
+		this.gameTime = time;
+		this.players.forEach(player => player.reset(this.initGameValue));
+		this.updateGameState('play');
+	}
 
-			return timer;
-		}, this.timeInMs);
+	finish(setWinner) {
+		this.updateGameState('finished');
+		setWinner(this.players);
 	}
 }

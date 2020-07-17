@@ -1,6 +1,10 @@
 <template>
 	<div
-		:class="{progress: true, 'progress_time-is-running': timeIsRunnigOut && !timeIsFinished, 'progress_time-is-finished': timeIsFinished}"
+		:class="{
+			progress: true,
+			'progress_time-is-running': timeIsRunnigOut && !timeIsFinished,
+			'progress_time-is-finished': timeIsFinished
+		}"
 	>
 	<div class="progress__text">{{ formatedTime }}</div>
 	</div>
@@ -12,14 +16,17 @@ import Helpers from '@/js/classes/core/Helpers';
 import circleProgress from 'jquery-circle-progress';
 export default {
 	props: {
-		needReset: {
-			type: Boolean
+		timeInSec: {
+			type: Number
+		},
+		gameState: {
+			type: String
 		}
 	},
 	data() {
 		return {
-			indicator: 15,
-			step: 1 / 15 ,
+			indicator: this.timeInSec,
+			step: 1 / this.timeInSec ,
 			currentDegress: 1,
 			timeIsRunnigOut: false,
 			timeRunOut: 3,
@@ -41,16 +48,25 @@ export default {
 			return this.indicator;
 		},
 	},
-	mounted() {
-		this.runTimer();
-		this.drawProgress();
-		let self = this;
-		window.addEventListener('resize', () => {
-			self.drawProgress();
-		});
-		$('.progress canvas').css({'background-color': "#FFFFFF", 'border-radius': '50%'});
-	},
 	methods: {
+		start() {
+			this.runTimer();
+			this.drawProgress();
+			let self = this;
+			window.addEventListener('resize', () => self.drawProgress());
+			$('.progress canvas').css({'background-color': "#FFFFFF", 'border-radius': '50%'});
+		},
+		reset() {
+			this.indicator = this.timeInSec;
+			this.step = 1  / this.timeInSec;
+			this.currentDegress = 1;
+			this.timeIsRunnigOut = false;
+			this.timeRunOut = 3;
+			this.timeIsFinished = false;
+			this.moveTop('.progress__indicator', 'init');
+			this.runTimer();
+			this.drawProgress();
+		},
 		drawProgress() {
 				$('.progress').circleProgress({
 					value: this.currentDegress,
@@ -63,17 +79,12 @@ export default {
 					startAngle: - Math.PI / 2
 			});
 		},
-		rotate(el) {
-			$(el).css({
-				transform: 'rotate(' + this.currentDegress + 'deg)',
-			});
-		},
 		moveTop(el, isInit) {
 			$(el).css({
 				'top': !isInit ? `${(100  / this.indicator)}%` : '0%',
 			});
 		},
-			runTimer() {
+		runTimer() {
 			this.interval = setInterval(interval => {
 			this.indicator--;
 			this.reverseIndicator++;
@@ -87,21 +98,18 @@ export default {
 	},
 	watch: {
 		indicator(value) {
+			this.$emit('getTimerTime', value);
 			if (value === 0) {
 				clearInterval(this.interval);
-				this.$emit('getTimerTime', 0);
 			}
 		},
-		needReset() {
-			this.indicator = 15;
-			this.step = 1  / 15;
-			this.currentDegress = 1;
-			this.timeIsRunnigOut = false;
-			this.timeRunOut = 3;
-			this.timeIsFinished = false;
-			this.moveTop('.progress__indicator', 'init');
-			this.runTimer();
-			this.drawProgress();
+		gameState(state) {
+			switch(state) {
+				case 'play':
+					this.reset();
+					this.start();
+					break;
+			}
 		}
 	},
 };
