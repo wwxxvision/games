@@ -12,8 +12,9 @@
 
 <script>
 import $ from 'jquery';
-import Helpers from '@/js/classes/core/Helpers';
+import { Helpers } from '@/js/classes/core';
 import circleProgress from 'jquery-circle-progress';
+
 export default {
 	props: {
 		timeInSec: {

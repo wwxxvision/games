@@ -1,5 +1,5 @@
 import { Game } from '@/js/classes/models/';
-import Helpers from '@/js/classes/core/Helpers';
+import { Helpers } from '@/js/classes/core';
 
 export const gameMixin = {
 	created() {

@@ -41,11 +41,11 @@ import Range from '@/js/components/Range.vue';
 import InputCustom from '@/js/components/InputCustom.vue';
 import Player from '@/js/classes/models/Player';
 import Modal from '@/js/components/Modal.vue';
-import Helpers from '@/js/classes/core/Helpers';
 import Winner from './Winner.vue';
 import Button from '@/js/components/Button.vue';
 import { Game } from '@/js/classes/models/';
 import { gameMixin } from '@/js/mixins/index';
+import { Helpers } from '@/js/classes/core';
 
 export default {
   name: 'game-one',
