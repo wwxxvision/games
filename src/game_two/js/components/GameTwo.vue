@@ -6,18 +6,20 @@
         <Button @clicked="game.play(gameTime)" :title="$translate.t('button.playAgain')" />
       </template>
     </Modal> -->
-    <Progress :gameState="game.getGameState" :timeInSec="gameTime" @getTimerTime="getTimerTime"  />
+    <Progress  :gameName="'game-two'" :gameState="game.getGameState" :timeInSec="gameTime" @getTimerTime="getTimerTime"  />
     <GameScreen :gameName="'game-two'" :withoutBorders="true" v-for="(player, index) in game.players" :key="index" :dir="getScreenDir(player.type)">
       <div class="game__block game__block_size-full_screen">
 
       </div>
-      <div class="game__block  flex flex_justify_content_center">
+      <div class="game__block game__block_font-bold  flex flex_justify_content_center text-align-center">
         <div class="game__block">
-          <div>{{ player.type }}</div>
+          <div>{{ player.name }}</div>
           <InputCustom type="text"
             :readonly="true"
             :text-centered="true"
             :initValue="player.value"
+            placeholder="0"
+            :theme="'input__element_theme-biege-red'"
           />
         </div>
       </div>
@@ -45,7 +47,7 @@ export default {
   data() {
     return {
       game: null,
-      gameInitValue: 1,
+      gameInitValue: 0,
       gameTime: 40 // in seconds
     }
   },

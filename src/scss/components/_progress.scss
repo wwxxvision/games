@@ -108,13 +108,15 @@ $height_bar: 164px;
 }
 
 @media (max-width: map-get($break_points, 'phone_width')) {
-  $width_bar: 90px;
-  $height_bar: 90px;
   .progress {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    &.game-one {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      $width_bar: 90px;
+      $height_bar: 90px;
+    }
     width: $width_bar;
     height: $height_bar;
 

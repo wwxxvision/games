@@ -6,7 +6,7 @@
         <Button @clicked="game.play(gameTime)" :title="$translate.t('button.playAgain')" />
       </template>
     </Modal>
-    <Progress :gameState="game.getGameState" :timeInSec="15" @getTimerTime="getTimerTime"  />
+    <Progress :gameName="'game-one'" :gameState="game.getGameState" :timeInSec="15" @getTimerTime="getTimerTime"  />
     <GameScreen :gameName="'game-one'" v-for="(player, index) in game.players" :key="index" :dir="getScreenDir(player.type)">
       <div class="game__block game__block_size-full_screen">
         <div :class="`game__decor game__decor_type-${player.type}`"></div>

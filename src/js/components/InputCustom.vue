@@ -7,7 +7,8 @@
       :placeholder="placeholder"
       :readonly="readonly"
       :class="{
-        'input__element input__element_theme-biege': true,
+        [theme]: true,
+        'input__element': true,
         'input__element_state-novalide': errorMessage,
         'input__element_text-pos-center': textCentered
        }" />
@@ -47,6 +48,10 @@ export default {
     },
     playerType: {
       type: String
+    },
+    theme: {
+      type: String,
+      default: 'input__element_theme-biege'
     }
   },
   created() {

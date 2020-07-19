@@ -3,7 +3,8 @@
 		:class="{
 			progress: true,
 			'progress_time-is-running': timeIsRunnigOut && !timeIsFinished,
-			'progress_time-is-finished': timeIsFinished
+			'progress_time-is-finished': timeIsFinished,
+			[gameName]: true
 		}"
 	>
 	<div class="progress__text">{{ formatedTime }}</div>
@@ -21,6 +22,9 @@ export default {
 			type: Number
 		},
 		gameState: {
+			type: String
+		},
+		gameName: {
 			type: String
 		}
 	},

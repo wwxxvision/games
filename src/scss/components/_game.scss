@@ -21,6 +21,11 @@
     &.game__block_size-full_screen {
       @include full_screen;
     }
+
+    &.game__block_font-bold {
+      font-family: map-get($fonts, 'Baloo');
+      font-size: 30px;
+    }
   }
 }
 
