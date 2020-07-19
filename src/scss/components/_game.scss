@@ -1,3 +1,12 @@
+@keyframes hide {
+  from {
+  }
+  to {
+    top: 50%;
+    opacity: 0;
+  }
+}
+
 .game {
   @include full_screen;
   display: flex;
@@ -5,7 +14,6 @@
     position: absolute;
     z-index: 200000000;
     @include flex_centered(column);
-    transition-duration: 0.2s;
     cursor: pointer;
     .icon {
       height: 95px;
@@ -13,6 +21,12 @@
       background-image: url('../assets/img/chat_icon.png');
       background-size: cover;
       background-repeat: no-repeat;
+
+      &.rotate {
+        transition-duration: 0.4s;
+        transition-timing-function: ease-out;
+        transform: rotateY(360deg);
+      }
     }
     .check-icon {
       height: 40px;
@@ -24,13 +38,6 @@
         background-size: cover;
         background-repeat: no-repeat;
       }
-    }
-
-    &.rotate {
-      // transition: transform 0.4s ease-in-out;
-      transition-duration: 0.4s;
-      opacity: 0.8;
-      transform: rotateY(360deg);
     }
   }
   .game__decor {
@@ -47,6 +54,16 @@
   }
   .game__block {
     margin: 10px 0;
+    .add-score-decor {
+      top: -100%;
+      left: 50%;
+      transform: translateX(-50%);
+      color: map-get($colors, 'red');
+      &.add-score-decor_animate-hide {
+        animation: hide 0.4s ease-in;
+        animation-fill-mode: forwards;
+      }
+    }
     &.game__block_size-full_screen {
       @include full_screen;
     }

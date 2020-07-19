@@ -8,19 +8,25 @@
     </Modal> -->
     <div @click="selectIcon" :class="{
       'game__item-chat-icon': true,
-      'game__item-chat-icon_state-winner rotate': iconPlyerIsSelect
+      'game__item-chat-icon_state-winner': iconSelect
       }"
     >
       <div class="check-icon"></div>
-      <div class="icon"></div>
+      <div :class="{'icon': true, 'rotate': iconSelect}"></div>
     </div>
     <Progress  :gameName="'game-two'" :gameState="game.getGameState" :timeInSec="gameTime" @getTimerTime="getTimerTime"  />
     <GameScreen :gameName="'game-two'" :withoutBorders="true" v-for="(player, index) in game.players" :key="index" :dir="getScreenDir(player.type)">
       <div class="game__block game__block_size-full_screen relative">
       </div>
       <div class="game__block game__block_font-bold  flex flex_justify_content_center text-align-center">
-        <div class="game__block">
+        <div class="game__block relative">
           <div>{{ player.name }}</div>
+          <div
+            v-if="iconSelect && iconSelect.type === player.type"
+            :class="{
+              'absolute add-score-decor': true,
+              'add-score-decor_animate-hide': iconSelect
+            }">+ 1</div>
           <InputCustom type="text"
             :readonly="true"
             :text-centered="true"
@@ -61,7 +67,7 @@ export default {
         x: Helpers.randomInteger(1, 70),
         y:  Helpers.randomInteger(1, 70)
       },
-      iconPlyerIsSelect: false,
+      iconSelect: false,
       chatIcon: '.game__item-chat-icon'
     }
   },
@@ -78,7 +84,7 @@ export default {
     render() {
        this.reCalculateIconPos();
        this.setIconPos();
-       this.iconPlyerIsSelect = false;
+       this.iconSelect = false;
     },
     setIconPos() {
       $(this.chatIcon).css({
@@ -87,8 +93,11 @@ export default {
       });
     },
     selectIcon() {
-        this.iconPlyerIsSelect = true;
+        // $('.add-score-decor').addClass('add-score-decor_animate-hide')
         this.addScore('player');
+        this.iconSelect = {
+          type: 'player'
+        }
         setTimeout(() =>  this.render(), 500);
     },
     addScore(playerType) {
