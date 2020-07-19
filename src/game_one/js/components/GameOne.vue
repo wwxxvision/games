@@ -110,13 +110,12 @@ export default {
         if (delta === lessValue) {
           player.state = 'winner';
         }
-
-        const deadHeat = players.every(player => player.state === 'winner');
-
-        if (deadHeat) {
-          players[Helpers.randomInteger(0, 1)].state = 'default';
-        }
       });
+      const deadHeat = players.every(player => player.state === 'winner');
+
+      if (deadHeat) {
+          players[Helpers.randomInteger(0, 1)].state = 'default';
+      }
     }
   },
 }

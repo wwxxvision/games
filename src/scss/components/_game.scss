@@ -39,6 +39,14 @@
         background-repeat: no-repeat;
       }
     }
+
+    &.game__item-chat-icon_state-lose {
+      .check-icon {
+        background-image: url('../assets/img/sad_icon.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    }
   }
   .game__decor {
     background-position: center center;

@@ -1,20 +1,21 @@
 <template>
 	<div class="game game-two">
-   <!-- <Modal v-if="gameState === 'finished'" :title="serverValue" :titleTheme="'blue'">
+   <Modal v-if="gameState === 'finished'" :title="winnerName" :titleTheme="'blue'">
       <Winner :players="game.players" />
       <template v-slot:footer>
         <Button @clicked="game.play(gameTime)" :title="$translate.t('button.playAgain')" />
       </template>
-    </Modal> -->
-    <div @click="selectIcon" :class="{
+    </Modal>
+    <div v-if="gameState === 'play'" @click="selectIcon" :class="{
       'game__item-chat-icon': true,
-      'game__item-chat-icon_state-winner': iconSelect
+      'game__item-chat-icon_state-winner': iconSelect && iconSelect.type === 'player',
+      'game__item-chat-icon_state-lose': iconSelect && iconSelect.type === 'enemy'
       }"
     >
       <div class="check-icon"></div>
       <div :class="{'icon': true, 'rotate': iconSelect}"></div>
     </div>
-    <Progress  :gameName="'game-two'" :gameState="game.getGameState" :timeInSec="gameTime" @getTimerTime="getTimerTime"  />
+    <Progress  :gameName="'game-two'" :gameState="game.getGameState" :timeInSec="40" @getTimerTime="getTimerTime"  />
     <GameScreen :gameName="'game-two'" :withoutBorders="true" v-for="(player, index) in game.players" :key="index" :dir="getScreenDir(player.type)">
       <div class="game__block game__block_size-full_screen relative">
       </div>
@@ -73,8 +74,28 @@ export default {
   },
   mounted() {
     this.render();
+    this.fakeAddScoreEnemy();
+  },
+  computed: {
+    winnerName() {
+      const winner = this.game.players.find(player => player.state === 'winner');
+      if (winner) {
+        return winner.name;
+      }
+    }
   },
   methods: {
+    async fakeAddScoreEnemy() {
+
+      setTimeout((timer) => {
+          if (!this.iconSelect) {
+            this.addScore('enemy');
+            this.iconSelect = {
+                type: 'enemy'
+            }
+          }
+      }, 2000);
+    },
     reCalculateIconPos() {
       this.serverIconPos ={
         x: Helpers.randomInteger(1, 70),
@@ -93,12 +114,11 @@ export default {
       });
     },
     selectIcon() {
-        // $('.add-score-decor').addClass('add-score-decor_animate-hide')
+      if (!this.iconSelect)
         this.addScore('player');
         this.iconSelect = {
           type: 'player'
         }
-        setTimeout(() =>  this.render(), 500);
     },
     addScore(playerType) {
        this.game.players.find(player => {
@@ -106,6 +126,22 @@ export default {
           player.setValue(player.value += 1);
         }
       });
+
+      setTimeout(() =>  this.render(), 300);
+    },
+    getWinner() {
+      const playerValues = this.game.players.map(player => player.value);
+      const maxValue = Math.max.apply(null, playerValues);
+      this.game.players.find(player => {
+        if (player.value === maxValue) {
+          player.state = 'winner';
+        }
+      });
+      const deadHeat = this.game.players.every(player => player.state === 'winner');
+
+      if (deadHeat) {
+        this.game.players[Helpers.randomInteger(0, 1)].state = 'default';
+      }
     }
   }
 }
