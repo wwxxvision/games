@@ -1,8 +1,37 @@
 .game {
   @include full_screen;
   display: flex;
-  .game__block_view-tablet {
-    display: none;
+  .game__item-chat-icon {
+    position: absolute;
+    z-index: 200000000;
+    @include flex_centered(column);
+    transition-duration: 0.2s;
+    cursor: pointer;
+    .icon {
+      height: 95px;
+      width: 95px;
+      background-image: url('../assets/img/chat_icon.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .check-icon {
+      height: 40px;
+      width: 40px;
+    }
+    &.game__item-chat-icon_state-winner {
+      .check-icon {
+        background-image: url('../assets/img/check_icon.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    }
+
+    &.rotate {
+      // transition: transform 0.4s ease-in-out;
+      transition-duration: 0.4s;
+      opacity: 0.8;
+      transform: rotateY(360deg);
+    }
   }
   .game__decor {
     background-position: center center;

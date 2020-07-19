@@ -24,7 +24,7 @@
       </div>
         <div class="game__block">
           <Range
-            @updateValues="updateValues"
+            @updateValues="addScore"
             :disabled="player.type === 'enemy' || gameState === 'finished'"
             :initValue="player.value"
             :playerType="player.type"
@@ -77,8 +77,8 @@ export default {
 
       return value;
     },
-    updateValues(playerType, value) {
-      this.game.players.forEach(player => {
+    addScore(playerType, value) {
+      this.game.players.find(player => {
         if (player.type === playerType) {
           player.setValue(Number(this.__validateValue(value)));
         }
