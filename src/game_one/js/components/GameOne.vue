@@ -1,5 +1,5 @@
 <template>
-	<div class="game">
+	<div class="game game-one">
     <Modal v-if="gameState === 'finished'" :title="serverValue" :titleTheme="'blue'">
       <Winner :players="game.players" />
       <template v-slot:footer>
@@ -7,7 +7,7 @@
       </template>
     </Modal>
     <Progress :gameState="game.getGameState" :timeInSec="15" @getTimerTime="getTimerTime"  />
-    <GameScreen v-for="(player, index) in game.players" :key="index" :dir="getScreenDir(player.type)">
+    <GameScreen :gameName="'game-one'" v-for="(player, index) in game.players" :key="index" :dir="getScreenDir(player.type)">
       <div class="game__block game__block_size-full_screen">
         <div :class="`game__decor game__decor_type-${player.type}`"></div>
       </div>

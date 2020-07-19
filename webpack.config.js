@@ -17,13 +17,13 @@ const optimization = () => {
 	}
 };
 require('babel-polyfill');
-const buildName = process.argv[3] ? process.argv[3] : 'game_one';
-
+const buildName = 'game_two';
+console.log(buildName);
 module.exports = {
 	watch: true,
 	mode: 'development',
 	entry: {
-		[buildName]: `./src/${buildName}/js/index.js`,
+		[buildName]: __dirname + `/src/${buildName}/js/index.js`,
 	},
 	output: {
 		publicPath: '/',

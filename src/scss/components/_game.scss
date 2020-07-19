@@ -40,12 +40,14 @@
 
 @media (max-width: map-get($break_points, 'phone_width')) {
   .game {
-    flex-direction: column;
-    .game__block_view-tablet {
-      display: none;
-    }
-    .game__block_view-desktop-mobile {
-      display: block;
+    &.game-one {
+      flex-direction: column;
+      .game__block_view-tablet {
+        display: none;
+      }
+      .game__block_view-desktop-mobile {
+        display: block;
+      }
     }
   }
 }

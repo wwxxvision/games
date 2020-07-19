@@ -22,35 +22,45 @@ $padding_left_right: 16px;
   &.game-screen_pos-right {
     border-left: 2px solid map-get($colors, 'light_pink');
   }
+
+  &.game-screen_pos-without-border {
+    border: none;
+  }
 }
 
 
 @media (max-width: map-get($break_points, 'phone_width')) {
   .game-screen  {
-    $width_screen: 100%;
-    width: $width_screen;
-
-    .game-screen__wrapper {
-      $padding_top_bottom: 20px;
-      padding: $padding_top_bottom $padding_left_right;
-    }
-
-    &.game-screen.game-screen_pos-left {
-      border-right: none;
-      border-bottom: 1px solid map-get($colors, 'light_pink');
+    &.game-one {
+      $width_screen: 100%;
+      width: $width_screen;
 
       .game-screen__wrapper {
-          .game__block {
-            &:not(:first-child) {
-              order: -1;
-            }
-          }
+        $padding_top_bottom: 20px;
+        padding: $padding_top_bottom $padding_left_right;
       }
-    }
 
-    &.game-screen_pos-right {
-      border-left: none;
-      border-top: 2px solid map-get($colors, 'light_pink');
+      &.game-screen.game-screen_pos-left {
+        border-right: none;
+        border-bottom: 1px solid map-get($colors, 'light_pink');
+
+        .game-screen__wrapper {
+            .game__block {
+              &:not(:first-child) {
+                order: -1;
+              }
+            }
+        }
+      }
+
+      &.game-screen_pos-right {
+        border-left: none;
+        border-top: 2px solid map-get($colors, 'light_pink');
+      }
+
+      &.game-screen_pos-without-border {
+        border: none!important;
+      }
     }
   }
 }

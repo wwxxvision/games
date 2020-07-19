@@ -8,9 +8,10 @@
 <script>
 import Connection from '@/js/views/Connection.vue';
 import GameOne from '@/game_one/js/components/GameOne.vue';
+import GameTwo from '@/game_two/js/components/GameTwo.vue';
 
 export default {
-	components: { Connection, GameOne },
+	components: { Connection, GameOne, GameTwo },
 	data() {
 		return {
 			currentGame: null,
