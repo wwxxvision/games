@@ -3,7 +3,8 @@ import { Helpers } from '@/js/classes/core';
 
 export const gameMixin = {
 	created() {
-		this.game = new Game(this.gameInitValue);
+		// console.log(this.$root);
+		this.game = new Game(this.gameInitValue, this.$sound);
 		this.game.factoryPlayers('player', this.$translate.t('names.mainPlayer'));
 		this.game.factoryPlayers('enemy', this.$translate.t('names.enemy'));
 	},

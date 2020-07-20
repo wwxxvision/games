@@ -2,16 +2,17 @@ import win from '@/assets/sounds/win.mp3';
 import bg from '@/assets/sounds/bg.mp3';
 import lose from '@/assets/sounds/lose.mp3';
 import { Howl, Howler } from 'howler';
-import $ from 'jquery';
 
 class AudioCore {
 	constructor() {
+		Howler.autoSuspend = false;
 		this.sounds = [
 			{
 				name: 'win',
 				audio: new Howl({
 					src: win,
 					loop: false,
+					preload: true,
 				}),
 			},
 			{
@@ -19,6 +20,8 @@ class AudioCore {
 				audio: new Howl({
 					src: bg,
 					loop: true,
+					preload: true,
+					autoplay: true,
 				}),
 			},
 			{
@@ -26,36 +29,23 @@ class AudioCore {
 				audio: new Howl({
 					src: lose,
 					loop: false,
+					preload: true,
 				}),
 			},
 		];
 		this.sound = null;
-		this.volume = 1;
+		this.volume = localStorage.getItem('volume')
+			? localStorage.getItem('volume')
+			: 1;
 		this.player = null;
-		this.fadeOutDur = 900;
+		this.fadeOutDur = 1500;
 		Howler.volume(this.volume);
 	}
 
 	watchVolume() {
-		const volumeDom = $('.volume');
-		const observ = new MutationObserver(mutations => {
-			console.log(mutations);
-			mutations.forEach(function(mutation) {
-				console.log(mutation);
-				if (mutation.type == 'attributes') {
-					console.log(mutation);
-				}
-			});
-		});
-
-		observ.observe =
-			(document.querySelector('.volume'),
-			{
-				attributes: true, //configure it to listen to attribute changes
-			});
 		setInterval(() => {
-			volumeDom.attr('data-volume', Math.random());
-		});
+			Howler.volume(localStorage.getItem('volume'));
+		}, 500);
 	}
 
 	play(name) {
@@ -65,12 +55,10 @@ class AudioCore {
 	}
 
 	stop() {
-		this.sound.audio.fade(this.volume, 0, this.fadeOutDur, this.player);
-		const timer = setTimeout(() => {
-			this.sound.audio.stop(this.player);
-			clearTimeout(timer);
-		}, this.fadeOutDur);
+		this.sound.audio.fade(this.volume, 0, 700, this.player, () =>
+			this.sound.audio.stop(this.player)
+		);
 	}
 }
 
-export default new AudioCore();
+export default AudioCore;

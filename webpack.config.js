@@ -5,7 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const isDEV = process.env.NODE_ENV === 'development' ? true : false;
+const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const isDEV = false;
 const optimization = () => {
 	const config = {
 		splitChunks: {
@@ -18,12 +19,15 @@ const optimization = () => {
 };
 require('babel-polyfill');
 const buildName = 'game_two';
-console.log(buildName);
+
 module.exports = {
 	watch: true,
 	mode: 'development',
 	entry: {
 		[buildName]: __dirname + `/src/${buildName}/js/index.js`,
+	},
+	optimization: {
+		minimize: true,
 	},
 	output: {
 		publicPath: '/',
@@ -34,6 +38,7 @@ module.exports = {
 		contentBase: path.join(__dirname, `dist`),
 		compress: true,
 		port: 3000,
+		hot: true,
 		overlay: true,
 	},
 	resolve: {
@@ -41,7 +46,6 @@ module.exports = {
 			'@': path.resolve(__dirname, 'src'),
 		},
 	},
-	optimization: optimization(),
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: `./src/${buildName}/index.html`,
@@ -52,6 +56,8 @@ module.exports = {
 			filename: `styles/index.css`,
 		}),
 		new VueLoaderPlugin(),
+		new OptimizeCssAssetsPlugin(),
+		new TerserPlugin(),
 	],
 	module: {
 		rules: [

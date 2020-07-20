@@ -72,7 +72,7 @@ export default {
       chatIcon: '.game__item-chat-icon'
     }
   },
-  mounted() {
+  created() {
     this.render();
     this.fakeAddScoreEnemy();
   },

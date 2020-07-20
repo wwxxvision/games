@@ -7,6 +7,7 @@ export default class Game {
 		this.initGameValue = initGameValue;
 		this.gameState = 'pause';
 		this.gameTime = 0;
+		this.AudioCore = new AudioCore();
 	}
 
 	factoryPlayers(type, name) {
@@ -34,7 +35,7 @@ export default class Game {
 		this.gameTime = time;
 		this.players.forEach(player => player.reset(this.initGameValue));
 		this.updateGameState('play');
-		AudioCore.play('bg', true);
+		this.AudioCore.play('bg');
 	}
 
 	checkIsWinnerMainPlayer() {
@@ -43,15 +44,15 @@ export default class Game {
 	}
 
 	finish(setWinner) {
-		AudioCore.stop();
+		this.AudioCore.stop();
 		this.updateGameState('finished');
 		setWinner(this.players);
 		const mainPlayerIsWinner = this.checkIsWinnerMainPlayer();
 
 		if (mainPlayerIsWinner) {
-			AudioCore.play('win');
+			this.AudioCore.play('win');
 		} else {
-			AudioCore.play('lose');
+			this.AudioCore.play('lose');
 		}
 	}
 }

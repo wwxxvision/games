@@ -1,7 +1,7 @@
 <template>
 		<div class="full_screen">
 			<Connection v-if="appIsLoading" />
-			<component  v-else :is="currentGame"></component>
+			<component v-else :is="currentGame"></component>
 		</div>
 </template>
 
@@ -18,11 +18,8 @@ export default {
 			appIsLoading: true
 		}
 	},
-	beforeMount() {
-		let self = this;
-		window.addEventListener('load', function () {
-			self.appIsLoading = false;
-		})
+	mounted() {
+		window.addEventListener('load', () => this.appIsLoading = false)
 	},
 	created() {
 		this.currentGame = this.$root._data.game;
