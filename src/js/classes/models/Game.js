@@ -34,8 +34,8 @@ export default class Game {
 	play(time) {
 		this.gameTime = time;
 		this.players.forEach(player => player.reset(this.initGameValue));
-		// this.updateGameState('play');
-		// this.AudioCore.play('bg');
+		this.updateGameState('play');
+		this.AudioCore.play('bg');
 	}
 
 	checkIsWinnerMainPlayer() {

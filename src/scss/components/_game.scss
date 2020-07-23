@@ -1,11 +1,10 @@
 @keyframes hide {
   from {
     visibility: visible;
-    opacity: .3;
   }
   to {
     top: 50%;
-    opacity: 1;
+    opacity: 0;
   }
 }
 
