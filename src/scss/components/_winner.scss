@@ -3,6 +3,9 @@
   .winner__player {
     font-size: 40px;
     font-family: map-get($fonts, 'Baloo');
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     .winner__score {
       align-items: baseline;
       .winner__value {

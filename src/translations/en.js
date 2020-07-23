@@ -6,6 +6,7 @@ const en = {
 	names: {
 		mainPlayer: 'You',
 		enemy: 'Partner',
+		standoff: 'Standoff',
 	},
 };
 

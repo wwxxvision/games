@@ -7,10 +7,10 @@
           'winner__value': true,
           'winner__value_type-winner': player.state === 'winner'
         }">{{ player.value }}</div>
-          <div v-if="player.state === 'winner'" class="winner_cup"></div>
+          <div v-if="player.state === 'winner' && !isDeadHeat" class="winner_cup"></div>
       </div>
       <div class="winner__name">
-        {{ player.name }}
+        {{  player.name }}
       </div>
     </div>
     </div>
@@ -22,6 +22,9 @@ export default {
   props: {
     players: {
       type: Array
+    },
+    isDeadHeat: {
+      type: Boolean
     }
   }
 }

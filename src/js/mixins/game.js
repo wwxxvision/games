@@ -41,6 +41,17 @@ export const gameMixin = {
 		gameState() {
 			return this.game.getGameState;
 		},
+		isDeadHeat() {
+			return this.game.players.every(player => player.state === 'winner');
+		},
+		winnerName() {
+			const winner = this.game.players.find(
+				player => player.state === 'winner'
+			);
+			if (winner) {
+				return winner.name;
+			}
+		},
 	},
 	watch: {
 		gameTime(time) {

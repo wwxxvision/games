@@ -34,13 +34,17 @@ export default class Game {
 	play(time) {
 		this.gameTime = time;
 		this.players.forEach(player => player.reset(this.initGameValue));
-		this.updateGameState('play');
-		this.AudioCore.play('bg');
+		// this.updateGameState('play');
+		// this.AudioCore.play('bg');
 	}
 
 	checkIsWinnerMainPlayer() {
 		const mainPlayer = this.players.find(player => player.type === 'player');
 		return mainPlayer.state === 'winner';
+	}
+
+	isDeadHeat() {
+		return this.players.every(player => player.state === 'winner');
 	}
 
 	finish(setWinner) {
@@ -49,10 +53,14 @@ export default class Game {
 		setWinner(this.players);
 		const mainPlayerIsWinner = this.checkIsWinnerMainPlayer();
 
-		if (mainPlayerIsWinner) {
-			this.AudioCore.play('win');
+		if (!this.isDeadHeat()) {
+			if (mainPlayerIsWinner) {
+				this.AudioCore.play('win');
+			} else {
+				this.AudioCore.play('lose');
+			}
 		} else {
-			this.AudioCore.play('lose');
+			this.AudioCore.play('win');
 		}
 	}
 }

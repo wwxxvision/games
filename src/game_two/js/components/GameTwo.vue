@@ -1,7 +1,7 @@
 <template>
 	<div class="game game-two">
-   <Modal v-if="gameState === 'finished'" :title="winnerName" :titleTheme="'blue'">
-      <Winner :players="game.players" />
+   <Modal v-if="gameState === 'finished'" :title="!isDeadHeat ? winnerName : $translate.t('names.standoff')" :titleTheme="'blue'">
+      <Winner :isDeadHeat="isDeadHeat" :players="game.players" />
       <template v-slot:footer>
         <Button @clicked="game.play(gameTime)" :title="$translate.t('button.playAgain')" />
       </template>
@@ -48,7 +48,7 @@ import Range from '@/js/components/Range.vue';
 import InputCustom from '@/js/components/InputCustom.vue';
 import Player from '@/js/classes/models/Player';
 import Modal from '@/js/components/Modal.vue';
-import Winner from './Winner.vue';
+import Winner from '@/js/components/Winner.vue';
 import Button from '@/js/components/Button.vue';
 import { Game } from '@/js/classes/models/';
 import { gameMixin } from '@/js/mixins/index';
@@ -137,11 +137,6 @@ export default {
           player.state = 'winner';
         }
       });
-      const deadHeat = this.game.players.every(player => player.state === 'winner');
-
-      if (deadHeat) {
-        this.game.players[Helpers.randomInteger(0, 1)].state = 'default';
-      }
     }
   }
 }

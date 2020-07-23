@@ -18,7 +18,7 @@ const optimization = () => {
 	}
 };
 require('babel-polyfill');
-const buildName = 'game_two';
+const buildName = 'game_three';
 
 module.exports = {
 	watch: true,
@@ -56,8 +56,8 @@ module.exports = {
 			filename: `styles/index.css`,
 		}),
 		new VueLoaderPlugin(),
-		new OptimizeCssAssetsPlugin(),
-		new TerserPlugin(),
+		// new OptimizeCssAssetsPlugin(),
+		// new TerserPlugin(),
 	],
 	module: {
 		rules: [

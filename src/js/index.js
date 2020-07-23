@@ -5,6 +5,16 @@ import './plugins';
 
 class Core {
 	async render(game) {
+		document.addEventListener(
+			'touchmove',
+			function(event) {
+				if (event.scale !== 1) {
+					event.preventDefault();
+				}
+			},
+			{ passive: false }
+		);
+
 		Vue.prototype.$translate = await Translator.initTranslations().catch(err =>
 			console.log(err)
 		);
