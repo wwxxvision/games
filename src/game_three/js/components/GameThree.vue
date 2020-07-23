@@ -29,25 +29,30 @@
 				class="game__block game__block_size-full_screen flex flex_justify_content_center flex_align_items_center"
 			>
 				<div
-					@click="ev => tapIcon(ev, player.type)"
+					@mousedown="ev => tapIcon(ev, player.type)"
+					@mouseup="disableTap"
 					ref="icon"
-					:class="`game__third-icon game__third-icon_type-${player.type}`"
-				></div>
+					:class="
+						`game__third-icon game__third-icon_type-${player.type} relative`
+					"
+				>
+					<div
+						:class="{
+							'absolute add-score-decor': true,
+							'add-score-decor_animate-hide': tap === player.type,
+						}"
+					>
+						<div>
+							+ 1
+						</div>
+					</div>
+				</div>
 			</div>
 			<div
 				class="game__block game__block_font-bold flex flex_justify_content_center text-align-center"
 			>
 				<div class="game__block relative">
 					<div>{{ player.name }}</div>
-					<div
-						v-if="iconSelect && iconSelect.type === player.type"
-						:class="{
-							'absolute add-score-decor': true,
-							'add-score-decor_animate-hide': iconSelect,
-						}"
-					>
-						+ 1
-					</div>
 					<InputCustom
 						type="text"
 						:readonly="true"
@@ -92,7 +97,7 @@ export default {
 		return {
 			game: null,
 			gameInitValue: 0,
-			isTap: false,
+			tap: false,
 			gameTime: 40, // in seconds,
 		};
 	},
@@ -101,26 +106,29 @@ export default {
 		// this.fakeAddScoreEnemy();
 	},
 	methods: {
-		animate() {
-			const icon = $('.game__third-icon.game__third-icon_type-player');
-			if (icon.hasClass('animate-back-drop')) {
-				icon.removeClass('animate-back-drop');
-			}
-			this.isTap = true;
-			icon.addClass('animate');
-			icon.on(
-				'transitionend MSTransitionEnd webkitTransitionEnd oTransitionEnd',
-				function() {
-					$(this).addClass('animate-back-drop');
-					$(this).removeClass('animate');
-					this.isTap = false;
-				}
-			);
-		},
 		tapIcon(ev, playerType) {
+			const icon = $('.game__third-icon.game__third-icon_type-player');
 			if (playerType === 'player') {
-				this.animate();
+				if (icon.hasClass('animate-back-drop')) {
+					icon.removeClass('animate-back-drop');
+				}
+				this.tap = playerType;
+				icon.addClass('animate');
+				this.addScore(playerType);
 			}
+		},
+		disableTap() {
+			const icon = $('.game__third-icon.game__third-icon_type-player');
+			this.tap = false;
+			icon.removeClass('animate');
+			icon.addClass('animate-back-drop');
+		},
+		addScore(playerType) {
+			this.game.players.find(player => {
+				if (player.type === playerType) {
+					player.setValue((player.value += 1));
+				}
+			});
 		},
 		render() {},
 

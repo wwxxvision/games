@@ -1,9 +1,11 @@
 @keyframes hide {
   from {
+    visibility: visible;
+    opacity: .3;
   }
   to {
     top: 50%;
-    opacity: 0;
+    opacity: 1;
   }
 }
 
@@ -66,22 +68,32 @@
       height: 160px;
       width: 130px;
       background-image: url('../assets/img/chat_icon_original.jpg');
-      background-size: cover;
+      background-size: contain;
       background-repeat: no-repeat;
       &.game__third-icon_type-enemy {
         opacity: .5;
+      }
+      .add-score-decor {
+        top: -70%;
+        left: 50%;
+        font-family: map-get($fonts, 'Baloo');
+        transform: translateX(-50%);
+        visibility: hidden;
+        color: map-get($colors, 'red');
+        &.add-score-decor_animate-hide {
+          animation: hide 0.2s ease-in;
+          animation-fill-mode: forwards;
+        }
       }
       &.game__third-icon_type-player {
         cursor: pointer;
         &.animate {
           transform: scale(1.2);
           transition-duration: 0.2s;
-          opacity: .5;
         }
         &.animate-back-drop {
           transform: scale(1);
           transition-duration: 0.2s;
-          opacity: 1;
         }
       }
     }
@@ -91,8 +103,11 @@
       transform: translateX(-50%);
       color: map-get($colors, 'red');
       &.add-score-decor_animate-hide {
-        animation: hide 0.4s ease-in;
+        animation: hide 0.7s ease-in;
         animation-fill-mode: forwards;
+      }
+      div {
+        font-size: 25px;
       }
     }
     &.game__block_size-full_screen {
@@ -108,6 +123,12 @@
 
 @media (max-width: map-get($break_points, 'tablet_width')) {
   .game {
+    .game__block {
+      .game__third-icon {
+        width: 100px;
+        height: 100px;
+      }
+    }
     .game__block_view-desktop-mobile {
       display: none;
     }
