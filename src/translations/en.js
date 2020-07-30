@@ -3,11 +3,16 @@ const en = {
 	button: {
 		playAgain: 'PLAY AGAIN',
 	},
-	names: {
+	titles: {
 		mainPlayer: 'You',
 		enemy: 'Partner',
 		standoff: 'Standoff',
+		vote: 'Vote',
+		guessPerson: 'Choose character',
 	},
+	placeholders: {
+		writeCharacter: 'Write character'
+	}
 };
 
 export default en;

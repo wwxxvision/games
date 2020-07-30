@@ -2,12 +2,13 @@ import Player from './Player';
 import { AudioCore } from '@/js/classes/core';
 
 export default class Game {
-	constructor(initGameValue) {
+	constructor(initGameValue, backgroundMusic) {
 		this.players = [];
 		this.initGameValue = initGameValue;
 		this.gameState = 'pause';
 		this.gameTime = 0;
 		this.AudioCore = new AudioCore();
+		this.backgroundMusic = backgroundMusic ? backgroundMusic : 'bg';
 	}
 
 	factoryPlayers(type, name) {
@@ -29,13 +30,21 @@ export default class Game {
 
 	updateGameState(state) {
 		this.gameState = state;
+
+		// switch (state) {
+		// 	case 'play':
+		// 		this.play(this.gameTime);
+		// 		break;
+		// 	case 'finish':
+		// 		this.finish(() => null);
+		// }
 	}
 
 	play(time) {
 		this.gameTime = time;
 		this.players.forEach(player => player.reset(this.initGameValue));
 		this.updateGameState('play');
-		this.AudioCore.play('bg');
+		this.AudioCore.play(this.backgroundMusic);
 	}
 
 	checkIsWinnerMainPlayer() {
@@ -47,10 +56,10 @@ export default class Game {
 		return this.players.every(player => player.state === 'winner');
 	}
 
-	finish(setWinner) {
+	finish() {
 		this.AudioCore.stop();
-		this.updateGameState('finished');
-		setWinner(this.players);
+		// this.updateGameState('finished');
+		// setWinner(this.players);
 		const mainPlayerIsWinner = this.checkIsWinnerMainPlayer();
 
 		if (!this.isDeadHeat()) {

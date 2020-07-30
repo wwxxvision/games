@@ -10,8 +10,5 @@
     "sourceType": "module",
     "ecmaVersion": 2020
   },
-  "plugins": ["prettier"],
-  "rules": {
-    "prettier/prettier": "error"
-  }
+  "plugins": ["prettier"]
 }

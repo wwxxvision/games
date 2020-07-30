@@ -3,13 +3,43 @@ import { Helpers } from '@/js/classes/core';
 
 export const gameMixin = {
 	created() {
-		// console.log(this.$root);
-		this.game = new Game(this.gameInitValue, this.$sound);
-		this.game.factoryPlayers('player', this.$translate.t('names.mainPlayer'));
-		this.game.factoryPlayers('enemy', this.$translate.t('names.enemy'));
+		this.game = new Game(
+			this.gameInitValue,
+			this.bgMusic ? this.bgMusic : false
+		);
+		this.game.factoryPlayers('player', this.$translate.t('titles.mainPlayer'));
+		this.game.factoryPlayers('enemy', this.$translate.t('titles.enemy'));
 	},
 	mounted() {
-		this.game.play(this.gameTime);
+		this.$socket.on('gameUpdated', data => {
+			const { state } = data;
+
+			switch (state) {
+				case 'play':
+					this.game.play(this.gameTime);
+					break;
+				case 'finished':
+					this.game.finish();
+					break;
+			}
+			this.game.updateGameState(state);
+		});
+		// this.game.play(this.gameTime);
+		// this.$socket.on('on-game', state => {
+		// 	this.game.finish(players => {
+		// 		const winner = players.find(player => player.type === 'player');
+		// 		winner.state = 'winner';
+		// 	});
+		// 	console.log(state);
+		// 	this.game.updateGameState(state);
+		// 	switch (state) {
+		// 		case 'play':
+		// 			this.game.play(this.gameTime);
+		// 			break;
+		// 		case 'finish':
+		// 			this.game.finish(() => null);
+		// 	}
+		// });
 	},
 	methods: {
 		getScreenDir(playerType) {
@@ -57,7 +87,7 @@ export const gameMixin = {
 		gameTime(time) {
 			this.game.updateGameTime(time);
 
-			if (time === 0) {
+			if (time === 0 && !this.controllTimer) {
 				this.game.finish(this.getWinner);
 			}
 		},

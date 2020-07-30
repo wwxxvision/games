@@ -1,5 +1,6 @@
 import win from '@/assets/sounds/win.mp3';
 import bg from '@/assets/sounds/bg.mp3';
+import bg_2 from '@/assets/sounds/bg_2.mp3';
 import lose from '@/assets/sounds/lose.mp3';
 import { Howl, Howler } from 'howler';
 
@@ -21,7 +22,16 @@ class AudioCore {
 					src: bg,
 					loop: true,
 					preload: true,
-					autoplay: true,
+					autoplay: false,
+				}),
+			},
+			{
+				name: 'bg_2',
+				audio: new Howl({
+					src: bg_2,
+					loop: true,
+					preload: true,
+					autoplay: false,
 				}),
 			},
 			{
@@ -55,9 +65,10 @@ class AudioCore {
 	}
 
 	stop() {
-		this.sound.audio.fade(this.volume, 0, 700, this.player, () =>
-			this.sound.audio.stop(this.player)
-		);
+		if (this.sound)
+			this.sound.audio.fade(this.volume, 0, 700, this.player, () =>
+				this.sound.audio.stop(this.player)
+			);
 	}
 }
 

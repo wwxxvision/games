@@ -1,0 +1,53 @@
+.pick {
+  flex-wrap: wrap;
+  .pick__item {
+    height: 218px;
+    width: 218px;
+    background: map-get($colors, 'white');
+    box-shadow: 0px 2px 15px 2px rgba(0, 0, 0, 0.13);
+    border-radius: 10px;
+    cursor: pointer;
+    opacity: .5;
+    @include flex_centered(column);
+    .pick__title {
+      font-size: 24px;
+      font-family: map-get($fonts, 'Roboto');
+    }
+    &.pick__item_state-active {
+      opacity: 1;
+      transition-duration: 0.5;
+    }
+    &:nth-child(2) {
+      margin-left: 30px;
+    }
+    .pick__icon {
+      height: 120px;
+      width: 120px;
+      &.pick__icon_type-player {
+        background-image: url('../assets/img/pick_1.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+      &.pick__icon_type-enemy {
+        background-image: url('../assets/img/pick_2.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+    }
+  }
+}
+
+@media (max-width: map-get($break_points, 'phone_width')) {
+  .pick {
+    flex-direction: column;
+
+    .pick__item {
+      &:nth-child(2) {
+        margin-left: 0;
+        margin-top: 30px;
+      }
+    }
+  }
+}

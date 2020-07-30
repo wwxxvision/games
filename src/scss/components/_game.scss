@@ -73,15 +73,14 @@
         opacity: .5;
       }
       .add-score-decor {
-        top: -70%;
+        top: -20%;
         left: 50%;
         font-family: map-get($fonts, 'Baloo');
         transform: translateX(-50%);
         visibility: hidden;
         color: map-get($colors, 'red');
         &.add-score-decor_animate-hide {
-          animation: hide 0.2s ease-in;
-          animation-fill-mode: forwards;
+          visibility: visible;
         }
       }
       &.game__third-icon_type-player {
@@ -123,9 +122,10 @@
 @media (max-width: map-get($break_points, 'tablet_width')) {
   .game {
     .game__block {
+      margin-top: 5px;
       .game__third-icon {
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
       }
     }
     .game__block_view-desktop-mobile {

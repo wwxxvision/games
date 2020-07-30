@@ -2,7 +2,7 @@
 	<div class="game game-two">
 		<Modal
 			v-if="gameState === 'finished'"
-			:title="!isDeadHeat ? winnerName : $translate.t('names.standoff')"
+			:title="!isDeadHeat ? winnerName : $translate.t('titles.standoff')"
 			:titleTheme="'blue'"
 		>
 			<Winner :isDeadHeat="isDeadHeat" :players="game.players" />

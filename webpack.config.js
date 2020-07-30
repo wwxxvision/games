@@ -6,6 +6,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const PreloadWebpackPlugin = require('preload-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const isDEV = false;
 const optimization = () => {
 	const config = {
@@ -18,7 +19,7 @@ const optimization = () => {
 	}
 };
 require('babel-polyfill');
-const buildName = 'game_three';
+const buildName = 'game_four';
 
 module.exports = {
 	watch: true,
@@ -27,7 +28,7 @@ module.exports = {
 		[buildName]: __dirname + `/src/${buildName}/js/index.js`,
 	},
 	optimization: {
-		minimize: true,
+		minimizer: [new UglifyJsPlugin()],
 	},
 	output: {
 		publicPath: '/',
