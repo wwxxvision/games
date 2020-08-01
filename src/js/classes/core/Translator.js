@@ -16,6 +16,7 @@ class Translator {
 								system: {
 									connecting: 'Waiting partner',
 									waitingStartGame: 'Waiting start game',
+									disconnected: 'Disconnected',
 								},
 								button: {
 									playAgain: 'PLAY AGAIN',

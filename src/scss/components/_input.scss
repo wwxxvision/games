@@ -1,8 +1,10 @@
 .input {
   height: 54px;
+   width: 100%;
   font-family: map-get($fonts, 'Roboto');
   .input__element {
     height: 100%;
+    width: 100%;
     padding: 0 16px;
     border-radius: 2px;
     font-size: 16px;

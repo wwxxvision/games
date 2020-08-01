@@ -1,7 +1,7 @@
 <template>
 	<div class="game game-one">
-		<Modal v-if="gameState === 'finished'" :title="serverValue" :titleTheme="'blue'">
-			<Winner v-if="!enemyIsDisconnected" :enemyIsDisconnected="enemyIsDisconnected" :isDeadHeat="isDeadHeat" :players="game.players" />
+		<Modal v-if="gameState === 'finished'" :title="title" :titleTheme="'blue'">
+			<Winner :isDeadHeat="isDeadHeat" :players="game.players" />
 			<template v-if="!enemyIsDisconnected" v-slot:footer>
 				<Button @clicked="game.play(gameTime)" :title="$translate.t('button.playAgain')" />
 			</template>
@@ -9,7 +9,7 @@
 		<Progress
 			:gameName="'game-one'"
 			:gameState="game.getGameState"
-			:timeInSec="15"
+			:timeInSec="gameTime"
 			@getTimerTime="getTimerTime"
 		/>
 		<GameScreen
@@ -23,6 +23,8 @@
 			</div>
 			<div class="game__block flex flex_space-between flex_wrap">
 				<InputCustom type="text" :readonly="true" :text-centered="true" :initValue="player.value" />
+			</div>
+			<div class="game__block flex flex_space-between flex_wrap">
 				<InputCustom type="text" :readonly="true" :text-centered="true" :initValue="player.name" />
 			</div>
 			<div class="game__block">
@@ -71,6 +73,12 @@ export default {
 			gameInitValue: 1,
 			gameTime: 15, // in seconds
 		};
+	},
+	computed: {
+		title() {
+			console.log(!this.enemyIsDisconnected  ? this.serverValue : this.$translate.t('system.disconnected'))
+			return !this.enemyIsDisconnected  ? this.serverValue : this.$translate.t('system.disconnected');
+		}
 	},
 	mounted() {
 		this.$socket.on('partner-change', (value) => {
