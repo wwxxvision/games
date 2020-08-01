@@ -110,6 +110,10 @@ export default {
 			iconsIsRender: false,
 			iconSelect: false,
 			chatIcon: '.game__item-chat-icon',
+			coordinatesIcons: {
+				x:0,
+				y:0
+			}
 		};
 	},
 	mounted() {
@@ -117,10 +121,20 @@ export default {
 			this.iconSelect = false;
 			this.iconsIsRender = true;
 			this.setIconPos(x, y);
+			this.coordinatesIcons = {
+				x,
+				y
+			}
 		});
 
 		this.$socket.on('partner-click', () => {
+			this.selectIcon('enemy');
 			this.addScore('enemy');
+		});
+
+		this.$socket.on('success', () =>  {
+			this.addScore('player')
+			this.selectIcon('player');
 		});
 	},
 	computed: {
@@ -154,9 +168,9 @@ export default {
 			};
 		},
 		playerTap() {
-			if (!this.iconSelect)
-			this.addScore('player');
-			this.$socket.emit('player-click');
+			if (!this.iconSelect) {
+				this.$socket.emit('player-click', this.coordinatesIcons);
+			}
 		},
 		addScore(playerType) {
 			this.game.players.find(player => {
@@ -164,8 +178,6 @@ export default {
 					player.setValue((player.value += 1));
 				}
 			});
-
-			this.selectIcon(playerType);
 		},
 		getTimerTime(time) {
 			const timeIsLeft = time === 0;
