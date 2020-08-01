@@ -33,8 +33,16 @@ class Translator {
 									vote: 'Vote',
 									guessPerson: 'Choose character',
 								},
+								picks: {
+									character: `I'm Character`,
+									guess: `I'm Guess`,
+								},
 								placeholders: {
 									enter: 'Enter',
+								},
+								waitings: {
+									waitChooseCharacter:
+										'Your partner chooses a character, please wait',
 								},
 							},
 						},

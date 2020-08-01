@@ -1,12 +1,12 @@
 <template>
 	<div class="pick flex">
-		<div @click="picking('player')" :class="getActiveClass('player')">
+		<div @click="makePick('character')" :class="getActiveClass('character')">
 			<div class="pick__icon pick__icon_type-player"></div>
-			<div class="pick__title">{{ $translate.t('titles.mainPlayer') }}</div>
+			<div class="pick__title">{{ $translate.t('picks.character') }}</div>
 		</div>
-		<div @click="picking('enemy')" :class="getActiveClass('enemy')">
+		<div @click="makePick('guess')" :class="getActiveClass('guess')">
 			<div class="pick__icon pick__icon_type-enemy"></div>
-			<div class="pick__title">{{ $translate.t('titles.enemy') }}</div>
+			<div class="pick__title">{{ $translate.t('picks.guess') }}</div>
 		</div>
 	</div>
 </template>
@@ -19,12 +19,10 @@ export default {
 		};
 	},
 	methods: {
-		picking(type) {
-			if (this.pick === type) {
-				this.pick === null;
-			} else {
-				this.pick = type;
-			}
+		makePick(type) {
+			this.pick = type;
+
+			this.$emit('picking', this.pick);
 		},
 
 		getActiveClass(type) {

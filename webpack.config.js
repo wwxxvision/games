@@ -21,7 +21,7 @@ const optimization = () => {
 	return config;
 };
 require('babel-polyfill');
-const buildName = 'game_three';
+const buildName = 'game_four';
 
 module.exports = {
 	watch: true,
