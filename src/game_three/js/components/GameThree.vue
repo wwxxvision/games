@@ -2,23 +2,31 @@
 	<div class="game game-three">
 		<Modal
 			v-if="gameState === 'finished'"
-			:title="!isDeadHeat ? winnerName : $translate.t('titles.standoff')"
+			:title="title"
 			:titleTheme="'blue'"
 		>
 			<Winner :isDeadHeat="isDeadHeat" :players="game.players" />
-			<template v-slot:footer>
+			<template v-if="!enemyIsDisconnected" v-slot:footer>
 				<Button
-					@clicked="game.play(gameTime)"
+					@clicked="playAgain"
 					:title="$translate.t('button.playAgain')"
 				/>
 			</template>
 		</Modal>
+
+		<Modal v-if="gameState === 'acceptGame'" :title="$translate.t('system.acceptGame')" :titleTheme="'blue'">
+			<template v-slot:footer>
+				<Button @clicked="acceptGame" :title="$translate.t('button.yes')" />
+			</template>
+		</Modal>
+
 		<Progress
 			:gameName="'game-one'"
 			:gameState="game.getGameState"
-			:timeInSec="20"
+			:timeInSec="gameTime"
 			@getTimerTime="getTimerTime"
 		/>
+
 		<GameScreen
 			:gameName="'game-one'"
 			v-for="(player, index) in game.players"
@@ -29,10 +37,10 @@
 				class="game__block game__block_size-full_screen flex flex_justify_content_center flex_align_items_center"
 			>
 				<div
-					@mousedown="ev => tapIcon(ev, player.type)"
-					@mouseup="disableTap"
-					@touchstart="ev => tapIcon(ev, player.type)"
-					@touchend="disableTap"
+					@mousedown="tapIcon"
+					@mouseup="disableTap(player.type)"
+					@touchstart="tapIcon"
+					@touchend="disableTap(player.type)"
 					ref="icon"
 					:class="
 						`game__third-icon game__third-icon_type-${player.type} relative`
@@ -101,33 +109,40 @@ export default {
 			bgMusic: 'bg_2',
 		};
 	},
+	computed: {
+		title() {
+			if (this.enemyIsDisconnected) {
+				return this.$translate.t('system.disconnected');
+			}
+			else {
+				return !this.isDeadHeat ? this.winnerName : this.$translate.t('titles.standoff')
+			}
+		}
+	},
+	mounted() {
+		this.$socket.on('partner-click', () => {
+			this.addScore('enemy');
+			this.animateIcon('enemy');
+			setTimeout(() => this.disableTap('enemy'), 300);
+		});
+	},
 	methods: {
-		mounted() {
-			window.addEventListener('load', function() {
-				setTimeout(function() {
-					window.scrollTo(0, 1);
-				}, 0);
-			});
-			setTimeout(timer => {
-				this.addScore('enemy');
-				this.iconSelect = {
-					type: 'enemy',
-				};
-			}, 2000);
-		},
 		tapIcon(ev, playerType) {
-			const icon = $('.game__third-icon_type-player');
+			this.addScore('player')
+			this.animateIcon('player');
+			this.$socket.emit('player-click');
+		},
+		animateIcon(playerType) {
+			const icon = $(`.game__third-icon_type-${playerType}`);
 			if (icon.hasClass('animate-back-drop')) {
 				icon.removeClass('animate-back-drop');
 			}
-			if (playerType === 'player') {
-				icon.addClass('animate');
-				this.tap = playerType;
-				this.addScore(playerType);
-			}
+
+			icon.addClass('animate');
+			this.tap = playerType;
 		},
-		disableTap() {
-			const icon = $('.game__third-icon_type-player');
+		disableTap(playerType) {
+			const icon = $(`.game__third-icon_type-${playerType}`);
 			icon.removeClass('animate');
 			icon.addClass('animate-back-drop');
 			this.tap = false;
@@ -139,15 +154,13 @@ export default {
 				}
 			});
 		},
-		getWinner() {
-			const playerValues = this.game.players.map(player => player.value);
-			const maxValue = Math.max.apply(null, playerValues);
-			this.game.players.find(player => {
-				if (player.value === maxValue) {
-					player.state = 'winner';
-				}
-			});
-		},
+		getTimerTime(time) {
+			const timeIsLeft = time === 0;
+			const playerValue  = this.game.players.find(player => player.type === 'player').value;
+			if (timeIsLeft) {
+				this.$socket.emit('finish', playerValue);
+			}
+		}
 	},
 };
 </script>

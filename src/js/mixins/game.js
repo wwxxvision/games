@@ -16,12 +16,16 @@ export const gameMixin = {
 			this.game.play(this.gameTime);
 		});
 
-		this.$socket.on('win', () => {
+		this.$socket.on('win', (data) => {
 			this.game.players.find((player) => {
 				if (player.type === 'player') {
 					player.state = 'winner';
 				}
 			});
+
+			Object.keys(data).forEach((type) =>
+				this.updatePlayerValue(type, data[type])
+			);
 			this.game.finish();
 		});
 
@@ -36,12 +40,16 @@ export const gameMixin = {
 			if (this.getGameState !== 'finished') this.game.finish();
 		});
 
-		this.$socket.on('lose', () => {
+		this.$socket.on('lose', (data) => {
 			this.game.players.find((player) => {
 				if (player.type === 'enemy') {
 					player.state = 'winner';
 				}
 			});
+
+			Object.keys(data).forEach((type) =>
+				this.updatePlayerValue(type, data[type])
+			);
 			this.game.finish();
 		});
 
@@ -49,11 +57,21 @@ export const gameMixin = {
 			this.game.updateGameState('acceptGame');
 		});
 
-		this.$socket.on('standoff', () => {
+		this.$socket.on('standoff', (data) => {
+			Object.keys(data).forEach((type) =>
+				this.updatePlayerValue(type, data[type])
+			);
 			this.game.finish();
 		});
 	},
 	methods: {
+		updatePlayerValue(type, value) {
+			this.game.players.find((player) => {
+				if (player.type === type) {
+					player.setValue(value);
+				}
+			});
+		},
 		playAgain() {
 			this.$store.commit('updateAppLoading', {
 				text: this.$translate.t('system.pendingConfirm'),
