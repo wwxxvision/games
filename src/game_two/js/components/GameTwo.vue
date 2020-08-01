@@ -2,20 +2,27 @@
 	<div class="game game-two">
 		<Modal
 			v-if="gameState === 'finished'"
-			:title="!isDeadHeat ? winnerName : $translate.t('titles.standoff')"
+			:title="title"
 			:titleTheme="'blue'"
 		>
 			<Winner :isDeadHeat="isDeadHeat" :players="game.players" />
-			<template v-slot:footer>
+			<template  v-if="!enemyIsDisconnected" v-slot:footer>
 				<Button
-					@clicked="game.play(gameTime)"
+				 	@clicked="playAgain"
 					:title="$translate.t('button.playAgain')"
 				/>
 			</template>
 		</Modal>
+
+			<Modal v-if="gameState === 'acceptGame'" :title="$translate.t('system.acceptGame')" :titleTheme="'blue'">
+			<template v-slot:footer>
+				<Button @clicked="acceptGame" :title="$translate.t('button.yes')" />
+			</template>
+		</Modal>
+
 		<div
-			v-if="gameState === 'play'"
-			@click="selectIcon"
+			v-if="gameState === 'play' && iconsIsRender"
+			@click="playerTap"
 			:class="{
 				'game__item-chat-icon': true,
 				'game__item-chat-icon_state-winner':
@@ -30,7 +37,7 @@
 		<Progress
 			:gameName="'game-two'"
 			:gameState="game.getGameState"
-			:timeInSec="40"
+			:timeInSec="gameTime"
 			@getTimerTime="getTimerTime"
 		/>
 		<GameScreen
@@ -100,17 +107,21 @@ export default {
 			game: null,
 			gameInitValue: 0,
 			gameTime: 40, // in seconds,
-			serverIconPos: {
-				x: Helpers.randomInteger(1, 70),
-				y: Helpers.randomInteger(1, 70),
-			},
+			iconsIsRender: false,
 			iconSelect: false,
 			chatIcon: '.game__item-chat-icon',
 		};
 	},
-	created() {
-		this.render();
-		this.fakeAddScoreEnemy();
+	mounted() {
+		this.$socket.on('new-icon', ({x, y}) => {
+			this.iconSelect = false;
+			this.iconsIsRender = true;
+			this.setIconPos(x, y);
+		});
+
+		this.$socket.on('partner-click', () => {
+			this.addScore('enemy');
+		});
 	},
 	computed: {
 		winnerName() {
@@ -121,40 +132,31 @@ export default {
 				return winner.name;
 			}
 		},
+		title() {
+			if (this.enemyIsDisconnected) {
+				return this.$translate.t('system.disconnected');
+			}
+			else {
+				return !this.isDeadHeat ? this.winnerName : this.$translate.t('titles.standoff')
+			}
+		}
 	},
 	methods: {
-		async fakeAddScoreEnemy() {
-			setTimeout(timer => {
-				if (!this.iconSelect) {
-					this.addScore('enemy');
-					this.iconSelect = {
-						type: 'enemy',
-					};
-				}
-			}, 2000);
-		},
-		reCalculateIconPos() {
-			this.serverIconPos = {
-				x: Helpers.randomInteger(1, 70),
-				y: Helpers.randomInteger(1, 70),
-			};
-		},
-		render() {
-			this.reCalculateIconPos();
-			this.setIconPos();
-			this.iconSelect = false;
-		},
-		setIconPos() {
+		setIconPos(x, y) {
 			$(this.chatIcon).css({
-				top: this.serverIconPos.y + '%',
-				left: this.serverIconPos.x + '%',
+				top: x + '%',
+				left: y + '%',
 			});
 		},
-		selectIcon() {
-			if (!this.iconSelect) this.addScore('player');
+		selectIcon(type) {
 			this.iconSelect = {
-				type: 'player',
+				type,
 			};
+		},
+		playerTap() {
+			if (!this.iconSelect)
+			this.addScore('player');
+			this.$socket.emit('player-click');
 		},
 		addScore(playerType) {
 			this.game.players.find(player => {
@@ -163,17 +165,15 @@ export default {
 				}
 			});
 
-			setTimeout(() => this.render(), 300);
+			this.selectIcon(playerType);
 		},
-		getWinner() {
-			const playerValues = this.game.players.map(player => player.value);
-			const maxValue = Math.max.apply(null, playerValues);
-			this.game.players.find(player => {
-				if (player.value === maxValue) {
-					player.state = 'winner';
-				}
-			});
-		},
+		getTimerTime(time) {
+			const timeIsLeft = time === 0;
+			const playerValue  = this.game.players.find(player => player.type === 'player').value;
+			if (timeIsLeft) {
+				this.$socket.emit('finish', playerValue);
+			}
+		}
 	},
 };
 </script>
