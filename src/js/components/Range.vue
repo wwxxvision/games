@@ -1,6 +1,6 @@
 <template>
 	<div class="range">
-		<input v-model="value" :disabled="disabled" :min="1" :step="1" :max="1000" class="range__item" type="range" />
+		<input v-model="value" @input="updated" :disabled="disabled" :min="1" :step="1" :max="1000" class="range__item" type="range" />
 	</div>
 </template>
 
@@ -10,7 +10,7 @@ import $ from 'jquery';
 export default {
 	data() {
 		return {
-			value: 0,
+			value: 1,
 		};
 	},
 	props: {
@@ -24,10 +24,12 @@ export default {
 			type: String
 		}
 	},
+	methods: {
+		updated() {
+			this.$emit('updateValues', this.playerType, this.value);
+		}
+	},
 	watch: {
-		value(value) {
-			this.$emit('updateValues', this.playerType, value);
-		},
 		initValue(value) {
 			this.value = value;
 		}

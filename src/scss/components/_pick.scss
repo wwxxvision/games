@@ -8,6 +8,9 @@
     border-radius: 10px;
     cursor: pointer;
     opacity: .5;
+    &:hover {
+      opacity: 1;
+    }
     @include flex_centered(column);
     .pick__title {
       font-size: 24px;

@@ -13,7 +13,7 @@ export default class Game {
 
 	factoryPlayers(type, name) {
 		this.players.push(new Player(type, name));
-		this.players.forEach(player => player.setValue(this.initGameValue));
+		this.players.forEach((player) => player.setValue(this.initGameValue));
 	}
 
 	get getGameTime() {
@@ -30,36 +30,28 @@ export default class Game {
 
 	updateGameState(state) {
 		this.gameState = state;
-
-		// switch (state) {
-		// 	case 'play':
-		// 		this.play(this.gameTime);
-		// 		break;
-		// 	case 'finish':
-		// 		this.finish(() => null);
-		// }
 	}
 
 	play(time) {
 		this.gameTime = time;
-		this.players.forEach(player => player.reset(this.initGameValue));
+		this.players.forEach((player) => player.reset(this.initGameValue));
 		this.updateGameState('play');
 		this.AudioCore.play(this.backgroundMusic);
 	}
 
 	checkIsWinnerMainPlayer() {
-		const mainPlayer = this.players.find(player => player.type === 'player');
+		const mainPlayer = this.players.find((player) => player.type === 'player');
 		return mainPlayer.state === 'winner';
 	}
 
 	isDeadHeat() {
-		return this.players.every(player => player.state === 'winner');
+		return this.players.every((player) => player.state === 'winner');
 	}
 
 	finish() {
 		this.AudioCore.stop();
-		// this.updateGameState('finished');
-		// setWinner(this.players);
+		this.updateGameState('finished');
+
 		const mainPlayerIsWinner = this.checkIsWinnerMainPlayer();
 
 		if (!this.isDeadHeat()) {

@@ -104,7 +104,6 @@ export default {
 			}, 1000);
 		},
 		hardReset() {
-			console.log(true)
 			this.reset();
 			this.start();
 		},
@@ -123,6 +122,10 @@ export default {
 				case 'play':
 					this.reset();
 					this.start();
+					break;
+				case 'finished':
+					this.reset();
+					this.indicator = 0;
 					break;
 			}
 		},

@@ -42,6 +42,19 @@
 				/>
 			</template>
 		</Modal> -->
+			<Modal
+				v-if="gameState === 'finished'"
+				:title="!isDeadHeat ? winnerName : $translate.t('titles.standoff')"
+				:titleTheme="'blue'"
+			>
+			<Winner :isDeadHeat="isDeadHeat" :players="game.players" />
+			<template v-slot:footer>
+				<Button
+					@clicked="game.play(gameTime)"
+					:title="$translate.t('button.playAgain')"
+				/>
+			</template>
+		</Modal>
 		<Progress
 			ref="progress"
 			:gameName="'game-four'"
@@ -50,55 +63,35 @@
 			@getTimerTime="getTimerTime"
 		/>
 		<div
+			v-if="game.getGameState === 'play'"
 			class="flex flex_justify_content_center flex_align-center  full_screen"
 		>
 			<Pick />
 		</div>
-		<!-- <GameScreen
-			:gameName="'game-one'"
-			v-for="(player, index) in game.players"
-			:key="index"
-			:dir="getScreenDir(player.type)"
-		>
-			<div
-				class="game__block game__block_size-full_screen flex flex_justify_content_center flex_align_items_center"
-			>
-				<div
-					@mousedown="ev => tapIcon(ev, player.type)"
-					@mouseup="disableTap"
-					@touchstart="ev => tapIcon(ev, player.type)"
-					@touchend="disableTap"
-					ref="icon"
-					:class="
-						`game__third-icon game__third-icon_type-${player.type} relative`
-					"
-				>
-					<div
-						v-if="tap === player.type"
-						class="absolute add-score-decor add-score-decor_animate-hide"
-					>
-						<div>
-							+ 1
-						</div>
+
+		<div v-if="game.getGameState === 'guessing' " class="flex flex_justify_content_center flex_align-center flex_direction_column  full_screen">
+			<div class="game__message">"Title"</div>
+			<div class="game__block">
+				<InputCustom  :maxlength="40" type="text" :placeholder="$translate.t('placeholders.enter')" initValue="" />
+			</div>
+			<div class="game__block">
+				<Button theme="red" :title="$translate.t('button.confirm')" />
+			</div>
+		</div>
+
+<!--
+		<div class="game__choose-answer flex flex_justify_content_center flex_align-center flex_direction_column  full_screen">
+			<div class="game__message">{{ message }}</div>
+				<div class="game__block flex flex_wrap">
+					<div class="game__button">
+						<Button theme="red" :title="$translate.t('button.yes')" />
+					</div>
+					<div  class="game__button">
+						<Button theme="red" :title="$translate.t('button.no')" />
 					</div>
 				</div>
-			</div>
-			<div
-				class="game__block game__block_font-bold flex flex_justify_content_center text-align-center"
-			>
-				<div class="game__block relative">
-					<div>{{ player.name }}</div>
-					<InputCustom
-						type="text"
-						:readonly="true"
-						:text-centered="true"
-						:initValue="player.value"
-						placeholder="0"
-						:theme="'input__element_theme-biege-red'"
-					/>
-				</div>
-			</div>
-		</GameScreen> -->
+		</div> -->
+
 	</div>
 </template>;
 
@@ -134,133 +127,88 @@ export default {
 		return {
 			game: null,
 			gameInitValue: 0,
-			gameTime: 10, // in seconds,
-			time: {
-				vote: 10,
-				guess: 20,
-				createQuestion: 40,
-			},
+			gameTime: 10,
 			bgMusic: 'bg',
-			gameLogic: null,
-			state: 'vote',
 			controllTimer: true,
-			choose: null,
-			chooseEnemy: 'player',
-			interviewer: null,
-			guessPerson: 'Jhon Cena',
-			countQuestions: 7,
+			pick: false
 		};
 	},
-	created() {
-		// this.$nextTick(() => this.game.updateGameState('vote')); //running after call from mixin
+	computed: {
 	},
-	mounted() {},
 	methods: {
-		getWinner(players) {
-			players.find(player => {
-				if (player.type !== this.interviewer) player.state = 'winner';
-			});
-		},
-		setChoose(playerType) {
-			this.choose = playerType;
-
-			if (chooseEnemy) {
-				this.vote(this.choose, this.chooseEnemy);
-			}
-		},
-		getGameStateAfterVote() {
-			if (this.interviewer === 'player') {
-				return 'guess-person';
-			}
-
-			return 'waiting-person';
-		},
-		getGameStateAfterGuessPerson() {
-			if (this.interviewer === 'player') {
-				return 'create-question';
-			}
-
-			return 'waiting-question';
-		},
-		vote(choosePlayer, chooseEnemy) {
-			const chosesIsNotEmpty = choosePlayer && chooseEnemy;
-			const choosesIsEqual = chooseEnemy === choosePlayer;
-			const getRandomChoose = [choosePlayer, chooseEnemy][
-				Helpers.randomInteger(0, 1)
-			];
-
-			if (choosesIsEqual && chosesIsNotEmpty) {
-				this.interviewer = choosePlayer;
-				this.game.updateGameState(this.getGameStateAfterVote());
-				return;
-			}
-
-			//Fake choose server
-			this.interviewer = getRandomChoose;
-			this.game.updateGameState(this.getGameStateAfterVote());
-		},
-		updateTimeByGameState() {
-			switch (this.game.getGameState) {
-				case 'vote':
-					this.gameTime = this.time.vote;
-					break;
-				case 'guess-person':
-				case 'waiting-person':
-					this.gameTime = this.time.guess;
-					break;
-				case 'create-question':
-				case 'waiting-question':
-					this.gameTime = this.time.createQuestion;
-					break;
-			}
-		},
 		hardResetProgress() {
 			this.$refs.progress.hardReset();
 		},
-	},
-	watch: {
-		chooseEnemy(chooseEnemy) {
-			if (this.choose) {
-				this.vote(this.choose, chooseEnemy);
+		emitEventAfterTimeLeft() {
+			switch(this.game.getGameState) {
+				case 'play':
+					this.$socket.emit('pick', { id: 'Test id', pick: this.pick });
+
+					this.getMainPlayer.state = 'interviewer' || 'guessing';
+					if (this.getMainPlayer.state === 'interviewer') {
+						this.game.updateGameState('guessing');
+					}
+					else {
+						this.game.updateGameState('waiting');
+					}
+					break;
+				case 'guessing':
+					if (this.getMainPlayer.state === 'interviewer') {
+						this.game.updateGameState('waiting');
+					}
+					else {
+						this.game.updateGameState('guessing');
+					}
+
+					break;
 			}
 		},
+		initEventListiners() {
+
+		}
+	},
+	watch: {
 		gameTime(time) {
 			const timeIsLeft = time === 0;
-			switch (this.game.getGameState) {
-				case 'vote':
-					if (timeIsLeft) {
-						if (!this.interviewer) {
-							this.vote('player', 'enemy');
-							this.updateTimeByGameState();
-							this.hardResetProgress();
-						}
-					}
-					break;
-				case 'guess-person':
-				case 'waiting-person':
-					if (timeIsLeft) {
-						if (!this.guessPerson) {
-							this.game.finish(this.getWinner);
-						} else {
-							this.game.updateGameState(this.getGameStateAfterGuessPerson());
-							this.updateTimeByGameState();
-							this.hardResetProgress();
-						}
-					}
-					break;
-				case 'create-question':
-				case 'waiting-question':
-					if (timeIsLeft) {
-						const questionsAreNotOver = this.countQuestions > 0;
 
-						if (questionsAreNotOver) {
-							this.countQuestions -= 1;
-							this.updateTimeByGameState();
-							this.hardResetProgress();
-						}
-					}
-					break;
+			if (timeIsLeft) {
+				this.emitEventAfterTimeLeft();
 			}
+			// switch (this.game.getGameState) {
+			// 	case 'vote':
+			// 		if (timeIsLeft) {
+			// 			if (!this.interviewer) {
+			// 				this.vote('player', 'enemy');
+			// 				this.updateTimeByGameState();
+			// 				this.hardResetProgress();
+			// 			}
+			// 		}
+			// 		break;
+			// 	case 'guess-person':
+			// 	case 'waiting-person':
+			// 		if (timeIsLeft) {
+			// 			if (!this.guessPerson) {
+			// 				this.game.finish(this.getWinner);
+			// 			} else {
+			// 				this.game.updateGameState(this.getGameStateAfterGuessPerson());
+			// 				this.updateTimeByGameState();
+			// 				this.hardResetProgress();
+			// 			}
+			// 		}
+			// 		break;
+			// 	case 'create-question':
+			// 	case 'waiting-question':
+			// 		if (timeIsLeft) {
+			// 			const questionsAreNotOver = this.countQuestions > 0;
+
+			// 			if (questionsAreNotOver) {
+			// 				this.countQuestions -= 1;
+			// 				this.updateTimeByGameState();
+			// 				this.hardResetProgress();
+			// 			}
+			// 		}
+			// 		break;
+			// }
 		},
 	},
 };

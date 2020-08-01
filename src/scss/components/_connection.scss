@@ -1,16 +1,22 @@
 .screen__block-connection {
   height: 100%;
   width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: map-get($colors, 'white');
+  z-index: 999999999;
   @include flex_centered(column);
   .icon {
-    height: 82px;
-    width: 82px;
+    height: 120px;
+    width: 120px;
     background-image: url('../assets/img/preloader.svg');
     background-position: center center;
     background-repeat: no-repeat;
+    background-size: cover;
   }
   .message {
-    font-size: 16px;
+    font-size: 18px;
     font-family: map-get($fonts, 'Roboto');
     margin-top: 16px;
   }

@@ -8,8 +8,8 @@ import { store } from './store';
 
 class Core {
 	async render(game) {
-		Vue.prototype.$translate = await Translator.initTranslations().catch(err =>
-			console.log(err)
+		Vue.prototype.$translate = await Translator.initTranslations().catch(
+			(err) => console.log(err)
 		);
 		Vue.prototype.$socket = io(CONFIG.SOCKET_URL);
 
@@ -21,7 +21,7 @@ class Core {
 					game,
 				};
 			},
-			render: h => h(App),
+			render: (h) => h(App),
 		});
 	}
 }

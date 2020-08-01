@@ -1,5 +1,8 @@
 const en = {
-	connecting: 'connectig',
+	system: {
+		connectig: 'Connectig',
+		waitingPartner: 'Waiting partner',
+	},
 	button: {
 		playAgain: 'PLAY AGAIN',
 	},
@@ -11,8 +14,9 @@ const en = {
 		guessPerson: 'Choose character',
 	},
 	placeholders: {
-		writeCharacter: 'Write character'
-	}
+		writeCharacter: 'Write character',
+	},
+	test: 'ee',
 };
 
 export default en;

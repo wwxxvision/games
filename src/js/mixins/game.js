@@ -11,35 +11,44 @@ export const gameMixin = {
 		this.game.factoryPlayers('enemy', this.$translate.t('titles.enemy'));
 	},
 	mounted() {
-		this.$socket.on('gameUpdated', data => {
-			const { state } = data;
-
-			switch (state) {
-				case 'play':
-					this.game.play(this.gameTime);
-					break;
-				case 'finished':
-					this.game.finish();
-					break;
-			}
-			this.game.updateGameState(state);
+		this.$socket.on('play', () => {
+			this.$store.commit('updateAppLoading', false);
+			this.game.play(this.gameTime);
 		});
-		// this.game.play(this.gameTime);
-		// this.$socket.on('on-game', state => {
-		// 	this.game.finish(players => {
-		// 		const winner = players.find(player => player.type === 'player');
-		// 		winner.state = 'winner';
-		// 	});
-		// 	console.log(state);
-		// 	this.game.updateGameState(state);
-		// 	switch (state) {
-		// 		case 'play':
-		// 			this.game.play(this.gameTime);
-		// 			break;
-		// 		case 'finish':
-		// 			this.game.finish(() => null);
-		// 	}
-		// });
+
+		this.$socket.on('win', () => {
+			this.game.players.find((player) => {
+				if (player.type === 'player') {
+					player.state = 'winner';
+				}
+			});
+			this.game.finish();
+		});
+
+		this.$socket.on('partner-disconnect', () => {
+			this.game.players.find((player) => {
+				if (player.type === 'enemy') {
+					player.state = 'disconnected';
+				} else {
+					player.state = 'winner';
+				}
+			});
+
+			this.game.finish();
+		});
+
+		this.$socket.on('lose', () => {
+			this.game.players.find((player) => {
+				if (player.type === 'enemy') {
+					player.state = 'winner';
+				}
+			});
+			this.game.finish();
+		});
+
+		this.$socket.on('standoff', () => {
+			this.game.finish();
+		});
 	},
 	methods: {
 		getScreenDir(playerType) {
@@ -54,10 +63,10 @@ export const gameMixin = {
 			}
 		},
 		reset() {
-			this.players.forEach(player => player.reset());
+			this.players.forEach((player) => player.reset());
 			this.needReset = !this.needReset;
 			this.serverValue = Helpers.randomInteger(1, 1000);
-			this.players.forEach(player => {
+			this.players.forEach((player) => {
 				if (player.type === 'enemy') {
 					player.value = Helpers.randomInteger(1, 1000);
 				}
@@ -66,17 +75,25 @@ export const gameMixin = {
 		getTimerTime(time) {
 			this.gameTime = time;
 		},
+		getMainPlayer() {
+			return this.game.players.find((player) => player.type === 'player');
+		},
 	},
 	computed: {
+		enemyIsDisconnected() {
+			return this.game.players.some(
+				(player) => player.state === 'disconnected'
+			);
+		},
 		gameState() {
 			return this.game.getGameState;
 		},
 		isDeadHeat() {
-			return this.game.players.every(player => player.state === 'winner');
+			return this.game.players.every((player) => player.state === 'winner');
 		},
 		winnerName() {
 			const winner = this.game.players.find(
-				player => player.state === 'winner'
+				(player) => player.state === 'winner'
 			);
 			if (winner) {
 				return winner.name;

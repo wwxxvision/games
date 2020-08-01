@@ -1,8 +1,8 @@
 <template>
 	<div class="game game-one">
 		<Modal v-if="gameState === 'finished'" :title="serverValue" :titleTheme="'blue'">
-			<Winner :isDeadHeat="isDeadHeat" :players="game.players" />
-			<template v-slot:footer>
+			<Winner v-if="!enemyIsDisconnected" :enemyIsDisconnected="enemyIsDisconnected" :isDeadHeat="isDeadHeat" :players="game.players" />
+			<template v-if="!enemyIsDisconnected" v-slot:footer>
 				<Button @clicked="game.play(gameTime)" :title="$translate.t('button.playAgain')" />
 			</template>
 		</Modal>
@@ -14,14 +14,14 @@
 		/>
 		<GameScreen
 			:gameName="'game-one'"
-			v-for="(player, index) in game.players"
-			:key="index"
+			v-for="(player) in game.players"
+			:key="player.type"
 			:dir="getScreenDir(player.type)"
 		>
 			<div class="game__block game__block_size-full_screen">
 				<div :class="`game__decor game__decor_type-${player.type}`"></div>
 			</div>
-			<div class="game__block flex flex_space-between">
+			<div class="game__block flex flex_space-between flex_wrap">
 				<InputCustom type="text" :readonly="true" :text-centered="true" :initValue="player.value" />
 				<InputCustom type="text" :readonly="true" :text-centered="true" :initValue="player.name" />
 			</div>
@@ -72,6 +72,19 @@ export default {
 			gameTime: 15, // in seconds
 		};
 	},
+	mounted() {
+		this.$socket.on('partner-change', (value) => {
+			this.game.players = this.game.players.map(player => {
+				if (player.type === 'enemy') {
+					player.value = Number(value);
+				}
+
+				return player;
+			})
+		});
+
+		this.$socket.on('server-number', (value) => this.serverValue = value);
+	},
 	methods: {
 		__validateValue(value) {
 			if (value > 1000) {
@@ -89,45 +102,22 @@ export default {
 			return value;
 		},
 		addScore(playerType, value) {
-			this.game.players.find(player => {
-				if (player.type === playerType) {
-					player.setValue(Number(this.__validateValue(value)));
+			this.game.players = this.game.players.map(player => {
+				if (player.type === 'player') {
+					player.value = Number(value);
 				}
-			});
+
+				return player;
+			})
+			this.$socket.emit('number-change', Number(value));
 		},
-		getWinner(players) {
-			let playersScores = players.map(player => {
-				let delta = this.serverValue - player.value;
-
-				if (delta < 0) {
-					delta = -delta;
-				}
-
-				return {
-					...player,
-					score: delta,
-				};
-			});
-
-			let onlyScores = playersScores.map(player => player.score);
-			const lessValue = Math.min.apply(null, onlyScores);
-
-			players.find(player => {
-				let delta = this.serverValue - player.value;
-				if (delta < 0) {
-					delta = -delta;
-				}
-
-				if (delta === lessValue) {
-					player.state = 'winner';
-				}
-			});
-			const deadHeat = players.every(player => player.state === 'winner');
-
-			if (deadHeat) {
-				players[Helpers.randomInteger(0, 1)].state = 'default';
+		getTimerTime(time) {
+			const timeIsLeft = time === 0;
+			const playerValue  = this.game.players.find(player => player.type === 'player').value;
+			if (timeIsLeft) {
+				this.$socket.emit('finish', playerValue);
 			}
-		},
+		}
 	},
 };
 </script>

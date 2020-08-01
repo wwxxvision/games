@@ -5,13 +5,11 @@ Vue.use(Vuex);
 
 export const store = new Vuex.Store({
 	state: {
-		app: {
-			state: 'loading',
-		},
+		appIsLoading: true,
 	},
 	mutations: {
-		increment(state) {
-			state.count++;
+		updateAppLoading(state, data) {
+			state.appIsLoading = data;
 		},
 	},
 });

@@ -1,0 +1,22 @@
+{
+  "system": {
+		"connectig": "Connectig",
+		"waitingPartner": "Waiting partner"
+	},
+	"button": {
+		"playAgain": "PLAY AGAIN",
+		"confirm": "CONFIRM",
+		"yes": "Yes",
+		"no": "No"
+	},
+	"titles": {
+		"mainPlayer": "You",
+		"enemy": "Partner",
+		"standoff": "Standoff",
+		"vote": "Vote",
+		"guessPerson": "Choose character"
+	},
+	"placeholders": {
+		"enter": "Enter"
+	}
+}

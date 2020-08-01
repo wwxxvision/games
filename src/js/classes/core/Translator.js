@@ -1,5 +1,4 @@
 import i18next from 'i18next';
-import { en } from '@/translations/index';
 
 class Translator {
 	initTranslations() {
@@ -8,16 +7,38 @@ class Translator {
 				.init({
 					lng: 'en',
 					debug: true,
+					preload: ['en'],
+					saveMissing: true,
+					fallbackLng: 'en',
 					resources: {
 						en: {
 							translation: {
-								...en,
+								system: {
+									connecting: 'Waiting partner',
+									waitingStartGame: 'Waiting start game',
+								},
+								button: {
+									playAgain: 'PLAY AGAIN',
+									confirm: 'CONFIRM',
+									yes: 'Yes',
+									no: 'No',
+								},
+								titles: {
+									mainPlayer: 'You',
+									enemy: 'Partner',
+									standoff: 'Standoff',
+									vote: 'Vote',
+									guessPerson: 'Choose character',
+								},
+								placeholders: {
+									enter: 'Enter',
+								},
 							},
 						},
 					},
 				})
 				.then(() => resolve(i18next))
-				.catch(err => reject(err));
+				.catch((err) => reject(err));
 		});
 	}
 }

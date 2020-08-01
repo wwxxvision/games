@@ -5,6 +5,7 @@
       v-model="value"
       :type="type"
       :placeholder="placeholder"
+      :maxlength="maxlength"
       :readonly="readonly"
       :class="{
         [theme]: true,
@@ -24,6 +25,9 @@ export default {
     }
   },
   props: {
+    maxlength: {
+      type: Number
+    },
     textCentered: {
       type: Boolean
     },
@@ -54,33 +58,14 @@ export default {
       default: 'input__element_theme-biege'
     }
   },
-  created() {
+  mounted() {
     if (this.initValue)
     this.value = this.initValue;
   },
   methods: {
     change(ev) {
       const { value } = ev.target;
-      const valueIsNotEmpty = value;
-      let condition = false;
-      switch(this.handlerType) {
-        case 'int':
-          condition = valueIsNotEmpty && Number.isInteger(Number(value));
-
-          if (!condition)
-            this.errorMessage = this.$translate.t('errors.badType')
-            this.value = null;
-          break;
-        default:
-          condition = valueIsNotEmpty && Number.isInteger(Number(value));
-          if (!condition)
-            this.value = null;
-
-      }
-
-      if (condition) {
-        this.$emit('updateValues', this.playerType, value);
-      }
+      this.$emit('updateValues', this.playerType, value);
     }
   },
   watch: {

@@ -61,6 +61,25 @@
       background-image: url('../assets/img/game_one_bg_enemy.jpg');
     }
   }
+  .game__message {
+    font-size: 36px;
+    font-family: map-get($fonts, 'Baloo');
+    text-align: center;
+    overflow-wrap: anywhere;
+  }
+  .game__choose-answer {
+    .game__message {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+    .game__block {
+        .game__button {
+          &:nth-child(2)  {
+            margin-left: 10px;
+          }
+        }
+      }
+  }
   .game__block {
     margin: 10px 0;
     .game__third-icon {
@@ -128,6 +147,22 @@
         height: 80px;
       }
     }
+  .game__choose-answer {
+    .game__message {
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+    .game__block {
+        .game__button {
+          width: 100%;
+          @include flex_centered(row);
+          &:nth-child(2)  {
+            margin-left: 0px;
+            margin-top: 10px;
+          }
+        }
+    }
+  }
     .game__block_view-desktop-mobile {
       display: none;
     }
