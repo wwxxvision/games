@@ -5,19 +5,20 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
-const PreloadWebpackPlugin = require('preload-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const isDEV = false;
+const CompressionPlugin = require('compression-webpack-plugin');
+const isDEV = process.env.NODE_ENV === 'development';
 const optimization = () => {
-	const config = {
-		splitChunks: {
-			chunks: 'all',
-		},
-	};
+	let config = [];
 	if (!isDEV) {
-		config.minimizer = [new OptimizeCssAssetsPlugin(), new TerserPlugin()];
+		config = [
+			new OptimizeCssAssetsPlugin(),
+			new TerserPlugin({
+				sourceMap: true,
+			}),
+		];
 	}
+
+	return config;
 };
 require('babel-polyfill');
 const buildName = 'game_one';
@@ -29,7 +30,10 @@ module.exports = {
 		[buildName]: __dirname + `/src/${buildName}/js/index.js`,
 	},
 	optimization: {
-		minimizer: [new UglifyJsPlugin()],
+		splitChunks: {
+			chunks: 'all',
+			minSize: 20000,
+		},
 	},
 	output: {
 		publicPath: '/',
@@ -60,11 +64,14 @@ module.exports = {
 			filename: `styles/index.css`,
 		}),
 		new VueLoaderPlugin(),
-		new CopyPlugin({
-			patterns: [{ from: 'locales', to: 'locales' }],
+		new CompressionPlugin({
+			filename: '[path].gz[query]',
+			algorithm: 'gzip',
+			test: /\.js$|\.css$|\.mp3$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
+			threshold: 10240,
+			minRatio: 0.8,
 		}),
-		// new OptimizeCssAssetsPlugin(),
-		// new TerserPlugin(),
+		...optimization(),
 	],
 	module: {
 		rules: [

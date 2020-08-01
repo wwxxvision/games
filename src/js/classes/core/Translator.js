@@ -17,6 +17,8 @@ class Translator {
 									connecting: 'Waiting partner',
 									waitingStartGame: 'Waiting start game',
 									disconnected: 'Disconnected',
+									pendingConfirm: 'Pending confirmation',
+									acceptGame: 'Accept the game?',
 								},
 								button: {
 									playAgain: 'PLAY AGAIN',

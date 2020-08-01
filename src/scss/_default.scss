@@ -29,3 +29,6 @@ div {
   -webkit-tap-highlight-color: transparent;
 }
 
+input[disabled] {
+  opacity: .5;
+}

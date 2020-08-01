@@ -33,8 +33,7 @@ export const gameMixin = {
 					player.state = 'winner';
 				}
 			});
-
-			this.game.finish();
+			if (this.getGameState !== 'finished') this.game.finish();
 		});
 
 		this.$socket.on('lose', () => {
@@ -46,11 +45,24 @@ export const gameMixin = {
 			this.game.finish();
 		});
 
+		this.$socket.on('partner-play-again', () => {
+			this.game.updateGameState('acceptGame');
+		});
+
 		this.$socket.on('standoff', () => {
 			this.game.finish();
 		});
 	},
 	methods: {
+		playAgain() {
+			this.$store.commit('updateAppLoading', {
+				text: this.$translate.t('system.pendingConfirm'),
+			});
+			this.$socket.emit('play-again');
+		},
+		acceptGame() {
+			this.$socket.emit('accept-play-again');
+		},
 		getScreenDir(playerType) {
 			switch (playerType) {
 				case 'player':

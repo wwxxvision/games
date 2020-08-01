@@ -3,7 +3,8 @@
   "main": "index.js",
   "scripts": {
     "start": " webpack-dev-server",
-    "build": "webpack"
+    "build": "webpack",
+    "build:dev": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
@@ -18,6 +19,7 @@
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-polyfill": "^6.26.0",
     "clean-webpack-plugin": "^3.0.0",
+    "compression-webpack-plugin": "^4.0.0",
     "copy-webpack-plugin": "^6.0.3",
     "css-loader": "^3.4.2",
     "eslint": "^6.8.0",

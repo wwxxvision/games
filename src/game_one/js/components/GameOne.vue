@@ -3,9 +3,16 @@
 		<Modal v-if="gameState === 'finished'" :title="title" :titleTheme="'blue'">
 			<Winner :isDeadHeat="isDeadHeat" :players="game.players" />
 			<template v-if="!enemyIsDisconnected" v-slot:footer>
-				<Button @clicked="game.play(gameTime)" :title="$translate.t('button.playAgain')" />
+				<Button @clicked="playAgain" :title="$translate.t('button.playAgain')" />
 			</template>
 		</Modal>
+
+		<Modal v-if="gameState === 'acceptGame'" :title="$translate.t('system.acceptGame')" :titleTheme="'blue'">
+			<template v-slot:footer>
+				<Button @clicked="acceptGame" :title="$translate.t('button.yes')" />
+			</template>
+		</Modal>
+
 		<Progress
 			:gameName="'game-one'"
 			:gameState="game.getGameState"
@@ -76,7 +83,6 @@ export default {
 	},
 	computed: {
 		title() {
-			console.log(!this.enemyIsDisconnected  ? this.serverValue : this.$translate.t('system.disconnected'))
 			return !this.enemyIsDisconnected  ? this.serverValue : this.$translate.t('system.disconnected');
 		}
 	},
