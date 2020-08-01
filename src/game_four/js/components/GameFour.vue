@@ -39,8 +39,8 @@
 			<div class="game__block">
 				<InputCustom @updateValues="updateInputData" :maxlength="40" type="text" :placeholder="$translate.t('placeholders.enter')" initValue="" />
 			</div>
-			<div class="game__block">
-				<Button @click="submit" theme="red" :title="$translate.t('button.confirm')" />
+			<div @click="submit" class="game__block">
+				<Button theme="red" :title="$translate.t('button.confirm')" />
 			</div>
 		</div>
 
@@ -109,24 +109,40 @@ export default {
 	mounted() {
 		this.$socket.on('result-role', (role) => {
 			this.role = role;
-			this.gameTime = 20;
+
 			if (this.role === 'character') {
+				this.gameTime = 20;
+				this.hardResetProgress();
 				this.game.updateGameState('guess-character');
 			}
 			else {
 				this.game.updateGameState('waiting-partner');
 				this.waitingTitle = this.$translate.t('waitings.waitChooseCharacter');
 			}
+
+			this.$socket.emit('result-role', this.role);
 		});
 
-		this.hardResetProgress();
+		this.$socket.on('сharacter-chosen', () => {
+			if (this.role === 'character') {
+				this.game.updateGameState('waiting-partner');
+				this.waitingTitle = this.$translate.t('waitings.waitChooseCharacter');
+			}
+			else {
+				this.gameTime = 20;
+				this.hardResetProgress();
+				this.game.updateGameState('create-answer');
+			}
+		})
 	},
 	computed: {
 		waiter() {
-			return this.game.getGameState === 'waiting-partner';
+			const stateGame = this.game.getGameState;
+			return stateGame === 'waiting-partner';
 		},
 		writer() {
-			return this.game.getGameState === 'guess-character'
+			const stateGame = this.game.getGameState;
+			return stateGame === 'guess-character' || stateGame === 'create-answer';
 		}
 	},
 	methods: {
@@ -135,40 +151,17 @@ export default {
 		},
  		picking(pick) {
 			this.pick = pick;
-			// this.$socket.emit('player-click', pick);
 		},
 		submit() {
-
+			console.log(true)
+			switch(this.game.getGameState) {
+				case 'guess-character':
+					this.$socket.emit('сharacter-chose', this.inputData);
+					break;
+			}
 		},
 		hardResetProgress() {
 			this.$refs.progress.hardReset();
-		},
-		emitEventAfterTimeLeft() {
-			// switch(this.game.getGameState) {
-			// 	case 'play':
-			// 		this.$socket.emit('pick', { id: 'Test id', pick: this.pick });
-
-			// 		this.getMainPlayer.state = 'interviewer' || 'guessing';
-			// 		if (this.getMainPlayer.state === 'interviewer') {
-			// 			this.game.updateGameState('guessing');
-			// 		}
-			// 		else {
-			// 			this.game.updateGameState('waiting');
-			// 		}
-			// 		break;
-			// 	case 'guessing':
-			// 		if (this.getMainPlayer.state === 'interviewer') {
-			// 			this.game.updateGameState('waiting');
-			// 		}
-			// 		else {
-			// 			this.game.updateGameState('guessing');
-			// 		}
-
-			// 		break;
-			// }
-		},
-		initEventListiners() {
-
 		},
 		getTimerTime(time) {
 			const timeIsLeft = time === 0;
@@ -177,49 +170,13 @@ export default {
 				switch(this.game.getGameState) {
 					case 'play':
 						this.$socket.emit('pick-finish', this.pick);
-					break;
-				}
+						break;
+					case 'guess-character':
+						this.$socket.emit('сharacter-chose', this.inputData);
+						break;
+					}
 			}
 		}
-	},
-	watch: {
-		gameTime(time) {
-			// switch (this.game.getGameState) {
-			// 	case 'vote':
-			// 		if (timeIsLeft) {
-			// 			if (!this.interviewer) {
-			// 				this.vote('player', 'enemy');
-			// 				this.updateTimeByGameState();
-			// 				this.hardResetProgress();
-			// 			}
-			// 		}
-			// 		break;
-			// 	case 'guess-person':
-			// 	case 'waiting-person':
-			// 		if (timeIsLeft) {
-			// 			if (!this.guessPerson) {
-			// 				this.game.finish(this.getWinner);
-			// 			} else {
-			// 				this.game.updateGameState(this.getGameStateAfterGuessPerson());
-			// 				this.updateTimeByGameState();
-			// 				this.hardResetProgress();
-			// 			}
-			// 		}
-			// 		break;
-			// 	case 'create-question':
-			// 	case 'waiting-question':
-			// 		if (timeIsLeft) {
-			// 			const questionsAreNotOver = this.countQuestions > 0;
-
-			// 			if (questionsAreNotOver) {
-			// 				this.countQuestions -= 1;
-			// 				this.updateTimeByGameState();
-			// 				this.hardResetProgress();
-			// 			}
-			// 		}
-			// 		break;
-			// }
-		},
 	},
 };
 </script>
