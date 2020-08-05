@@ -2,6 +2,12 @@ import { Game } from '@/js/classes/models/';
 import { Helpers } from '@/js/classes/core';
 
 export const gameMixin = {
+	data() {
+		return {
+			partnerIsTimeout: false,
+			playerIsTimeout: false,
+		};
+	},
 	created() {
 		this.game = new Game(
 			this.gameInitValue,
@@ -23,21 +29,21 @@ export const gameMixin = {
 				}
 			});
 
-			Object.keys(data).forEach((type) =>
-				this.updatePlayerValue(type, data[type])
-			);
+			if (data) {
+				Object.keys(data).forEach((type) =>
+					this.updatePlayerValue(type, data[type])
+				);
+			}
+
+			this.reseting();
 			this.game.finish();
 		});
 
 		this.$socket.on('partner-disconnect', () => {
-			this.game.players.find((player) => {
-				if (player.type === 'enemy') {
-					player.state = 'disconnected';
-				} else {
-					player.state = 'winner';
-				}
+			this.game.pause();
+			this.$store.commit('updateAppLoading', {
+				text: this.$translate.t('system.connecting'),
 			});
-			if (this.getGameState !== 'finished') this.game.finish();
 		});
 
 		this.$socket.on('lose', (data) => {
@@ -47,10 +53,14 @@ export const gameMixin = {
 				}
 			});
 
-			Object.keys(data).forEach((type) =>
-				this.updatePlayerValue(type, data[type])
-			);
+			if (data) {
+				Object.keys(data).forEach((type) =>
+					this.updatePlayerValue(type, data[type])
+				);
+			}
+
 			this.game.finish();
+			this.reseting();
 		});
 
 		this.$socket.on('partner-play-again', () => {
@@ -58,13 +68,21 @@ export const gameMixin = {
 		});
 
 		this.$socket.on('standoff', (data) => {
-			Object.keys(data).forEach((type) =>
-				this.updatePlayerValue(type, data[type])
-			);
+			if (data) {
+				Object.keys(data).forEach((type) =>
+					this.updatePlayerValue(type, data[type])
+				);
+			}
 			this.game.finish();
+			this.reseting();
 		});
 	},
 	methods: {
+		reseting() {
+			if (this.isShowingAllQuestions) {
+				this.isShowingAllQuestions = false;
+			}
+		},
 		updatePlayerValue(type, value) {
 			this.game.players.find((player) => {
 				if (player.type === type) {

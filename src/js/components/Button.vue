@@ -13,10 +13,14 @@ export default {
     },
     title: {
       type: String
+    },
+    disabled: {
+      type: Boolean
     }
   },
   methods: {
     click() {
+      if (!this.disabled)
       this.$emit('clicked');
     }
   }

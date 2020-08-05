@@ -64,4 +64,9 @@ export default class Game {
 			this.AudioCore.play('win');
 		}
 	}
+
+	pause() {
+		this.AudioCore.stop();
+		this.updateGameState('pause');
+	}
 }

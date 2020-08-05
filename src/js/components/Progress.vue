@@ -74,6 +74,16 @@ export default {
 			this.timeIsFinished = false;
 			this.moveTop('.progress__indicator', 'init');
 		},
+		resetWitTime(time) {
+			clearInterval(this.interval);
+			this.indicator = time;
+			this.step = 1 /time;
+			this.currentDegress = 1;
+			this.timeIsRunnigOut = false;
+			this.timeRunOut = 3;
+			this.timeIsFinished = false;
+			this.moveTop('.progress__indicator', 'init');
+		},
 		drawProgress() {
 			$('.progress').circleProgress({
 				value: this.currentDegress,
@@ -103,12 +113,19 @@ export default {
 				}
 			}, 1000);
 		},
-		hardReset() {
-			this.reset();
-			this.start();
+		hardReset(time) {
+			// this.indicator = time;
+			// this.reset();
+			// this.start();
 		},
 	},
 	watch: {
+		timeInSec(time) {
+			// if (this.indicator === 0 && time > 0) {
+			// 	this.reset();
+			// 	this.start();
+			// }
+		},
 		indicator(value) {
 			this.$emit('getTimerTime', value);
 			if (value === 0) {
@@ -124,6 +141,30 @@ export default {
 					this.start();
 					break;
 				case 'finished':
+					this.reset();
+					this.indicator = 0;
+					break;
+				case 'guess-character':
+					this.resetWitTime(20);
+					this.start();
+					break;
+				case 'create-answer':
+					this.resetWitTime(20);
+					this.start();
+					break;
+				case 'answer':
+					this.resetWitTime(10);
+					this.start();
+					break;
+				case 'guessing':
+					this.resetWitTime(20);
+					this.start();
+					break;
+				case 'answer-guessing':
+					this.resetWitTime(10);
+					this.start();
+					break;
+				case 'waiting-partner':
 					this.reset();
 					this.indicator = 0;
 					break;

@@ -14,7 +14,7 @@ class Translator {
 						en: {
 							translation: {
 								system: {
-									connecting: 'Waiting partner',
+									connecting: 'Waiting for partner',
 									waitingStartGame: 'Waiting start game',
 									disconnected: 'Disconnected',
 									pendingConfirm: 'Pending confirmation',
@@ -31,7 +31,15 @@ class Translator {
 									enemy: 'Partner',
 									standoff: 'Standoff',
 									vote: 'Vote',
-									guessPerson: 'Choose character',
+									guessCharacter: 'Choose character',
+									writeAnswer: 'Write question',
+									writeCharacter: 'Write character',
+									missedQuestion: 'You have missed the question',
+									viewAllQuestions: 'View all questions',
+									ramdomDecideComputes:
+										'The computer decides you should guess the charactrer because you both choosed same option.',
+									playerTimeIsOver: 'Your time is over',
+									partnerTimeIsOver: 'Your partner time is over',
 								},
 								picks: {
 									character: `I'm Character`,
@@ -39,10 +47,17 @@ class Translator {
 								},
 								placeholders: {
 									enter: 'Enter',
+									enterQuestion: 'Please write Yes / No question',
 								},
 								waitings: {
 									waitChooseCharacter:
-										'Your partner chooses a character, please wait',
+										'Your partner is choosing a character, please wait',
+									waitQuestion: 'You partner is writing question , please wait',
+									waitAnswer: 'You partner is choosing answer, please wait',
+									waitGuessing:
+										'You partner is guessing character, please wait',
+									gameResult: 'Waiting game result',
+									pickPartner: 'Waiting pick partner',
 								},
 							},
 						},

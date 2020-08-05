@@ -8,13 +8,94 @@
   }
 }
 
+@keyframes moveToLeft {
+  from {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+   opacity: 0;
+  }
+}
+
 .game {
   @include full_screen;
   display: flex;
+  .overlay {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 900000;
+    &.overlay-animate {
+      animation-name: moveToLeft;
+      animation-duration: 3s;
+      animation-fill-mode: forwards;
+    }
+    .overlay__bg {
+      background-color: map-get($colors, 'black');
+      height: 100%;
+      width: 100%;
+      opacity: .7;
+    }
+    .overlay__bg_color-white {
+      background-color: map-get($colors, 'white');
+      height: 100%;
+      width: 100%;
+    }
+    .overlay__body {
+      position: absolute;
+      overflow-y: auto;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      z-index: 1000000;
+      .answer {
+        font-size: 65px;
+        font-family: map-get($fonts, 'Baloo');
+        color: map-get($colors, 'red');
+      }
+      .title {
+        text-align: center;
+        font-size: 20px;
+        font-family: map-get($fonts, 'Baloo');
+        color: map-get($colors, 'red');
+      }
+      .overlay__wrapper {
+        padding: 10px;
+        .overlay__close {
+          width: 100%;
+          .icon {
+            cursor: pointer;
+            margin-left: auto;
+            height: 18px;
+            width: 18px;
+            background-image: url('../assets/img/close_icon.png');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+          }
+        }
+        .text {
+          font-size: 20px;
+          font-family: map-get($fonts, 'Baloo');
+          color: map-get($colors, 'white');
+          &:not(:first-child) {
+            margin-top: 10px;
+          }
+          span {
+            color: map-get($colors, 'red');
+          }
+        }
+      }
+    }
+  }
   .waiter-title {
     font-size: 16px;
     font-family: map-get($fonts, 'Roboto');
     margin-top: 10px;
+    text-align: center;
   }
   .waiter-preloader {
     height: 82px;
@@ -81,6 +162,13 @@
     text-align: center;
     overflow-wrap: anywhere;
   }
+  .game__answer {
+    font-size: 22px;
+    font-family: Roboto;
+    opacity: .5;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
   .game__choose-answer {
     .game__message {
       margin-top: auto;
@@ -96,6 +184,14 @@
   }
   .game__block {
     margin: 10px 0;
+    .link__text {
+      font-size: 16px;
+      font-family: map-get($fonts, 'Roboto');
+      text-decoration: underline;
+      text-align: center;
+      opacity: .5;
+      cursor: pointer;
+    }
     .game__third-icon {
       height: 160px;
       width: 130px;

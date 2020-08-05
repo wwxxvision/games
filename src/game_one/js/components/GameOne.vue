@@ -1,7 +1,7 @@
 <template>
 	<div class="game game-one">
 		<Modal v-if="gameState === 'finished'" :title="title" :titleTheme="'blue'">
-			<Winner :isDeadHeat="isDeadHeat" :players="game.players" />
+			<Winner :hideValues="enemyIsDisconnected" :isDeadHeat="isDeadHeat" :players="game.players" />
 			<template v-if="!enemyIsDisconnected" v-slot:footer>
 				<Button @clicked="playAgain" :title="$translate.t('button.playAgain')" />
 			</template>

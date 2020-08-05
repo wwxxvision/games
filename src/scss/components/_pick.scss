@@ -47,6 +47,15 @@
     flex-direction: column;
 
     .pick__item {
+      width: 100px;
+      height: 100px;
+      .pick__title {
+        font-size: 12px;
+      }
+      .pick__icon {
+        height: 45px;
+        width: 45px;
+      }
       &:nth-child(2) {
         margin-left: 0;
         margin-top: 30px;

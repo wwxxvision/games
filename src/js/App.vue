@@ -22,10 +22,25 @@ export default {
 		};
 	},
 	computed: {
-		...mapState(['appIsLoading']),
+		...mapState(['appIsLoading'])
+	},
+	methods: {
+		getIdByGameName() {
+			switch (this.currentGame) {
+				case 'game-one':
+					return 1;
+				case 'game-two':
+					return 2;
+				case 'game-three':
+					return 3;
+				case 'game-four':
+					return 4;
+			}
+		}
 	},
 	mounted() {
 		this.systemText = this.$translate.t('system.connecting');
+		this.$socket.emit('game-id', this.getIdByGameName());
 		this.$socket.on('start', () => {
 			this.$socket.emit('ready');
 			this.$store.commit('updateAppLoading', {

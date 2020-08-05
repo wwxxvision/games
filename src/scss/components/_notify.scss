@@ -1,0 +1,23 @@
+@keyframes show_and_hide  {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.notify {
+  width: 100%;
+  .notify__title {
+    font-family: map-get($fonts, 'Baloo');
+    font-size: 18px;
+    color: map-get($colors, 'red');
+    text-align: center;
+    animation-name: show_and_hide;
+    animation-duration: 7s;
+    animation-fill-mode: forwards;
+    opacity: 1;
+
+  }
+}

@@ -120,6 +120,12 @@ $height_bar: 164px;
     width: $width_bar;
     height: $height_bar;
 
+    &.game-four {
+      top: 0;
+      width: 80px;
+      height: 80px;
+    }
+
     .progress__bg {
       width: 65px;
       height: 65px;

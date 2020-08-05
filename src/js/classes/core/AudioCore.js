@@ -59,7 +59,7 @@ class AudioCore {
 	}
 
 	play(name) {
-		this.sound = this.sounds.find(sound => sound.name === name);
+		this.sound = this.sounds.find((sound) => sound.name === name);
 		this.player = this.sound.audio.play();
 		this.watchVolume();
 	}
