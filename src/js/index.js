@@ -2,6 +2,7 @@ import { Translator } from '@/js/classes/core';
 import App from '@/js/App.vue';
 import Vue from 'vue';
 import './plugins';
+import '@/scss/index.scss';
 import { store } from './store';
 
 class Core {
@@ -24,4 +25,4 @@ class Core {
 	}
 }
 
-export default new Core();
+window.gameCore = new Core();

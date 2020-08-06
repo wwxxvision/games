@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const isDEV = process.env.NODE_ENV === 'development';
 const optimization = () => {
@@ -22,7 +23,7 @@ module.exports = {
 	watch: true,
 	mode: 'development',
 	entry: {
-		[buildName]: __dirname + `/src/${buildName}/js/index.js`,
+		[buildName]: __dirname + `/src/js/index.js`,
 	},
 	optimization: {
 		minimizer: [
@@ -50,8 +51,8 @@ module.exports = {
 		],
 	},
 	output: {
-		publicPath: './',
-		filename: `${buildName}.js`,
+		publicPath: '/client/assets/',
+		filename: `index.js`,
 		path: path.resolve(__dirname, 'dist'),
 	},
 	devServer: {
@@ -66,6 +67,7 @@ module.exports = {
 	resolve: {
 		alias: {
 			'@': path.resolve(__dirname, 'src'),
+			'~': path.resolve(__dirname),
 		},
 	},
 	plugins: [
@@ -75,7 +77,10 @@ module.exports = {
 		}),
 		new CleanWebpackPlugin(),
 		new MiniCssExtractPlugin({
-			filename: `styles/${buildName}.css`,
+			filename: `styles/index.css`,
+		}),
+		new CopyPlugin({
+			patterns: [{ from: './locales', to: 'locales' }],
 		}),
 		new VueLoaderPlugin(),
 		...optimization(),
@@ -85,6 +90,10 @@ module.exports = {
 			{
 				test: /\.vue$/,
 				loader: 'vue-loader',
+			},
+			{
+				test: /\.ini$/,
+				loader: path.resolve(__dirname, './loaders/ini-loader.js'),
 			},
 			{
 				test: /\.s[ac]ss$/i,
@@ -133,7 +142,6 @@ module.exports = {
 								);
 								return `${dirNameInsideAssets}/[name].[ext]`;
 							},
-							// publicPath: './src/assets', // use relative path
 						},
 					},
 					{

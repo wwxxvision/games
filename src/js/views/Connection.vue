@@ -1,7 +1,7 @@
 <template>
 	<div class="screen__block screen__block-connection">
 		<div class="icon"></div>
-		<div class="message">{{ message }}</div>
+		<div dir="rtl" class="message">{{ message }}</div>
 	</div>
 </template>;
 
