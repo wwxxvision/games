@@ -16,7 +16,7 @@ const optimization = () => {
 	return config;
 };
 require('babel-polyfill');
-const buildName = 'game_four';
+const buildName = 'game_three';
 
 module.exports = {
 	watch: true,
@@ -111,7 +111,7 @@ module.exports = {
 				test: /\.(ttf|eot|woff|woff2|mp3)$/,
 				loader: 'file-loader',
 				options: {
-					name: (file) => {
+					name: file => {
 						let dirNameInsideAssets = path.relative(
 							path.join(__dirname, 'src', 'assets'),
 							path.dirname(file)
@@ -126,7 +126,7 @@ module.exports = {
 					{
 						loader: 'file-loader',
 						options: {
-							name: (file) => {
+							name: file => {
 								let dirNameInsideAssets = path.relative(
 									path.join(__dirname, 'src', 'assets'),
 									path.dirname(file)

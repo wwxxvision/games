@@ -10,5 +10,8 @@
     "sourceType": "module",
     "ecmaVersion": 2020
   },
-  "plugins": ["prettier"]
+  "plugins": ["prettier"],
+  "rules": {
+    "no-unused-vars": "off"
+  }
 }
