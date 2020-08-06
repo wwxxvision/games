@@ -51,7 +51,7 @@ module.exports = {
 	},
 	output: {
 		publicPath: './',
-		filename: 'index.js',
+		filename: `${buildName}.js`,
 		path: path.resolve(__dirname, 'dist'),
 	},
 	devServer: {
@@ -75,7 +75,7 @@ module.exports = {
 		}),
 		new CleanWebpackPlugin(),
 		new MiniCssExtractPlugin({
-			filename: `styles/index.css`,
+			filename: `styles/${buildName}.css`,
 		}),
 		new VueLoaderPlugin(),
 		...optimization(),
