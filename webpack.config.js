@@ -5,7 +5,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
 
 const isDEV = process.env.NODE_ENV === 'development';
 const optimization = () => {
@@ -29,26 +28,10 @@ module.exports = {
 		minimizer: [
 			new TerserPlugin({
 				terserOptions: {
-					parse: {
-						// we want terser to parse ecma 8 code. However, we don't want it
-						// to apply any minfication steps that turns valid ecma 5 code
-						// into invalid ecma 5 code. This is why the 'compress' and 'output'
-						// sections only apply transformations that are ecma 5 safe
-						// https://github.com/facebook/create-react-app/pull/4234
-						ecma: 8,
-					},
 					compress: {
 						ecma: 5,
 						warnings: false,
-						// Disabled because of an issue with Uglify breaking seemingly valid code:
-						// https://github.com/facebook/create-react-app/issues/2376
-						// Pending further investigation:
-						// https://github.com/mishoo/UglifyJS2/issues/2011
 						comparisons: false,
-						// Disabled because of an issue with Terser breaking valid code:
-						// https://github.com/facebook/create-react-app/issues/5250
-						// Pending futher investigation:
-						// https://github.com/terser-js/terser/issues/120
 						inline: 2,
 					},
 					mangle: {
@@ -57,19 +40,17 @@ module.exports = {
 					output: {
 						ecma: 5,
 						comments: false,
-						// Turned on because emoji and regex is not minified properly using default
-						// https://github.com/facebook/create-react-app/issues/2488
 						ascii_only: true,
 					},
 				},
 				cache: true,
 				parallel: true,
-				sourceMap: true, // Must be set to true if using source-maps in production
+				sourceMap: !isDEV,
 			}),
 		],
 	},
 	output: {
-		publicPath: '/',
+		publicPath: './',
 		filename: 'index.js',
 		path: path.resolve(__dirname, 'dist'),
 	},
@@ -97,13 +78,6 @@ module.exports = {
 			filename: `styles/index.css`,
 		}),
 		new VueLoaderPlugin(),
-		new CompressionPlugin({
-			filename: '[path].gz[query]',
-			algorithm: 'gzip',
-			test: /\.js$|\.css$|\.mp3$|\.html$|\.eot?.+$|\.ttf?.+$|\.woff?.+$|\.svg?.+$/,
-			threshold: 10240,
-			minRatio: 0.8,
-		}),
 		...optimization(),
 	],
 	module: {
@@ -134,7 +108,7 @@ module.exports = {
 				use: [MiniCssExtractPlugin.loader, 'css-loader'],
 			},
 			{
-				test: /\.(ttf|eot|woff|woff2|mp3|gif|png|jpe?g|svg)$/,
+				test: /\.(ttf|eot|woff|woff2|mp3)$/,
 				loader: 'file-loader',
 				options: {
 					name: (file) => {
@@ -145,6 +119,44 @@ module.exports = {
 						return `${dirNameInsideAssets}/[name].[ext]`;
 					},
 				},
+			},
+			{
+				test: /\.(gif|png|jpe?g|svg)$/i,
+				use: [
+					{
+						loader: 'file-loader',
+						options: {
+							name: (file) => {
+								let dirNameInsideAssets = path.relative(
+									path.join(__dirname, 'src', 'assets'),
+									path.dirname(file)
+								);
+								return `${dirNameInsideAssets}/[name].[ext]`;
+							},
+							// publicPath: './src/assets', // use relative path
+						},
+					},
+					{
+						loader: 'image-webpack-loader',
+						options: {
+							disable: !isDEV,
+							mozjpeg: {
+								progressive: true,
+								quality: 65,
+							},
+							optipng: {
+								enabled: false,
+							},
+							pngquant: {
+								quality: [0.65, 0.9],
+								speed: 4,
+							},
+							gifsicle: {
+								interlaced: false,
+							},
+						},
+					},
+				],
 			},
 			{
 				test: /\.m?js$/,
