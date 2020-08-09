@@ -24,5 +24,4 @@ class Core {
 		});
 	}
 }
-
 window.gameCore = new Core();

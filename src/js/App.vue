@@ -1,5 +1,5 @@
 <template>
-	<div class="full_screen box">
+	<div class="page full_screen box">
 		<Connection :message="systemText" v-if="appIsLoading" />
 		<component :is="currentGame"></component>
 	</div>
@@ -18,11 +18,11 @@ export default {
 	data() {
 		return {
 			currentGame: null,
-			systemText: ''
+			systemText: '',
 		};
 	},
 	computed: {
-		...mapState(['appIsLoading'])
+		...mapState(['appIsLoading']),
 	},
 	methods: {
 		getIdByGameName() {
@@ -36,7 +36,7 @@ export default {
 				case 'game-four':
 					return 4;
 			}
-		}
+		},
 	},
 	mounted() {
 		this.systemText = this.$translate.t('system.connecting');
@@ -53,9 +53,8 @@ export default {
 	},
 	watch: {
 		appIsLoading(value) {
-			if (value)
-			this.systemText = value.text;
-		}
-	}
+			if (value) this.systemText = value.text;
+		},
+	},
 };
 </script>
