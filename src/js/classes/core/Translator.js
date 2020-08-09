@@ -12,7 +12,7 @@ import ru from '~/locales/ru.ini';
 import sa from '~/locales/sa.ini';
 
 class Translator {
-	initTranslations() {
+	initTranslations(initLang) {
 		return new Promise((resolve, reject) => {
 			i18next
 				.use(LanguageDetector)
@@ -20,6 +20,7 @@ class Translator {
 					debug: true,
 					saveMissing: true,
 					fallbackLng: 'en',
+					lng: initLang ? initLang : null,
 					resources: {
 						en: {
 							translation: {

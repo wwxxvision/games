@@ -6,10 +6,10 @@ import '@/scss/index.scss';
 import { store } from './store';
 
 class Core {
-	async render(game, socket, selector) {
-		Vue.prototype.$translate = await Translator.initTranslations().catch(err =>
-			console.log(err)
-		);
+	async render(game, socket, selector, lang) {
+		Vue.prototype.$translate = await Translator.initTranslations(
+			lang
+		).catch(err => console.log(err));
 		Vue.prototype.$socket = socket;
 
 		new Vue({
