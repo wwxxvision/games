@@ -1,5 +1,5 @@
 <template>
-	<div class="page full_screen box">
+	<div class="game-app full_screen">
 		<Connection :message="systemText" v-if="appIsLoading" />
 		<component :is="currentGame"></component>
 	</div>
