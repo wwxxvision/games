@@ -257,17 +257,6 @@
   }
 }
 
-.game-app {
-  &[dir="rtl"] {
-    .game {
-      flex-direction: row-reverse;
-    }
-    .vm--modal {
-      left: -50%!important;
-      transform: translateX(50%);
-    }
-  }
-}
 
 @media (max-width: map-get($break_points, 'tablet_width')) {
   .game {

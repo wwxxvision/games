@@ -28,6 +28,23 @@ $padding_left_right: 16px;
   }
 }
 
+.game-app {
+  &[dir="rtl"] {
+    .game-screen {
+      &.game-screen_pos-left {
+        border-left: 1px solid map-get($colors, 'light_pink');
+      }
+
+      &.game-screen_pos-right {
+        border-right: 2px solid map-get($colors, 'light_pink');
+      }
+    }
+    .vm--modal {
+      left: -50%!important;
+      transform: translateX(50%);
+    }
+  }
+}
 
 @media (max-width: map-get($break_points, 'phone_width')) {
 
