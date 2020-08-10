@@ -49,9 +49,9 @@ class Core {
 	}
 	close(onEnd) {
 		this.vueInstance.$destroy();
-		let app = (document.querySelector('.game-app').innerHTML = '');
+		let app = document.querySelector('.game-app');
+		app.innerHTML = '';
 		app.remove();
-		app = null;
 		this.vueInstance = null;
 		onEnd();
 	}
