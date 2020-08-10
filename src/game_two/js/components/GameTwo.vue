@@ -1,20 +1,24 @@
 <template>
 	<div class="game game-two">
-		<Modal
-			v-if="gameState === 'finished'"
-			:title="title"
-			:titleTheme="'blue'"
-		>
-			<Winner :hideValues="enemyIsDisconnected" :isDeadHeat="isDeadHeat" :players="game.players" />
-			<template  v-if="!enemyIsDisconnected" v-slot:footer>
+		<Modal v-if="gameState === 'finished'" :title="title" :titleTheme="'blue'">
+			<Winner
+				:hideValues="enemyIsDisconnected"
+				:isDeadHeat="isDeadHeat"
+				:players="game.players"
+			/>
+			<template v-if="!enemyIsDisconnected" v-slot:footer>
 				<Button
-				 	@clicked="playAgain"
+					@clicked="playAgain"
 					:title="$translate.t('button.playAgain')"
 				/>
 			</template>
 		</Modal>
 
-			<Modal v-if="gameState === 'acceptGame'" :title="$translate.t('system.acceptGame')" :titleTheme="'blue'">
+		<Modal
+			v-if="gameState === 'acceptGame'"
+			:title="$translate.t('system.acceptGame')"
+			:titleTheme="'blue'"
+		>
 			<template v-slot:footer>
 				<Button @clicked="acceptGame" :title="$translate.t('button.yes')" />
 			</template>
@@ -111,20 +115,20 @@ export default {
 			iconSelect: false,
 			chatIcon: '.game__item-chat-icon',
 			coordinatesIcons: {
-				x:0,
-				y:0
-			}
+				x: -100000000,
+				y: -100000000,
+			},
 		};
 	},
 	mounted() {
-		this.$socket.on('new-icon', ({x, y}) => {
+		this.$socket.on('new-icon', ({ x, y }) => {
 			this.iconSelect = false;
 			this.iconsIsRender = true;
 			this.setIconPos(x, y);
 			this.coordinatesIcons = {
 				x,
-				y
-			}
+				y,
+			};
 		});
 
 		this.$socket.on('partner-click', () => {
@@ -132,8 +136,8 @@ export default {
 			this.addScore('enemy');
 		});
 
-		this.$socket.on('success', () =>  {
-			this.addScore('player')
+		this.$socket.on('success', () => {
+			this.addScore('player');
 			this.selectIcon('player');
 		});
 	},
@@ -149,11 +153,12 @@ export default {
 		title() {
 			if (this.enemyIsDisconnected) {
 				return this.$translate.t('system.disconnected');
+			} else {
+				return !this.isDeadHeat
+					? this.winnerName
+					: this.$translate.t('titles.standoff');
 			}
-			else {
-				return !this.isDeadHeat ? this.winnerName : this.$translate.t('titles.standoff')
-			}
-		}
+		},
 	},
 	methods: {
 		setIconPos(x, y) {
@@ -181,11 +186,13 @@ export default {
 		},
 		getTimerTime(time) {
 			const timeIsLeft = time === 0;
-			const playerValue  = this.game.players.find(player => player.type === 'player').value;
+			const playerValue = this.game.players.find(
+				player => player.type === 'player'
+			).value;
 			if (timeIsLeft) {
 				this.$socket.emit('finish', playerValue);
 			}
-		}
+		},
 	},
 };
 </script>
