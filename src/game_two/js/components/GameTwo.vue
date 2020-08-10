@@ -190,6 +190,7 @@ export default {
 				player => player.type === 'player'
 			).value;
 			if (timeIsLeft) {
+				console.log('finished');
 				this.$socket.emit('finish', playerValue);
 			}
 		},
