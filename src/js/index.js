@@ -53,6 +53,7 @@ class Core {
 		app.remove();
 		Howler.unload();
 		this.vueInstance = null;
+		document.body.appendChild('#root');
 	}
 }
 
