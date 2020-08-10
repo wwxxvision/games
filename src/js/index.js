@@ -47,14 +47,13 @@ class Core {
 		});
 	}
 	close() {
-		this.vueInstance.$destroy();
-		let app = document.querySelector('.game-app');
-		app.innerHTML = '';
-		app.remove();
+		this.vueInstance.$destroy(true);
+		// let app = document.querySelector('.game-app');
+		// app.innerHTML = '';
+		// app.remove();
 		Howler.unload();
 		this.vueInstance = null;
 		const root = document.createElement('div');
-		Vue.forceUpdate();
 		root.id = 'games';
 		document.body.appendChild(root);
 	}
