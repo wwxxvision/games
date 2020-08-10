@@ -143,7 +143,7 @@ export const gameMixin = {
 			return this.game.getGameState;
 		},
 		isDeadHeat() {
-			return this.game.players.every(player => player.state === 'winner');
+			return this.game.players.every(player => player.state !== 'winner');
 		},
 		winnerName() {
 			const winner = this.game.players.find(
