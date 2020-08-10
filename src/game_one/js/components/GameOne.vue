@@ -96,7 +96,7 @@ export default {
 		return {
 			players: [],
 			value: 1,
-			serverValue: Helpers.randomInteger(1, 1000),
+			serverValue: null,
 			game: null,
 			gameInitValue: 1,
 			gameTime: 15, // in seconds

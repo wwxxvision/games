@@ -224,7 +224,8 @@ export default {
 				}
 			});
 
-			onWin(true);
+			onEnd(this.character);
+			onWin(true, this.character);
 
 			this.reseting();
 			this.game.finish();
@@ -245,7 +246,8 @@ export default {
 				this.playerIsTimeout = true;
 			}
 
-			onLose(false);
+			onEnd(this.character);
+			onLose(false, this.character);
 
 			this.game.finish();
 			this.reseting();

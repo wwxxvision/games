@@ -17,7 +17,7 @@ export const gameMixin = {
 		this.game.factoryPlayers('enemy', this.$translate.t('titles.enemy'));
 	},
 	mounted() {
-		const { onStart, onLose, onWin, onEnd } = this.$callbacks;
+		const { onStart, onLose, onWin, onEnd, onStandoff } = this.$callbacks;
 		this.$socket.on('play', () => {
 			this.$store.commit('updateAppLoading', false);
 			if (this.game.getGameState !== 'play') {
@@ -38,8 +38,13 @@ export const gameMixin = {
 					this.updatePlayerValue(type, data[type])
 				);
 			}
-
-			onWin(this.getMainPlayer().value);
+			if (this.serverValue) {
+				onEnd(this.serverValue);
+				onWin(this.getMainPlayer().value, this.serverValue);
+			} else {
+				onEnd();
+				onWin(this.getMainPlayer().value);
+			}
 			this.reseting();
 			this.game.finish();
 		});
@@ -66,7 +71,13 @@ export const gameMixin = {
 				);
 			}
 
-			onLose(this.getMainPlayer().value);
+			if (this.serverValue) {
+				onEnd(this.serverValue);
+				onLose(this.getMainPlayer().value, this.serverValue);
+			} else {
+				onEnd();
+				onLose(this.getMainPlayer().value);
+			}
 			this.game.finish();
 			this.reseting();
 		});
@@ -81,8 +92,13 @@ export const gameMixin = {
 					this.updatePlayerValue(type, data[type])
 				);
 			}
-
-			onEnd();
+			if (this.serverValue) {
+				onEnd(this.serverValue);
+				onStandoff(this.getMainPlayer().value, this.serverValue);
+			} else {
+				onEnd();
+				onStandoff(this.getMainPlayer().value);
+			}
 			this.game.finish();
 			this.reseting();
 		});

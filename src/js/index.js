@@ -16,6 +16,7 @@ class Core {
 		lang,
 		direction = 'ltr',
 		onStart = () => null,
+		onStandoff = () => null,
 		onLose = () => null,
 		onWin = () => null,
 		onEnd = () => null
@@ -30,6 +31,7 @@ class Core {
 			onLose,
 			onWin,
 			onEnd,
+			onStandoff,
 		};
 
 		this.vueInstance = new Vue({
@@ -47,6 +49,8 @@ class Core {
 		this.vueInstance.$destroy();
 		let app = (document.querySelector('.game-app').innerHTML = '');
 		app.remove();
+		app = null;
+		this.vueInstance = null;
 	}
 }
 
