@@ -34,6 +34,8 @@ class Core {
 			onStandoff,
 		};
 
+		console.log(onEnd);
+
 		this.vueInstance = new Vue({
 			el: selector,
 			store: store,
