@@ -6,6 +6,9 @@ import '@/scss/index.scss';
 import { store } from './store';
 
 class Core {
+	constructor() {
+		this.vueInstance = null;
+	}
 	async render(
 		game,
 		socket,
@@ -29,7 +32,7 @@ class Core {
 			onEnd,
 		};
 
-		new Vue({
+		this.vueInstance = new Vue({
 			el: selector,
 			store: store,
 			data() {
@@ -39,6 +42,11 @@ class Core {
 			},
 			render: h => h(App),
 		});
+	}
+	close() {
+		this.vueInstance.$destroy();
+		let app = (document.querySelector('.game-app').innerHTML = '');
+		app.remove();
 	}
 }
 
