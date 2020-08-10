@@ -10,6 +10,7 @@ import il from '~/locales/il.ini';
 import it from '~/locales/it.ini';
 import ru from '~/locales/ru.ini';
 import sa from '~/locales/sa.ini';
+import beta from '~/locales/beta.ini';
 
 class Translator {
 	initTranslations(initLang) {
@@ -25,6 +26,11 @@ class Translator {
 						en: {
 							translation: {
 								...en,
+							},
+						},
+						beta: {
+							translation: {
+								...beta,
 							},
 						},
 						br: {
