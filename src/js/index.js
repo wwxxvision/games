@@ -53,7 +53,9 @@ class Core {
 		app.remove();
 		Howler.unload();
 		this.vueInstance = null;
-		document.body.appendChild('#root');
+		const root = document.createElement('div');
+		root.id = 'games';
+		document.body.appendChild(root);
 	}
 }
 
