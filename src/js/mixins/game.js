@@ -20,8 +20,10 @@ export const gameMixin = {
 		const { onStart, onLose, onWin, onEnd } = this.$callbacks;
 		this.$socket.on('play', () => {
 			this.$store.commit('updateAppLoading', false);
-			this.game.play(this.gameTime);
-			onStart();
+			if (this.game.getGameState !== 'play') {
+				this.game.play(this.gameTime);
+				onStart();
+			}
 		});
 
 		this.$socket.on('win', data => {
