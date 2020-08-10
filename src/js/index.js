@@ -52,7 +52,7 @@ class Core {
 		app.innerHTML = '';
 		app.remove();
 		Howler.unload();
-		onEnd();
+		// onEnd();
 	}
 }
 
