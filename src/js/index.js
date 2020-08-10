@@ -45,7 +45,7 @@ class Core {
 			render: h => h(App),
 		});
 	}
-	close() {
+	close(onEnd) {
 		this.vueInstance.$destroy();
 		let app = (document.querySelector('.game-app').innerHTML = '');
 		app.remove();
