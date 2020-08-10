@@ -4,6 +4,7 @@ import Vue from 'vue';
 import './plugins';
 import '@/scss/index.scss';
 import { store } from './store';
+import { Howler } from 'howler';
 
 class Core {
 	constructor() {
@@ -34,8 +35,6 @@ class Core {
 			onStandoff,
 		};
 
-		console.log(onEnd);
-
 		this.vueInstance = new Vue({
 			el: selector,
 			store: store,
@@ -52,7 +51,7 @@ class Core {
 		let app = document.querySelector('.game-app');
 		app.innerHTML = '';
 		app.remove();
-		this.vueInstance = null;
+		Howler.unload();
 		onEnd();
 	}
 }
