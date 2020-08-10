@@ -224,7 +224,7 @@ export default {
 				}
 			});
 
-			onWin(this.getMainPlayer().value);
+			onWin(true);
 
 			this.reseting();
 			this.game.finish();
@@ -245,7 +245,7 @@ export default {
 				this.playerIsTimeout = true;
 			}
 
-			onLose(this.getMainPlayer().value);
+			onLose(false);
 
 			this.game.finish();
 			this.reseting();

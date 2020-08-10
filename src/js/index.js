@@ -12,10 +12,10 @@ class Core {
 		selector,
 		lang,
 		direction = 'ltr',
-		onStart,
-		onLose,
-		onWin,
-		onEnd
+		onStart = () => null,
+		onLose = () => null,
+		onWin = () => null,
+		onEnd = () => null
 	) {
 		Vue.prototype.$translate = await Translator.initTranslations(
 			lang
