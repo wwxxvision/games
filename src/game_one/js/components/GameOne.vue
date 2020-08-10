@@ -1,6 +1,6 @@
 <template>
 	<div class="game game-one">
-		<Modal :title="title" :titleTheme="'blue'">
+		<Modal v-if="gameState === 'finished'" :title="title" :titleTheme="'blue'">
 			<Winner
 				:hideValues="enemyIsDisconnected"
 				:isDeadHeat="isDeadHeat"
