@@ -60,13 +60,17 @@ class AudioCore {
 
 	play(name) {
 		this.sound = this.sounds.find(sound => sound.name === name);
-		this.player = this.sound.audio.play();
+		this.sound.audio.once('load', function() {
+			this.player = this.sound.audio.play();
+		});
 		this.watchVolume();
 	}
 
 	stop() {
 		if (this.sound) {
-			this.sound.audio.stop(this.player);
+			this.sound.audio.fade(this.volume, 0, 200, this.player, () =>
+				this.sound.audio.stop(this.player)
+			);
 		}
 	}
 }
