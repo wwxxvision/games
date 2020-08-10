@@ -59,9 +59,6 @@ class AudioCore {
 	}
 
 	play(name) {
-		if (this.sound && this.sound.audio) {
-			this.sound.audio.stop();
-		}
 		this.sound = this.sounds.find(sound => sound.name === name);
 		this.player = this.sound.audio.play();
 		this.sound.audio.once('play');
