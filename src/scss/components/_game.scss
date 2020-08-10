@@ -262,10 +262,10 @@
     .game {
       flex-direction: row-reverse;
     }
-  }
-  .vm--modal {
-    left: -50%!important;
-    transform: translateX(50%);
+    .vm--modal {
+      left: -50%!important;
+      transform: translateX(50%);
+    }
   }
 }
 

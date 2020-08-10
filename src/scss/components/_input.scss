@@ -1,4 +1,4 @@
-.input {
+.input-game {
   height: 54px;
    width: 100%;
   font-family: map-get($fonts, 'Roboto');
@@ -48,13 +48,13 @@
 
 
 @media (max-width: map-get($break_points, 'tablet_width')) {
-  .input {
+  .input-game {
     width: 100%;
   }
 }
 
 @media (max-width: map-get($break_points, 'phone_width')) {
-  .input {
+  .input-game {
     height: 35px;
     // width: 133px;
   }
