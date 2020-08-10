@@ -257,6 +257,18 @@
   }
 }
 
+.game-app {
+  &[dir="rtl"] {
+    .game {
+      flex-direction: row-reverse;
+    }
+  }
+  .vm--modal {
+    left: -50%!important;
+    transform: translateX(50%);
+  }
+}
+
 @media (max-width: map-get($break_points, 'tablet_width')) {
   .game {
     .game__block {
@@ -297,10 +309,10 @@
 @media (max-width: map-get($break_points, 'phone_width')) {
   .game {
     &.game-three {
-      flex-direction: column;
+      flex-direction: column!important;
     }
     &.game-one {
-      flex-direction: column;
+      flex-direction: column!important;
       .game__block_view-tablet {
         display: none;
       }

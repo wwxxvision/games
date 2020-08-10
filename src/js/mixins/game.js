@@ -17,24 +17,27 @@ export const gameMixin = {
 		this.game.factoryPlayers('enemy', this.$translate.t('titles.enemy'));
 	},
 	mounted() {
+		const { onStart, onLose, onWin, onEnd } = this.$callbacks;
 		this.$socket.on('play', () => {
 			this.$store.commit('updateAppLoading', false);
 			this.game.play(this.gameTime);
+			onStart();
 		});
 
-		this.$socket.on('win', (data) => {
-			this.game.players.find((player) => {
+		this.$socket.on('win', data => {
+			this.game.players.find(player => {
 				if (player.type === 'player') {
 					player.state = 'winner';
 				}
 			});
 
 			if (data) {
-				Object.keys(data).forEach((type) =>
+				Object.keys(data).forEach(type =>
 					this.updatePlayerValue(type, data[type])
 				);
 			}
 
+			onWin(this.getMainPlayer().value);
 			this.reseting();
 			this.game.finish();
 		});
@@ -44,21 +47,24 @@ export const gameMixin = {
 			this.$store.commit('updateAppLoading', {
 				text: this.$translate.t('system.connecting'),
 			});
+
+			onEnd();
 		});
 
-		this.$socket.on('lose', (data) => {
-			this.game.players.find((player) => {
+		this.$socket.on('lose', data => {
+			this.game.players.find(player => {
 				if (player.type === 'enemy') {
 					player.state = 'winner';
 				}
 			});
 
 			if (data) {
-				Object.keys(data).forEach((type) =>
+				Object.keys(data).forEach(type =>
 					this.updatePlayerValue(type, data[type])
 				);
 			}
 
+			onLose(this.getMainPlayer().value);
 			this.game.finish();
 			this.reseting();
 		});
@@ -67,12 +73,14 @@ export const gameMixin = {
 			this.game.updateGameState('acceptGame');
 		});
 
-		this.$socket.on('standoff', (data) => {
+		this.$socket.on('standoff', data => {
 			if (data) {
-				Object.keys(data).forEach((type) =>
+				Object.keys(data).forEach(type =>
 					this.updatePlayerValue(type, data[type])
 				);
 			}
+
+			onEnd();
 			this.game.finish();
 			this.reseting();
 		});
@@ -84,7 +92,7 @@ export const gameMixin = {
 			}
 		},
 		updatePlayerValue(type, value) {
-			this.game.players.find((player) => {
+			this.game.players.find(player => {
 				if (player.type === type) {
 					player.setValue(value);
 				}
@@ -111,10 +119,10 @@ export const gameMixin = {
 			}
 		},
 		reset() {
-			this.players.forEach((player) => player.reset());
+			this.players.forEach(player => player.reset());
 			this.needReset = !this.needReset;
 			this.serverValue = Helpers.randomInteger(1, 1000);
-			this.players.forEach((player) => {
+			this.players.forEach(player => {
 				if (player.type === 'enemy') {
 					player.value = Helpers.randomInteger(1, 1000);
 				}
@@ -124,24 +132,22 @@ export const gameMixin = {
 			this.gameTime = time;
 		},
 		getMainPlayer() {
-			return this.game.players.find((player) => player.type === 'player');
+			return this.game.players.find(player => player.type === 'player');
 		},
 	},
 	computed: {
 		enemyIsDisconnected() {
-			return this.game.players.some(
-				(player) => player.state === 'disconnected'
-			);
+			return this.game.players.some(player => player.state === 'disconnected');
 		},
 		gameState() {
 			return this.game.getGameState;
 		},
 		isDeadHeat() {
-			return this.game.players.every((player) => player.state === 'winner');
+			return this.game.players.every(player => player.state === 'winner');
 		},
 		winnerName() {
 			const winner = this.game.players.find(
-				(player) => player.state === 'winner'
+				player => player.state === 'winner'
 			);
 			if (winner) {
 				return winner.name;

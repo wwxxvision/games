@@ -51,7 +51,7 @@ module.exports = {
 		],
 	},
 	output: {
-		publicPath: '/assets/games/',
+		publicPath: '/',
 		filename: `index.js`,
 		path: path.resolve(__dirname, 'dist'),
 	},

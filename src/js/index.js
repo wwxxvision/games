@@ -6,11 +6,28 @@ import '@/scss/index.scss';
 import { store } from './store';
 
 class Core {
-	async render(game, socket, selector, lang) {
+	async render(
+		game,
+		socket,
+		selector,
+		lang,
+		direction = 'ltr',
+		onStart,
+		onLose,
+		onWin,
+		onEnd
+	) {
 		Vue.prototype.$translate = await Translator.initTranslations(
 			lang
 		).catch(err => console.log(err));
 		Vue.prototype.$socket = socket;
+		Vue.prototype.$direction = direction;
+		Vue.prototype.$callbacks = {
+			onStart,
+			onLose,
+			onWin,
+			onEnd,
+		};
 
 		new Vue({
 			el: selector,
@@ -24,4 +41,5 @@ class Core {
 		});
 	}
 }
+
 window.gameCore = new Core();

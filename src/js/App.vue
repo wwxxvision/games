@@ -1,5 +1,5 @@
 <template>
-	<div class="game-app full_screen">
+	<div :dir="$direction" class="game-app full_screen box">
 		<Connection :message="systemText" v-if="appIsLoading" />
 		<component :is="currentGame"></component>
 	</div>

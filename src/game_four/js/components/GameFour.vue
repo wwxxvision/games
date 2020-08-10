@@ -215,12 +215,16 @@ export default {
 		};
 	},
 	mounted() {
+		const { onStart, onLose, onWin, onEnd } = this.$callbacks;
+
 		this.$socket.on('win', reason => {
 			this.game.players.find(player => {
 				if (player.type === 'player') {
 					player.state = 'winner';
 				}
 			});
+
+			onWin(this.getMainPlayer().value);
 
 			this.reseting();
 			this.game.finish();
@@ -240,6 +244,8 @@ export default {
 			if (reason === 'timeout') {
 				this.playerIsTimeout = true;
 			}
+
+			onLose(this.getMainPlayer().value);
 
 			this.game.finish();
 			this.reseting();
