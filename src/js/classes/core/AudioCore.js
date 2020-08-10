@@ -59,10 +59,11 @@ class AudioCore {
 	}
 
 	play(name) {
+		if (this.sound && this.sound.audio) {
+			this.sound.audio.stop();
+		}
 		this.sound = this.sounds.find(sound => sound.name === name);
-		this.sound.audio.once('load', function() {
-			this.player = this.sound.audio.play();
-		});
+		this.player = this.sound.audio.play();
 		this.watchVolume();
 	}
 
