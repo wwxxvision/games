@@ -46,13 +46,13 @@ class Core {
 			render: h => h(App),
 		});
 	}
-	close(onEnd) {
+	close() {
 		this.vueInstance.$destroy();
 		let app = document.querySelector('.game-app');
 		app.innerHTML = '';
 		app.remove();
 		Howler.unload();
-		// onEnd();
+		this.vueInstance = null;
 	}
 }
 
