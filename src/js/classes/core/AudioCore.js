@@ -64,6 +64,7 @@ class AudioCore {
 		}
 		this.sound = this.sounds.find(sound => sound.name === name);
 		this.player = this.sound.audio.play();
+		this.sound.audio.once('play');
 		this.watchVolume();
 	}
 
