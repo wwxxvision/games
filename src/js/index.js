@@ -51,6 +51,7 @@ class Core {
 		app.remove();
 		app = null;
 		this.vueInstance = null;
+		onEnd();
 	}
 }
 
