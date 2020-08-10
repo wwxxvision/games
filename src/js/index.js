@@ -54,6 +54,7 @@ class Core {
 		Howler.unload();
 		this.vueInstance = null;
 		const root = document.createElement('div');
+		Vue.forceUpdate();
 		root.id = 'games';
 		document.body.appendChild(root);
 	}
