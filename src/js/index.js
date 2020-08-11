@@ -19,7 +19,7 @@ class Core {
 		return new Promise(resolve => {
 			const { socket, lang, direction, selector, callbacks } = this;
 			const { onStart, onLose, onWin, onEnd, onStandoff } = callbacks;
-			Translator.initTranslations('en')
+			Translator.initTranslations(lang)
 				.then(translate => {
 					Vue.prototype.$translate = translate;
 					Vue.prototype.$socket = socket;
