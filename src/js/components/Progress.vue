@@ -77,7 +77,7 @@ export default {
 		resetWitTime(time) {
 			clearInterval(this.interval);
 			this.indicator = time;
-			this.step = 1 /time;
+			this.step = 1 / time;
 			this.currentDegress = 1;
 			this.timeIsRunnigOut = false;
 			this.timeRunOut = 3;
@@ -113,19 +113,8 @@ export default {
 				}
 			}, 1000);
 		},
-		hardReset(time) {
-			// this.indicator = time;
-			// this.reset();
-			// this.start();
-		},
 	},
 	watch: {
-		timeInSec(time) {
-			// if (this.indicator === 0 && time > 0) {
-			// 	this.reset();
-			// 	this.start();
-			// }
-		},
 		indicator(value) {
 			this.$emit('getTimerTime', value);
 			if (value === 0) {

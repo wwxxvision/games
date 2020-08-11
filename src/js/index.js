@@ -4,7 +4,6 @@ import Vue from 'vue';
 import './plugins';
 import '@/scss/index.scss';
 import { store } from './store';
-import { Howler } from 'howler';
 
 class Core {
 	constructor() {
@@ -46,17 +45,7 @@ class Core {
 			render: h => h(App),
 		});
 	}
-	close() {
-		this.vueInstance.$destroy(true);
-		// let app = document.querySelector('.game-app');
-		// app.innerHTML = '';
-		// app.remove();
-		Howler.unload();
-		this.vueInstance = null;
-		const root = document.createElement('div');
-		root.id = 'games';
-		document.body.appendChild(root);
-	}
+	close() {}
 }
 
 window.gameCore = new Core();
