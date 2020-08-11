@@ -4,23 +4,21 @@ import Vue from 'vue';
 import './plugins';
 import '@/scss/index.scss';
 import { store } from './store';
+import { Howler } from 'howler';
 
 class Core {
-	constructor() {
+	constructor(socket, selector, lang, direction, callbacks) {
+		this.socket = socket;
+		this.selector = selector;
+		this.lang = lang;
+		this.direction = direction;
+		this.callbacks = callbacks;
 		this.vueInstance = null;
 	}
-	async render(
-		game,
-		socket,
-		selector,
-		lang,
-		direction = 'ltr',
-		onStart = () => null,
-		onStandoff = () => null,
-		onLose = () => null,
-		onWin = () => null,
-		onEnd = () => null
-	) {
+	async render(game) {
+		const { socket, lang, direction, selector, callbacks } = this;
+		const { onStart, onLose, onWin, onEnd, onStandoff } = callbacks;
+
 		Vue.prototype.$translate = await Translator.initTranslations(
 			lang
 		).catch(err => console.log(err));
@@ -42,10 +40,32 @@ class Core {
 					game,
 				};
 			},
+			methods: {
+				updateGame(newGame) {
+					this.game = newGame;
+				},
+			},
 			render: h => h(App),
 		});
 	}
-	close() {}
+
+	newGame(gameName) {
+		this.__showRootDomElement(this.selector);
+		this.vueInstance.updateGame(gameName);
+	}
+
+	__hideRootDomElement(selector) {
+		document.querySelector(selector).style.display = 'none';
+	}
+
+	__showRootDomElement(selector) {
+		document.querySelector(selector).style.display = 'block';
+	}
+
+	close() {
+		this.__hideRootDomElement(this.selector);
+		Howler.unload();
+	}
 }
 
-window.gameCore = new Core();
+window.gameCore = Core;

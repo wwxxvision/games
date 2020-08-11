@@ -25,6 +25,16 @@ export default {
 		...mapState(['appIsLoading']),
 	},
 	methods: {
+		gameInit() {
+			this.systemText = this.$translate.t('system.connecting');
+			this.$socket.emit('game-id', this.getIdByGameName());
+			this.$socket.on('start', () => {
+				this.$socket.emit('ready');
+				this.$store.commit('updateAppLoading', {
+					text: this.$translate.t('system.waitingStartGame'),
+				});
+			});
+		},
 		getIdByGameName() {
 			switch (this.currentGame) {
 				case 'game-one':
@@ -39,21 +49,19 @@ export default {
 		},
 	},
 	mounted() {
-		this.systemText = this.$translate.t('system.connecting');
-		this.$socket.emit('game-id', this.getIdByGameName());
-		this.$socket.on('start', () => {
-			this.$socket.emit('ready');
-			this.$store.commit('updateAppLoading', {
-				text: this.$translate.t('system.waitingStartGame'),
-			});
-		});
+		this.gameInit();
 	},
 	created() {
 		this.currentGame = this.$root._data.game;
 	},
+
 	watch: {
 		appIsLoading(value) {
 			if (value) this.systemText = value.text;
+		},
+		['$root._data.game'](currentGame) {
+			this.currentGame = currentGame;
+			this.gameInit();
 		},
 	},
 };

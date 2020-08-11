@@ -1,7 +1,7 @@
 <template>
 	<div
 		:class="{
-			progress: true,
+			progressGame: true,
 			'progress_time-is-running': timeIsRunnigOut && !timeIsFinished,
 			'progress_time-is-finished': timeIsFinished,
 			[gameName]: true,
@@ -60,7 +60,7 @@ export default {
 			this.drawProgress();
 			let self = this;
 			window.addEventListener('resize', () => self.drawProgress());
-			$('.progress canvas').css({
+			$('.progressGame canvas').css({
 				'background-color': '#FFFFFF',
 				'border-radius': '50%',
 			});
@@ -85,7 +85,7 @@ export default {
 			this.moveTop('.progress__indicator', 'init');
 		},
 		drawProgress() {
-			$('.progress').circleProgress({
+			$('.progressGame').circleProgress({
 				value: this.currentDegress,
 				size: this.size,
 				fill: {
