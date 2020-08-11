@@ -15,7 +15,7 @@ class Core {
 		this.callbacks = callbacks;
 		this.vueInstance = null;
 	}
-	async render(game) {
+	async init() {
 		const { socket, lang, direction, selector, callbacks } = this;
 		const { onStart, onLose, onWin, onEnd, onStandoff } = callbacks;
 
@@ -37,7 +37,7 @@ class Core {
 			store: store,
 			data() {
 				return {
-					game,
+					game: '',
 				};
 			},
 			methods: {
