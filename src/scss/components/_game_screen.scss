@@ -38,6 +38,9 @@ $padding_left_right: 16px;
       &.game-screen_pos-right {
         border-right: 2px solid map-get($colors, 'light_pink');
       }
+        &.game-screen_pos-without-border {
+          border: none;
+        }
     }
     .vm--modal {
       left: -50%!important;

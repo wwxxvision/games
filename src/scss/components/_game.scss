@@ -257,6 +257,25 @@
   }
 }
 
+.game-app {
+  &[dir="rtl"] {
+    .game__decor {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 100%;
+      &.game__decor_type-player {
+        transform: rotateY(-180deg);
+        background-image: url('../assets/img/game_one_bg_player.jpg');
+      }
+      &.game__decor_type-enemy {
+        transform: rotateY(180deg);
+        background-image: url('../assets/img/game_one_bg_enemy.jpg');
+      }
+    }
+  }
+}
+
 
 @media (max-width: map-get($break_points, 'tablet_width')) {
   .game {
