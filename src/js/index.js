@@ -50,7 +50,7 @@ class Core {
 	}
 
 	newGame(gameName) {
-		this.__showRootDomElement(this.selector);
+		this.__showRootDomElement('.game-app');
 		this.vueInstance.updateGame(gameName);
 	}
 
@@ -63,7 +63,7 @@ class Core {
 	}
 
 	close() {
-		this.__hideRootDomElement(this.selector);
+		this.__hideRootDomElement('.game-app');
 		Howler.unload();
 	}
 }
