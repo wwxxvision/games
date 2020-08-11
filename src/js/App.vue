@@ -53,6 +53,7 @@ export default {
 			if (value) this.systemText = value.text;
 		},
 		['$root._data.game'](currentGame) {
+			console.log(currentGame);
 			this.currentGame = currentGame;
 			this.gameInit();
 		},

@@ -15,37 +15,42 @@ class Core {
 		this.callbacks = callbacks;
 		this.vueInstance = null;
 	}
-	async init() {
-		const { socket, lang, direction, selector, callbacks } = this;
-		const { onStart, onLose, onWin, onEnd, onStandoff } = callbacks;
-
-		Vue.prototype.$translate = await Translator.initTranslations(
-			lang
-		).catch(err => console.log(err));
-		Vue.prototype.$socket = socket;
-		Vue.prototype.$direction = direction;
-		Vue.prototype.$callbacks = {
-			onStart,
-			onLose,
-			onWin,
-			onEnd,
-			onStandoff,
-		};
-
-		this.vueInstance = new Vue({
-			el: selector,
-			store: store,
-			data() {
-				return {
-					game: '',
-				};
-			},
-			methods: {
-				updateGame(newGame) {
-					this.game = newGame;
-				},
-			},
-			render: h => h(App),
+	init() {
+		return new Promise(resolve => {
+			const { socket, lang, direction, selector, callbacks } = this;
+			const { onStart, onLose, onWin, onEnd, onStandoff } = callbacks;
+			Translator.initTranslations('en')
+				.then(translate => {
+					Vue.prototype.$translate = translate;
+					Vue.prototype.$socket = socket;
+					Vue.prototype.$direction = direction;
+					Vue.prototype.$callbacks = {
+						onStart,
+						onLose,
+						onWin,
+						onEnd,
+						onStandoff,
+					};
+					this.vueInstance = new Vue({
+						el: selector,
+						store: store,
+						data() {
+							return {
+								game: '',
+							};
+						},
+						created() {
+							resolve();
+						},
+						methods: {
+							updateGame(newGame) {
+								this.game = newGame;
+							},
+						},
+						render: h => h(App),
+					});
+				})
+				.catch(err => console.log(err));
 		});
 	}
 
@@ -53,6 +58,8 @@ class Core {
 		if (document.querySelector('.game-app')) {
 			this.__showRootDomElement('.game-app');
 		}
+
+		console.log(this.vueInstance);
 		this.vueInstance.updateGame(gameName);
 	}
 
