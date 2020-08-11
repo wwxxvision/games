@@ -48,13 +48,6 @@ export default {
 			}
 		},
 	},
-	mounted() {
-		this.gameInit();
-	},
-	created() {
-		this.currentGame = this.$root._data.game;
-	},
-
 	watch: {
 		appIsLoading(value) {
 			if (value) this.systemText = value.text;

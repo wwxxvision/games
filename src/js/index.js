@@ -50,7 +50,9 @@ class Core {
 	}
 
 	newGame(gameName) {
-		this.__showRootDomElement('.game-app');
+		if (document.querySelector('.game-app')) {
+			this.__showRootDomElement('.game-app');
+		}
 		this.vueInstance.updateGame(gameName);
 	}
 
