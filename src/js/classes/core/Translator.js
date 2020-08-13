@@ -1,5 +1,4 @@
 import i18next from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
 import en from '~/locales/en.ini';
 import br from '~/locales/br.ini';
 import cn from '~/locales/cn.ini';
@@ -16,7 +15,6 @@ class Translator {
 	initTranslations(initLang) {
 		return new Promise((resolve, reject) => {
 			i18next
-				.use(LanguageDetector)
 				.init({
 					debug: true,
 					saveMissing: true,
@@ -81,7 +79,7 @@ class Translator {
 					},
 				})
 				.then(() => resolve(i18next))
-				.catch(err => reject(err));
+				.catch((err) => reject(err));
 		});
 	}
 }

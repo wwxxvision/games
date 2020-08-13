@@ -105,7 +105,7 @@ export default {
 			game: null,
 			gameInitValue: 0,
 			tap: false,
-			gameTime: 40, // in seconds,
+			gameTime: 20, // in seconds,
 			bgMusic: 'bg_2',
 		};
 	},

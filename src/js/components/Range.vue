@@ -1,17 +1,21 @@
 <template>
 	<div class="range">
-		<input v-model="value" @input="updated" :disabled="disabled" :min="1" :step="1" :max="1000" class="range__item" type="range" />
+		<input  class="range__item" v-model="value" @input="updated" :disabled="disabled" :min="1" :step="1" :max="1000" type="range" />
 	</div>
 </template>
 
 <script>
 import $ from 'jquery';
+import rangeslider from 'rangeslider.js';
 
 export default {
 	data() {
 		return {
 			value: 1,
 		};
+	},
+	mounted() {
+ 		$('.range__item').rangeslider();
 	},
 	props: {
 		disabled: {

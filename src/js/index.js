@@ -17,11 +17,11 @@ class Core {
 		this.vueInstance = null;
 	}
 	init() {
-		return new Promise(resolve => {
+		return new Promise((resolve) => {
 			const { socket, lang, direction, selector, callbacks } = this;
 			const { onStart, onLose, onWin, onEnd, onStandoff } = callbacks;
 			Translator.initTranslations(lang)
-				.then(translate => {
+				.then((translate) => {
 					Vue.prototype.$translate = translate;
 					Vue.prototype.$socket = socket;
 					Vue.prototype.$direction = direction;
@@ -48,19 +48,19 @@ class Core {
 								this.game = newGame;
 							},
 						},
-						render: h => h(App),
+						render: (h) => h(App),
 					});
 				})
-				.catch(err => console.log(err));
+				.catch((err) => console.log(err));
 		});
 	}
 
 	newGame(gameName) {
+		Howler.unload();
 		if (document.querySelector('.game-app')) {
 			this.__showRootDomElement('.game-app');
 		}
 
-		console.log(this.vueInstance);
 		this.vueInstance.updateGame(gameName);
 	}
 
@@ -74,7 +74,6 @@ class Core {
 
 	close() {
 		this.__hideRootDomElement('.game-app');
-		Howler.unload();
 	}
 }
 

@@ -108,7 +108,7 @@ $height_bar: 164px;
 }
 
 @media (max-width: map-get($break_points, 'phone_width')) {
-  .progress {
+  .progressGame {
     &.game-one {
       position: absolute;
       top: 50%;

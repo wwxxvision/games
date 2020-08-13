@@ -1,6 +1,6 @@
 <template>
 	<div :dir="$direction" class="game-app full_screen box">
-		<Connection :message="systemText" v-if="appIsLoading" />
+		<!-- <Connection :message="systemText" v-if="appIsLoading" /> -->
 		<component :is="currentGame"></component>
 	</div>
 </template>
@@ -53,7 +53,6 @@ export default {
 			if (value) this.systemText = value.text;
 		},
 		['$root._data.game'](currentGame) {
-			console.log(currentGame);
 			this.currentGame = currentGame;
 			this.gameInit();
 		},

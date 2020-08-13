@@ -8,6 +8,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
 const isDEV = process.env.NODE_ENV === 'development';
+const publicPath = !isDEV ? '/assets/games/' : '/';
 const optimization = () => {
 	let config = [];
 	if (!isDEV) {
@@ -51,7 +52,7 @@ module.exports = {
 		],
 	},
 	output: {
-		publicPath: '/assets/games/',
+		publicPath,
 		filename: `index.js`,
 		path: path.resolve(__dirname, 'dist'),
 	},
@@ -120,7 +121,7 @@ module.exports = {
 				test: /\.(ttf|eot|woff|woff2|mp3)$/,
 				loader: 'file-loader',
 				options: {
-					name: file => {
+					name: (file) => {
 						let dirNameInsideAssets = path.relative(
 							path.join(__dirname, 'src', 'assets'),
 							path.dirname(file)
@@ -135,7 +136,7 @@ module.exports = {
 					{
 						loader: 'file-loader',
 						options: {
-							name: file => {
+							name: (file) => {
 								let dirNameInsideAssets = path.relative(
 									path.join(__dirname, 'src', 'assets'),
 									path.dirname(file)
