@@ -15,7 +15,3 @@ export default async function runDevelopment(Core) {
 
 	core.newGame('game-one');
 }
-
-// IP Адрес  188.227.85.89
-// Логин  root
-// Пароль  ZJk47X4FPe
