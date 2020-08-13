@@ -5,6 +5,7 @@ import './plugins';
 import '@/scss/index.scss';
 import { store } from './store';
 import { Howler } from 'howler';
+import runDevelopment from './dev';
 
 class Core {
 	constructor(socket, selector, lang, direction, callbacks) {
@@ -78,3 +79,7 @@ class Core {
 }
 
 window.gameCore = Core;
+
+if (process.env.NODE_ENV === 'development') {
+	runDevelopment(Core);
+}
