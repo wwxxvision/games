@@ -34,8 +34,6 @@ $box_margin: 10px;
       background-color: map-get($colors, 'red');
       border-radius: 50%;
       position: relative;
-      height: 15px;
-      width: 15px;
     }
     &::-moz-range-thumb {
       background-color: map-get($colors, 'red');

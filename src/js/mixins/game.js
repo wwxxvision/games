@@ -17,7 +17,6 @@ export const gameMixin = {
 		this.game.factoryPlayers('enemy', this.$translate.t('titles.enemy'));
 	},
 	mounted() {
-		this.game.play(this.gameTime);
 		const { onStart, onLose, onWin, onEnd, onStandoff } = this.$callbacks;
 		this.$socket.on('play', () => {
 			this.$store.commit('updateAppLoading', false);
