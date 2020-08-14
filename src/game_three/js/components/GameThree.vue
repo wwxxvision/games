@@ -37,9 +37,9 @@
 				class="game__block game__block_size-full_screen flex flex_justify_content_center flex_align_items_center"
 			>
 				<div
-					@mousedown="tapIcon"
+					@mousedown="ev => tapIcon(ev, player.type)"
 					@mouseup="disableTap(player.type)"
-					@touchstart="tapIcon"
+					@touchstart="ev => tapIcon(ev, player.type)"
 					@touchend="disableTap(player.type)"
 					ref="icon"
 					:class="
@@ -128,9 +128,11 @@ export default {
 	},
 	methods: {
 		tapIcon(ev, playerType) {
-			this.addScore('player')
-			this.animateIcon('player');
-			this.$socket.emit('player-click');
+			if (playerType === 'player') {
+				this.addScore('player')
+				this.animateIcon('player');
+				this.$socket.emit('player-click');
+			}
 		},
 		animateIcon(playerType) {
 			const icon = $(`.game__third-icon_type-${playerType}`);

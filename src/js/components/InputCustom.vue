@@ -1,7 +1,7 @@
 <template>
 	<div class="input-game">
 		<input
-			@change="change"
+			@input="change"
 			v-model="value"
 			:type="type"
 			:placeholder="placeholder"

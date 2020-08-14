@@ -213,8 +213,9 @@
         }
       }
       .add-score-decor {
-        top: -20%;
+        top: -50%;
         left: 50%;
+        opacity: .8;
         font-family: map-get($fonts, 'Baloo');
         transform: translateX(-50%);
         visibility: hidden;

@@ -17,13 +17,20 @@ export default async function runDevelopment(Core) {
 	const socket = io(CONFIG.SOCKET_URL);
 	const core = new Core(socket, '#root', 'en', 'rtl', {
 		onStart: () => null,
-		onEnd: () => null,
+		onEnd: () => {
+			core.close();
+			setTimeout(() => {
+				core.newGame('game-two');
+			}, 2000);
+		},
 		onLose: () => null,
 		onWin: () => null,
-		onStandOff: () => null,
+		onStandoff: () => {
+			console.log(true);
+		},
 	});
 
 	await core.init();
 
-	core.newGame('game-three');
+	core.newGame('game-four');
 }

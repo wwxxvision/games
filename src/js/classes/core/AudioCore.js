@@ -48,7 +48,7 @@ class AudioCore {
 			? localStorage.getItem('volume')
 			: 1;
 		this.player = null;
-		this.fadeOutDur = 1500;
+		this.fadeOutDur = 300;
 		Howler.volume(this.volume);
 	}
 
@@ -59,7 +59,7 @@ class AudioCore {
 	}
 
 	play(name) {
-		this.sound = this.sounds.find(sound => sound.name === name);
+		this.sound = this.sounds.find((sound) => sound.name === name);
 		this.player = this.sound.audio.play();
 		this.sound.audio.once('play');
 		this.watchVolume();
@@ -67,7 +67,7 @@ class AudioCore {
 
 	stop() {
 		if (this.sound) {
-			this.sound.audio.fade(this.volume, 0, 200, this.player, () =>
+			this.sound.audio.fade(this.volume, 0, 1500, this.player, () =>
 				this.sound.audio.stop(this.player)
 			);
 		}

@@ -22,10 +22,6 @@ $padding_left_right: 16px;
   &.game-screen_pos-right {
     border-left: 2px solid map-get($colors, 'light_pink');
   }
-
-  &.game-screen_pos-without-border {
-    border: none;
-  }
 }
 
 .game-app {
@@ -67,6 +63,7 @@ $padding_left_right: 16px;
 
       &.game-screen.game-screen_pos-left {
         border-right: none;
+        border-left: none;
         border-bottom: 1px solid map-get($colors, 'light_pink');
 
         .game-screen__wrapper {
@@ -80,6 +77,7 @@ $padding_left_right: 16px;
 
       &.game-screen_pos-right {
         border-left: none;
+        border-right: none;
         border-top: 2px solid map-get($colors, 'light_pink');
       }
 

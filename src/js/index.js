@@ -20,6 +20,7 @@ class Core {
 		return new Promise((resolve) => {
 			const { socket, lang, direction, selector, callbacks } = this;
 			const { onStart, onLose, onWin, onEnd, onStandoff } = callbacks;
+
 			Translator.initTranslations(lang)
 				.then((translate) => {
 					Vue.prototype.$translate = translate;
@@ -56,7 +57,7 @@ class Core {
 	}
 
 	newGame(gameName) {
-		Howler.unload();
+		// Howler.unload();
 		if (document.querySelector('.game-app')) {
 			this.__showRootDomElement('.game-app');
 		}
@@ -65,7 +66,7 @@ class Core {
 	}
 
 	__hideRootDomElement(selector) {
-		document.querySelector(selector).style.display = 'none';
+		document.querySelector(selector).style.visibility = 'none';
 	}
 
 	__showRootDomElement(selector) {

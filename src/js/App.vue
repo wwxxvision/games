@@ -1,6 +1,6 @@
 <template>
 	<div :dir="$direction" class="game-app full_screen box">
-		<!-- <Connection :message="systemText" v-if="appIsLoading" /> -->
+		<Connection :message="systemText" v-if="appIsLoading" />
 		<component :is="currentGame"></component>
 	</div>
 </template>
@@ -19,6 +19,7 @@ export default {
 		return {
 			currentGame: null,
 			systemText: '',
+			isDev: process.env.NODE_ENV === 'development'
 		};
 	},
 	computed: {
@@ -26,7 +27,14 @@ export default {
 	},
 	methods: {
 		gameInit() {
-			this.systemText = this.$translate.t('system.connecting');
+			if (this.isDev) {
+				this.$socket.emit('start-game-render');
+			}
+
+			this.$store.commit('updateAppLoading', {
+				text: this.$translate.t('system.connecting'),
+			});
+
 			this.$socket.emit('game-id', this.getIdByGameName());
 			this.$socket.on('start', () => {
 				this.$socket.emit('ready');

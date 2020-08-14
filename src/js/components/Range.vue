@@ -1,12 +1,29 @@
 <template>
 	<div class="range">
-		<input  class="range__item" v-model="value" @input="updated" :disabled="disabled" :min="1" :step="1" :max="1000" type="range" />
+		<!-- <input  class="range__item" v-model="value" @input="updated" :disabled="disabled" :min="1" :step="1" :max="1000" type="range" /> -->
+		  <vue-slider
+			:disabled="disabled"
+			:direction="$direction"
+			:processStyle="{
+				height: '4px',
+				borderRadius: 2,
+				backgroundColor: '#EF4141'
+			}" :dotStyle="{
+				borderRadius: '50%',
+				height: '15px',
+				width: '15px',
+				backgroundColor: '#EF4141',
+				border: 'none',
+				active: {
+					border: 'none'
+				}
+			}" @change="updated" :dotSize="15" :min="1" :max="1000" tooltip="none" v-model="value" />
 	</div>
 </template>
 
 <script>
-import $ from 'jquery';
-import rangeslider from 'rangeslider.js';
+import VueSlider from 'vue-slider-component'
+import 'vue-slider-component/theme/antd.css'
 
 export default {
 	data() {
@@ -14,8 +31,8 @@ export default {
 			value: 1,
 		};
 	},
-	mounted() {
- 		$('.range__item').rangeslider();
+	components: {
+		VueSlider
 	},
 	props: {
 		disabled: {
