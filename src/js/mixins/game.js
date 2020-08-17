@@ -39,7 +39,6 @@ export const gameMixin = {
 					this.updatePlayerValue(type, data[type])
 				);
 			}
-			this.game.finish();
 			if (this.serverValue) {
 				onEnd(this.serverValue);
 				onWin(this.getMainPlayer().value, this.serverValue);
@@ -47,6 +46,7 @@ export const gameMixin = {
 				onEnd();
 				onWin(this.getMainPlayer().value);
 			}
+			this.game.finish();
 			this.reseting();
 		});
 
@@ -71,7 +71,7 @@ export const gameMixin = {
 					this.updatePlayerValue(type, data[type])
 				);
 			}
-			this.game.finish();
+
 			if (this.serverValue) {
 				onEnd(this.serverValue);
 				onLose(this.getMainPlayer().value, this.serverValue);
@@ -79,7 +79,7 @@ export const gameMixin = {
 				onEnd();
 				onLose(this.getMainPlayer().value);
 			}
-
+			this.game.finish();
 			this.reseting();
 		});
 
@@ -93,7 +93,7 @@ export const gameMixin = {
 					this.updatePlayerValue(type, data[type])
 				);
 			}
-			this.game.finish();
+
 			if (this.serverValue) {
 				onEnd(this.serverValue);
 				onStandoff(this.getMainPlayer().value, this.serverValue);
@@ -101,7 +101,7 @@ export const gameMixin = {
 				onEnd();
 				onStandoff(this.getMainPlayer().value);
 			}
-
+			this.game.finish();
 			this.reseting();
 		});
 	},
