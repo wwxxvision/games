@@ -174,13 +174,7 @@ export default {
 			};
 		},
 		playerTap(e, touchstart) {
-			if (!this.iconSelect) {
-				this.$socket.emit('player-click', this.coordinatesIcons);
-
-				if (touchstart) {
-					alert('touch start');
-				}
-			}
+			this.$socket.emit('player-click', this.coordinatesIcons);
 		},
 		addScore(playerType) {
 			this.game.players.find(player => {
