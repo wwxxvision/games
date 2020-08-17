@@ -34,7 +34,7 @@
 			:dir="getScreenDir(player.type)"
 		>
 			<div
-				class="game__block game__block_size-full_screen flex flex_justify_content_center flex_align_items_center"
+				class="game__block game__block_auto flex flex_justify_content_center flex_align_items_center"
 			>
 				<div
 					@mousedown="ev => tapIcon(ev, player.type)"
@@ -57,9 +57,9 @@
 				</div>
 			</div>
 			<div
-				class="game__block game__block_font-bold flex flex_justify_content_center text-align-center"
+				class="game__block game__block_font-bold block flex flex_justify_content_center text-align-center"
 			>
-				<div class="game__block relative">
+				<div class="game__block">
 					<div>{{ player.name }}</div>
 					<InputCustom
 						type="text"
@@ -71,6 +71,7 @@
 					/>
 				</div>
 			</div>
+
 		</GameScreen>
 	</div>
 </template>;

@@ -252,6 +252,9 @@
     &.game__block_size-full_screen {
       @include full_screen;
     }
+    &.game__block_auto {
+      flex-grow: 1;
+    }
 
     &.game__block_font-bold {
       font-family: map-get($fonts, 'Baloo');
@@ -281,10 +284,11 @@
 @media (max-width: map-get($break_points, 'tablet_width')) {
   .game {
     .game__block {
-      margin-top: 5px;
+      margin-top: 1px;
+      margin-bottom: 1px;
       .game__third-icon {
-        width: 80px;
-        height: 80px;
+        width: 60px;
+        height: 60px;
       }
     }
   .game__choose-answer {

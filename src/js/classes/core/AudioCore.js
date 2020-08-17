@@ -59,6 +59,8 @@ class AudioCore {
 	}
 
 	play(name) {
+		this.stop();
+
 		this.sound = this.sounds.find((sound) => sound.name === name);
 		this.player = this.sound.audio.play();
 		this.sound.audio.once('play');
@@ -74,4 +76,4 @@ class AudioCore {
 	}
 }
 
-export default AudioCore;
+export default new AudioCore();

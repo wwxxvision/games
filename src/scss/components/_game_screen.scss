@@ -28,10 +28,12 @@ $padding_left_right: 16px;
   &[dir="rtl"] {
     .game-screen {
       &.game-screen_pos-left {
+        border-right: none;
         border-left: 1px solid map-get($colors, 'light_pink');
       }
 
       &.game-screen_pos-right {
+        border-left: none;
         border-right: 2px solid map-get($colors, 'light_pink');
       }
         &.game-screen_pos-without-border {
@@ -57,13 +59,13 @@ $padding_left_right: 16px;
       width: $width_screen;
 
       .game-screen__wrapper {
-        $padding_top_bottom: 10px;
+        $padding_top_bottom: 7px;
         padding: $padding_top_bottom $padding_left_right;
       }
 
       &.game-screen.game-screen_pos-left {
-        border-right: none;
-        border-left: none;
+        border-right: none!important;
+        border-left: none!important;
         border-bottom: 1px solid map-get($colors, 'light_pink');
 
         .game-screen__wrapper {
@@ -76,8 +78,8 @@ $padding_left_right: 16px;
       }
 
       &.game-screen_pos-right {
-        border-left: none;
-        border-right: none;
+        border-left: none!important;
+        border-right: none!important;
         border-top: 2px solid map-get($colors, 'light_pink');
       }
 

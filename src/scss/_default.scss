@@ -10,6 +10,9 @@
   z-index: 999999999;
   display: none;
 }
+.block {
+  margin: 0;
+}
 
 .dev {
   z-index: 9999999999;
@@ -36,6 +39,8 @@
 .game-app * {
   box-sizing: border-box;
 }
+
+
 
 input {
   outline: none;

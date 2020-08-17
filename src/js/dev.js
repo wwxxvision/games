@@ -20,7 +20,7 @@ export default async function runDevelopment(Core) {
 		onEnd: () => {
 			core.close();
 			setTimeout(() => {
-				core.newGame('game-two');
+				core.newGame('game-three');
 			}, 2000);
 		},
 		onLose: () => null,
@@ -32,5 +32,5 @@ export default async function runDevelopment(Core) {
 
 	await core.init();
 
-	core.newGame('game-four');
+	core.newGame('game-one');
 }

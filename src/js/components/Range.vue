@@ -47,7 +47,9 @@ export default {
 	},
 	methods: {
 		updated() {
-			this.$emit('updateValues', this.playerType, this.value);
+			if (!this.disabled) {
+				this.$emit('updateValues', this.playerType, this.value);
+			}
 		}
 	},
 	watch: {

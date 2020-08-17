@@ -1,7 +1,7 @@
 <template>
 	<div :dir="$direction" class="game-app full_screen box">
 		<Connection :message="systemText" v-if="appIsLoading" />
-		<component :is="currentGame"></component>
+		<component @reset="resetGame()" :is="currentGame"></component>
 	</div>
 </template>
 
@@ -26,22 +26,8 @@ export default {
 		...mapState(['appIsLoading']),
 	},
 	methods: {
-		gameInit() {
-			if (this.isDev) {
-				this.$socket.emit('start-game-render');
-			}
-
-			this.$store.commit('updateAppLoading', {
-				text: this.$translate.t('system.connecting'),
-			});
-
-			this.$socket.emit('game-id', this.getIdByGameName());
-			this.$socket.on('start', () => {
-				this.$socket.emit('ready');
-				this.$store.commit('updateAppLoading', {
-					text: this.$translate.t('system.waitingStartGame'),
-				});
-			});
+		resetGame() {
+			this.currentGame = null;
 		},
 		getIdByGameName() {
 			switch (this.currentGame) {
@@ -53,8 +39,26 @@ export default {
 					return 3;
 				case 'game-four':
 					return 4;
+				default:
+					return false;
 			}
 		},
+	},
+	mounted() {
+			if (this.isDev) {
+				this.$socket.emit('start-game-render');
+			}
+
+			this.$store.commit('updateAppLoading', {
+				text: this.$translate.t('system.connecting'),
+			});
+
+			this.$socket.on('start', () => {
+				this.$socket.emit('ready');
+				this.$store.commit('updateAppLoading', {
+					text: this.$translate.t('system.waitingStartGame'),
+				});
+			});
 	},
 	watch: {
 		appIsLoading(value) {
@@ -62,7 +66,9 @@ export default {
 		},
 		['$root._data.game'](currentGame) {
 			this.currentGame = currentGame;
-			this.gameInit();
+			if (this.currentGame) {
+						this.$socket.emit('game-id', this.getIdByGameName());
+			}
 		},
 	},
 };

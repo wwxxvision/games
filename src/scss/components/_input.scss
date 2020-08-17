@@ -55,6 +55,7 @@
 
 @media (max-width: map-get($break_points, 'phone_width')) {
   .input-game {
+    display: inline-block;
     height: 35px;
     // width: 133px;
   }

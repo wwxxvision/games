@@ -16,6 +16,11 @@ export const gameMixin = {
 		this.game.factoryPlayers('player', this.$translate.t('titles.mainPlayer'));
 		this.game.factoryPlayers('enemy', this.$translate.t('titles.enemy'));
 	},
+	beforeDestroy() {
+		if (this.bgMusic) {
+			this.bgMusic = false;
+		}
+	},
 	mounted() {
 		const { onStart, onLose, onWin, onEnd, onStandoff } = this.$callbacks;
 		this.$socket.on('play', () => {
@@ -46,7 +51,6 @@ export const gameMixin = {
 				onEnd();
 				onWin(this.getMainPlayer().value);
 			}
-
 			this.reseting();
 		});
 
@@ -71,7 +75,6 @@ export const gameMixin = {
 					this.updatePlayerValue(type, data[type])
 				);
 			}
-
 			this.game.finish();
 			if (this.serverValue) {
 				onEnd(this.serverValue);
@@ -80,6 +83,7 @@ export const gameMixin = {
 				onEnd();
 				onLose(this.getMainPlayer().value);
 			}
+
 			this.reseting();
 		});
 

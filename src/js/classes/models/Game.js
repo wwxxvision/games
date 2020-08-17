@@ -7,7 +7,7 @@ export default class Game {
 		this.initGameValue = initGameValue;
 		this.gameState = 'pause';
 		this.gameTime = 0;
-		this.AudioCore = new AudioCore();
+		this.AudioCore = AudioCore;
 		this.backgroundMusic = backgroundMusic ? backgroundMusic : 'bg';
 	}
 

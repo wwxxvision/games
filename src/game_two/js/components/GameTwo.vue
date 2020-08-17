@@ -27,6 +27,7 @@
 		<div
 			v-if="gameState === 'play' && iconsIsRender"
 			@click="playerTap"
+			@touchstart="playerTap"
 			:class="{
 				'game__item-chat-icon': true,
 				'game__item-chat-icon_state-winner':
@@ -190,7 +191,6 @@ export default {
 				player => player.type === 'player'
 			).value;
 			if (timeIsLeft) {
-				console.log('finished');
 				this.$socket.emit('finish', playerValue);
 			}
 		},

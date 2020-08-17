@@ -4,7 +4,6 @@ import Vue from 'vue';
 import './plugins';
 import '@/scss/index.scss';
 import { store } from './store';
-import { Howler } from 'howler';
 import runDevelopment from './dev';
 
 class Core {
@@ -57,12 +56,14 @@ class Core {
 	}
 
 	newGame(gameName) {
-		// Howler.unload();
 		if (document.querySelector('.game-app')) {
 			this.__showRootDomElement('.game-app');
 		}
 
-		this.vueInstance.updateGame(gameName);
+		this.vueInstance.updateGame(false);
+		setTimeout(() => {
+			this.vueInstance.updateGame(gameName);
+		}, 200);
 	}
 
 	__hideRootDomElement(selector) {
