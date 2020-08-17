@@ -1,6 +1,5 @@
 <template>
 	<div class="range">
-		{{disabled}}
 		  <vue-slider
 			:disabled="disabled"
 			:direction="$direction"

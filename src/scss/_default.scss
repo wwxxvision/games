@@ -64,3 +64,8 @@ div {
 input[disabled] {
   opacity: .5;
 }
+
+canvas {
+  background-color: map-get($colors, 'white');
+  border-radius: 50%;
+}
