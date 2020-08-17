@@ -27,7 +27,7 @@
 		<div
 			v-if="gameState === 'play' && iconsIsRender"
 			@click="playerTap"
-			@touchstart="playerTap"
+			@touchstart="playerTap(true)"
 			:class="{
 				'game__item-chat-icon': true,
 				'game__item-chat-icon_state-winner':
@@ -173,9 +173,13 @@ export default {
 				type,
 			};
 		},
-		playerTap() {
+		playerTap(touchstart) {
 			if (!this.iconSelect) {
 				this.$socket.emit('player-click', this.coordinatesIcons);
+
+				if (touchstart) {
+					alert('touch start');
+				}
 			}
 		},
 		addScore(playerType) {
