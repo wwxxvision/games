@@ -5,6 +5,7 @@ import './plugins';
 import '@/scss/index.scss';
 import { store } from './store';
 import runDevelopment from './dev';
+import { Howler } from 'howler';
 
 class Core {
 	constructor(socket, selector, lang, direction, callbacks) {

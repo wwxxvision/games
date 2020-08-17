@@ -13,13 +13,9 @@ export const gameMixin = {
 			this.gameInitValue,
 			this.bgMusic ? this.bgMusic : false
 		);
+
 		this.game.factoryPlayers('player', this.$translate.t('titles.mainPlayer'));
 		this.game.factoryPlayers('enemy', this.$translate.t('titles.enemy'));
-	},
-	beforeDestroy() {
-		if (this.bgMusic) {
-			this.bgMusic = false;
-		}
 	},
 	mounted() {
 		const { onStart, onLose, onWin, onEnd, onStandoff } = this.$callbacks;

@@ -67,7 +67,7 @@ export default {
 		['$root._data.game'](currentGame) {
 			this.currentGame = currentGame;
 			if (this.currentGame) {
-						this.$socket.emit('game-id', this.getIdByGameName());
+				this.$socket.emit('game-id', this.getIdByGameName());
 			}
 		},
 	},

@@ -50,6 +50,7 @@ class AudioCore {
 		this.player = null;
 		this.fadeOutDur = 300;
 		Howler.volume(this.volume);
+		this.watchVolume();
 	}
 
 	watchVolume() {
@@ -64,14 +65,11 @@ class AudioCore {
 		this.sound = this.sounds.find((sound) => sound.name === name);
 		this.player = this.sound.audio.play();
 		this.sound.audio.once('play');
-		this.watchVolume();
 	}
 
 	stop() {
 		if (this.sound) {
-			this.sound.audio.fade(this.volume, 0, 1500, this.player, () =>
-				this.sound.audio.stop(this.player)
-			);
+			this.sound.audio.stop(this.player);
 		}
 	}
 }

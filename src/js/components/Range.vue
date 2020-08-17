@@ -1,6 +1,6 @@
 <template>
 	<div class="range">
-		<!-- <input  class="range__item" v-model="value" @input="updated" :disabled="disabled" :min="1" :step="1" :max="1000" type="range" /> -->
+		{{disabled}}
 		  <vue-slider
 			:disabled="disabled"
 			:direction="$direction"
