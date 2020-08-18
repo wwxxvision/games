@@ -68,7 +68,7 @@ class Core {
 	}
 
 	__hideRootDomElement(selector) {
-		document.querySelector(selector).style.visibility = 'none';
+		document.querySelector(selector).style.display = 'none';
 	}
 
 	__showRootDomElement(selector) {
