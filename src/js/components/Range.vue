@@ -9,8 +9,8 @@
 				backgroundColor: '#EF4141'
 			}" :dotStyle="{
 				borderRadius: '50%',
-				height: '15px',
-				width: '15px',
+				height: '19px',
+				width: '19px',
 				backgroundColor: '#EF4141',
 				border: 'none',
 				active: {

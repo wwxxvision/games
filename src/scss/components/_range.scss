@@ -46,3 +46,9 @@ $box_margin: 10px;
     }
   }
 }
+
+@media (max-width: map-get($break_points, 'phone_width')) {
+  .range {
+    margin-top: 9px;
+  }
+}
