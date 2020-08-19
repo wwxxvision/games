@@ -34,9 +34,9 @@
 					iconSelect && iconSelect.type === 'enemy',
 			}"
 		>
+			<div class="check-icon"></div>
 			<div @click="playerTap"
-			@touchstart="playerTap(ev, true)" class="check-icon"></div>
-			<div :class="{ icon: true, rotate: iconSelect }"></div>
+			@touchstart="playerTap(ev, true)" :class="{ icon: true, rotate: iconSelect }"></div>
 		</div>
 		<Progress
 			:gameName="'game-two'"
