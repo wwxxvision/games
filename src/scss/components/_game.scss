@@ -107,7 +107,7 @@
   }
   .game__item-chat-icon {
     position: absolute;
-    z-index: 4000;
+    // z-index: 4000;
     @include flex_centered(column);
     cursor: pointer;
     .icon {
@@ -116,7 +116,7 @@
       background-image: url('../assets/img/chat_icon.png');
       background-size: cover;
       background-repeat: no-repeat;
-      z-index: 5000;
+      // z-index: 5000;
 
       &.rotate {
         transition-duration: 0.4s;
