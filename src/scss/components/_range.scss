@@ -23,6 +23,7 @@ $box_margin: 10px;
 
 .range {
   width: 100%;
+  z-index: 100;
   .range__item {
     width: 100%;
     -webkit-appearance: none;
