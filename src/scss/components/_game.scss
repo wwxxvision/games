@@ -106,18 +106,19 @@
     background-size: cover;
   }
   .game__item-chat-icon {
-    position: fixed;
+    position: absolute;
     z-index: 4000;
+     height: 95px;
+      width: 95px;
     @include flex_centered(column);
-    cursor: pointer;
     .icon {
-      display: inline-block;
+      cursor: pointer;
       height: 95px;
       width: 95px;
       background-image: url('../assets/img/chat_icon.png');
       background-size: cover;
       background-repeat: no-repeat;
-
+      z-index: 5000;
       &.rotate {
         transition-duration: 0.4s;
         transition-timing-function: ease-out;
