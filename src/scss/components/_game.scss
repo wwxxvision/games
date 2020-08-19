@@ -110,7 +110,7 @@
     z-index: 4000;
      height: 95px;
       width: 95px;
-    @include flex_centered(column);
+    // @include flex_centered(column);
     .icon {
       cursor: pointer;
       height: 95px;
