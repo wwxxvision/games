@@ -39,6 +39,7 @@
 				<div
 					@mousedown="ev => tapIcon(ev, player.type)"
 					@mouseup="disableTap(player.type)"
+					@touchstart="ev => tapIcon(ev, player.type, 'touch')"
 					@touchend="disableTap(player.type)"
 					ref="icon"
 					:class="
