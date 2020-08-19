@@ -3,23 +3,12 @@
 		  <vue-slider
 			:disabled="disabled"
 			:direction="$direction"
-			:dragOnClick="true"
-			:contained="true"
 			:processStyle="{
 				height: '4px',
 				borderRadius: 2,
 				backgroundColor: '#EF4141'
-			}" :dotStyle="{
-				borderRadius: '50%',
-				height: '19px',
-				width: '19px',
-				zIndex: 200,
-				backgroundColor: '#EF4141',
-				border: 'none',
-				active: {
-					border: 'none'
-				}
-			}" @change="updated" :dotSize="15" :min="1" :max="1000" tooltip="none" v-model="value" />
+			}"
+			@change="updated" :min="1" :max="1000" tooltip="none" v-model="value" />
 	</div>
 </template>
 
