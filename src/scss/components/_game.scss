@@ -106,7 +106,7 @@
     background-size: cover;
   }
   .game__item-chat-icon {
-    position: absolute;
+    position: fixed;
     z-index: 4000;
     @include flex_centered(column);
     cursor: pointer;
