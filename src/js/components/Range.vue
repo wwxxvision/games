@@ -1,7 +1,7 @@
 <template>
 	<div class="range">
 		  <vue-slider
-			:disabled="disabled"
+
 			:direction="$direction"
 			:processStyle="{
 				height: '4px',
