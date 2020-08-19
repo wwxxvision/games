@@ -4,7 +4,7 @@
 			:disabled="disabled"
 			:direction="$direction"
 			:processStyle="{
-				height: '4px',
+				height: '9px',
 				borderRadius: 2,
 				backgroundColor: '#EF4141'
 			}"
