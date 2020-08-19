@@ -3,6 +3,8 @@
 		  <vue-slider
 			:disabled="disabled"
 			:direction="$direction"
+			:dragOnClick="true"
+			:contained="true"
 			:processStyle="{
 				height: '4px',
 				borderRadius: 2,
