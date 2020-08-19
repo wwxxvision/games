@@ -1,6 +1,6 @@
 <template>
 	<div class="range">
-		  <vue-slider
+		  <!-- <vue-slider
 			:disabled="disabled"
 			:direction="$direction"
 			:dragOnClick="true"
@@ -18,7 +18,8 @@
 				active: {
 					border: 'none'
 				}
-			}" @change="updated" :dotSize="15" :min="1" :max="1000" tooltip="none" v-model="value" />
+			}" @change="updated" :dotSize="15" :min="1" :max="1000" tooltip="none" v-model="value" /> -->
+			<input class="range__item" min="1" max="1000" @input="updated" v-model="value" />
 	</div>
 </template>
 
