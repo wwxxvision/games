@@ -26,8 +26,6 @@
 
 		<div
 			v-if="gameState === 'play' && iconsIsRender"
-			@click="playerTap"
-			@touchstart="playerTap(ev, true)"
 			:class="{
 				'game__item-chat-icon': true,
 				'game__item-chat-icon_state-winner':
@@ -36,7 +34,8 @@
 					iconSelect && iconSelect.type === 'enemy',
 			}"
 		>
-			<div class="check-icon"></div>
+			<div @click="playerTap"
+			@touchstart="playerTap(ev, true)" class="check-icon"></div>
 			<div :class="{ icon: true, rotate: iconSelect }"></div>
 		</div>
 		<Progress
