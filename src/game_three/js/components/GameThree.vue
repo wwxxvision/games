@@ -37,9 +37,7 @@
 				class="game__block game__block_auto flex flex_justify_content_center flex_align_items_center"
 			>
 				<div
-					@mousedown="ev => tapIcon(ev, player.type)"
-					@mouseup="disableTap(player.type)"
-					@touchend="disableTap(player.type)"
+					@click="ev => tapIcon(ev, player.type)"
 					ref="icon"
 					:class="
 						`game__third-icon game__third-icon_type-${player.type} relative`
@@ -138,6 +136,10 @@ export default {
 			const icon = $(`.game__third-icon_type-${playerType}`);
 			if (icon.hasClass('animate-back-drop')) {
 				icon.removeClass('animate-back-drop');
+
+				setTimeout(() => {
+					this.disableTap();
+				}, 500);
 			}
 
 			icon.addClass('animate');
