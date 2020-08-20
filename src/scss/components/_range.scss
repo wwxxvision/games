@@ -24,6 +24,44 @@ $box_margin: 10px;
 .range {
   width: 100%;
   z-index: 100;
+  position: relative;
+  .range__input {
+    height: 5px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    opacity: 0;
+  }
+  .range__custom {
+    height: 3px;
+    width: 100%;
+    position: relative;
+    background-color: map-get($colors, 'grey');
+    padding: 0 15px;
+    .range__dot {
+      position: absolute;
+      height: 15px;
+      width: 15px;
+      border-radius: 50%;
+      background-color: map-get($colors, 'red');
+      top: 500;
+      transform: translateY(-50%);
+    }
+
+    &.rtl {
+      .range__dot {
+        right: 0;
+      }
+    }
+
+    &.ltr {
+      .range__dot {
+        left: 0;
+      }
+    }
+  }
   .range__item {
     width: 100%;
     -webkit-appearance: none;
