@@ -49,10 +49,6 @@ export default {
 				this.$socket.emit('start-game-render');
 			}
 
-			this.$store.commit('updateAppLoading', {
-				text: this.$translate.t('system.connecting'),
-			});
-
 			this.$socket.on('start', () => {
 				this.$socket.emit('ready');
 				this.$store.commit('updateAppLoading', {
@@ -67,6 +63,9 @@ export default {
 		['$root._data.game'](currentGame) {
 			this.currentGame = currentGame;
 			if (this.currentGame) {
+			this.$store.commit('updateAppLoading', {
+				text: this.$translate.t('system.connecting'),
+			});
 				this.$socket.emit('game-id', this.getIdByGameName());
 			}
 		},
