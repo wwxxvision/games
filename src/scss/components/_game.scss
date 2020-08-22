@@ -194,6 +194,7 @@
     }
     .game__third-icon {
       height: 160px;
+      z-index: 400;
       width: 130px;
       background-image: url('../assets/img/chat_icon_original.png');
       background-size: contain;

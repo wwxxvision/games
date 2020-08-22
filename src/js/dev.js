@@ -32,5 +32,5 @@ export default async function runDevelopment(Core) {
 
 	await core.init();
 
-	core.newGame('game-one');
+	core.newGame('game-three');
 }

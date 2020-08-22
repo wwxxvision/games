@@ -37,7 +37,10 @@
 				class="game__block game__block_auto flex flex_justify_content_center flex_align_items_center"
 			>
 				<div
-					@click="ev => tapIcon(ev, player.type)"
+					@mousedown="ev => !isTouched() ? tapIcon(ev, player.type) : false"
+					@mouseup="ev => !isTouched() ? disableTap(player.type) : false "
+					@touchstart="ev => isTouched() ? tapIcon(ev, player.type) : false "
+					@touchend="ev => isTouched() ? disableTap(player.type) : false "
 					ref="icon"
 					:class="
 						`game__third-icon game__third-icon_type-${player.type} relative`
@@ -125,6 +128,22 @@ export default {
 		});
 	},
 	methods: {
+		isTouched() {
+			var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+
+			var mq = function (query) {
+					return window.matchMedia(query).matches;
+			}
+
+			if (('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch) {
+					return true;
+			}
+
+			// include the 'heartz' as a way to have a non matching MQ to help terminate the join
+			// https://git.io/vznFH
+			var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+			return mq(query);
+		},
 		tapIcon(ev, playerType) {
 			if (playerType === 'player') {
 				this.addScore('player')
@@ -136,10 +155,6 @@ export default {
 			const icon = $(`.game__third-icon_type-${playerType}`);
 			if (icon.hasClass('animate-back-drop')) {
 				icon.removeClass('animate-back-drop');
-
-				setTimeout(() => {
-					this.disableTap();
-				}, 500);
 			}
 
 			icon.addClass('animate');

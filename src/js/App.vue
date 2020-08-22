@@ -1,6 +1,6 @@
 <template>
 	<div :dir="$direction" class="game-app full_screen box">
-		<!-- <Connection :message="systemText" v-if="appIsLoading" /> -->
+		<Connection :message="systemText" v-if="appIsLoading" />
 		<component @reset="resetGame()" :is="currentGame"></component>
 	</div>
 </template>

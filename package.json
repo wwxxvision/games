@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "@nuxtjs/vuetify": "^1.11.2",
+    "animate.css": "^4.1.0",
     "animejs": "^3.2.0",
     "howler": "^2.2.0",
     "i18n-ini-loader": "^0.2.2",
