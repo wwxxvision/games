@@ -66,20 +66,18 @@ $box_margin: 10px;
     width: 100%;
     -webkit-appearance: none;
     background-color: map-get($colors, 'red');
-    height: 3px;
+    height: 6px;
     border-radius: 2px;
     &::-webkit-slider-thumb {
-      -webkit-appearance: none;
       background-color: map-get($colors, 'red');
       border-radius: 50%;
-      position: relative;
-      height: 15px;
-      width: 15px;
+      height: 25px;
+      width: 25px;
+      z-index: 100;
     }
     &::-moz-range-thumb {
       background-color: map-get($colors, 'red');
       border-radius: 50%;
-      position: relative;
       height: 15px;
       width: 15px;
     }
