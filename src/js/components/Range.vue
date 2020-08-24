@@ -24,9 +24,9 @@ export default {
 		}
 	},
 	methods: {
-		updated() {
+		updated(value) {
 			if (!this.disabled) {
-				this.$emit('updateValues', this.playerType, this.value);
+				this.$emit('updateValues', this.playerType, value);
 			}
 		},
 	},
