@@ -63,9 +63,9 @@ export default {
 		['$root._data.game'](currentGame) {
 			this.currentGame = currentGame;
 			if (this.currentGame) {
-			this.$store.commit('updateAppLoading', {
-				text: this.$translate.t('system.connecting'),
-			});
+				this.$store.commit('updateAppLoading', {
+					text: this.$translate.t('system.connecting'),
+				});
 				this.$socket.emit('game-id', this.getIdByGameName());
 			}
 		},

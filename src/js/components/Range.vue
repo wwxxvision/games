@@ -26,7 +26,7 @@ export default {
 	methods: {
 		updated(value) {
 			if (!this.disabled) {
-				this.$emit('updateValues', this.playerType, value);
+				this.$emit('updateValues', this.playerType, this.value);
 			}
 		},
 	},
