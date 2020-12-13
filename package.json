@@ -59,7 +59,7 @@
     "i18n-ini-loader": "^0.2.2",
     "i18next": "^19.5.5",
     "i18next-xhr-backend": "^3.2.2",
-    "ini": "^1.3.5",
+    "ini": "^1.3.6",
     "ion-rangeslider": "^2.3.1",
     "jquery": "^3.5.1",
     "jquery-circle-progress": "^1.2.2",
